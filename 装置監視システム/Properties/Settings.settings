@@ -1,0 +1,144 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="装置監視システム.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="IsUpgrade" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Panel1GreenBackColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">LimeGreen</Value>
+    </Setting>
+    <Setting Name="Panel1YellowBackColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Yellow</Value>
+    </Setting>
+    <Setting Name="Panel1RedBackColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Red</Value>
+    </Setting>
+    <Setting Name="Panel1EraseBackColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Gray</Value>
+    </Setting>
+    <Setting Name="Panel1CutBackColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Aqua</Value>
+    </Setting>
+    <Setting Name="Panel1DontBackColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">White</Value>
+    </Setting>
+    <Setting Name="Panel1GreenForeColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Black</Value>
+    </Setting>
+    <Setting Name="Panel1YellowForeColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Black</Value>
+    </Setting>
+    <Setting Name="Panel1RedForeColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Black</Value>
+    </Setting>
+    <Setting Name="Panel1EraseForeColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Black</Value>
+    </Setting>
+    <Setting Name="Panel1CutForeColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Black</Value>
+    </Setting>
+    <Setting Name="Panel1DontForeColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Black</Value>
+    </Setting>
+    <Setting Name="IsGridSnap" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="Panel2GreenBackColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">LimeGreen</Value>
+    </Setting>
+    <Setting Name="Panel2YellowBackColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Yellow</Value>
+    </Setting>
+    <Setting Name="Panel2RedBackColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Red</Value>
+    </Setting>
+    <Setting Name="Panel2EraseBackColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Gray</Value>
+    </Setting>
+    <Setting Name="Panel2CutBackColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Aqua</Value>
+    </Setting>
+    <Setting Name="Panel2DontBackColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">White</Value>
+    </Setting>
+    <Setting Name="Panel1StopForeColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">White</Value>
+    </Setting>
+    <Setting Name="Panel1StopBackColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Blue</Value>
+    </Setting>
+    <Setting Name="Room2Width" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">956</Value>
+    </Setting>
+    <Setting Name="RegularlyTime" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">60000</Value>
+    </Setting>
+    <Setting Name="IsListData" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Area1" Type="System.String" Scope="User">
+      <Value Profile="(Default)">エリア1</Value>
+    </Setting>
+    <Setting Name="Area2" Type="System.String" Scope="User">
+      <Value Profile="(Default)">エリア2</Value>
+    </Setting>
+    <Setting Name="Panel1GreenName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">緑点灯</Value>
+    </Setting>
+    <Setting Name="Panel1YellowName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">黄点灯</Value>
+    </Setting>
+    <Setting Name="Panel1RedName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">赤点灯</Value>
+    </Setting>
+    <Setting Name="Panel1EraseName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">消灯</Value>
+    </Setting>
+    <Setting Name="Panel1CutName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">通信断</Value>
+    </Setting>
+    <Setting Name="Panel1DontName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">データなし</Value>
+    </Setting>
+    <Setting Name="Panel1StopName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">監視しない</Value>
+    </Setting>
+    <Setting Name="Panel2GreenName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">緑点灯</Value>
+    </Setting>
+    <Setting Name="Panel2YellowName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">黄点灯</Value>
+    </Setting>
+    <Setting Name="Panel2RedName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">赤点灯</Value>
+    </Setting>
+    <Setting Name="Panel2EraseName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">消灯</Value>
+    </Setting>
+    <Setting Name="Panel2CutName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">通信断</Value>
+    </Setting>
+    <Setting Name="Panel2DontName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">データなし</Value>
+    </Setting>
+    <Setting Name="Panel2GreenForeColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Black</Value>
+    </Setting>
+    <Setting Name="Panel2YellowForeColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Black</Value>
+    </Setting>
+    <Setting Name="Panel2RedForeColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Black</Value>
+    </Setting>
+    <Setting Name="Panel2EraseForeColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Black</Value>
+    </Setting>
+    <Setting Name="Panel2CutForeColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Black</Value>
+    </Setting>
+    <Setting Name="Panel2DontForeColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Black</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
