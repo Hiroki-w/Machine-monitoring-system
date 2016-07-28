@@ -2691,14 +2691,17 @@ namespace 装置監視システム
 						if (panel7.Visible == true)
 						{
 							// 選択されている行に表示されている文字から月(日)を算出
-							int select = int.Parse(dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[0].Value.ToString());
-							if (dataGridView1.Columns[0].HeaderText == "月")
+							if (dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[0].Value != null)
 							{
-								monthChart(select, this.monthTime(select));
-							}
-							else
-							{
-								dayChart(select);
+								int select = int.Parse(dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[0].Value.ToString());
+								if (dataGridView1.Columns[0].HeaderText == "月")
+								{
+									monthChart(select, this.monthTime(select));
+								}
+								else
+								{
+									dayChart(select);
+								}
 							}
 						}
 						else
@@ -2722,11 +2725,11 @@ namespace 装置監視システム
 		/// <param name="e"></param>
 		private void dataGridView3_CurrentCellChanged(object sender, EventArgs e)
 		{
-			if (dataGridView3.CurrentCell != null)
+			try
 			{
-				if (selectMachine != dataGridView3.CurrentCell.RowIndex)
+				if (dataGridView3.CurrentCell != null)
 				{
-					try
+					if (selectMachine != dataGridView3.CurrentCell.RowIndex)
 					{
 						selectMachine = dataGridView3.CurrentCell.RowIndex;
 						// 違う装置が選ばれたのでデータはクリアする
@@ -2738,11 +2741,11 @@ namespace 装置監視システム
 						button25.Enabled = false;
 						button26.Enabled = false;
 					}
-					catch (Exception exc)
-					{
-						SysrtmError(exc.StackTrace);
-					}
 				}
+			}
+			catch (Exception exc)
+			{
+				SysrtmError(exc.StackTrace);
 			}
 		}
 
@@ -3542,7 +3545,6 @@ namespace 装置監視システム
 							label133.Text = Properties.Settings.Default.Panel1StopName = newName;
 							break;
 					}
-
 					Properties.Settings.Default.Save();
 				}
 			}
@@ -4035,7 +4037,6 @@ namespace 装置監視システム
 							comboBox1.SelectedIndex = comboBox1.Items.Count - 1;
 						}
 					}
-					
 				}
 			}
 			catch (Exception exc)
@@ -4061,8 +4062,7 @@ namespace 装置監視システム
 					{
 						if(OperationText[i].Text != "")
 							sw.WriteLine(OperationText[i].Text);
-					}
-					
+					}	
 				}
 				// 今回保存したファイルを使用している装置の操作更新フラグをセットする
 				foreach (var mc in machineInformation)
@@ -4124,8 +4124,7 @@ namespace 装置監視システム
 							Column29.Items.Add(filename);
 							comboBox2.SelectedIndex = comboBox2.Items.Count - 1;
 						}
-					}
-					
+					}	
 				}
 			}
 			catch (Exception exc)
@@ -4275,7 +4274,6 @@ namespace 装置監視システム
 
 
 		#region publicなメソッド ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
 		/// <summary>
 		///  システムエラーログ
 		/// </summary>
@@ -4306,6 +4304,7 @@ namespace 装置監視システム
 				SysrtmError(exc.StackTrace);
 			}
 		}
+
 		#endregion publicなメソッド -------------------------------------------------------------------------------------------------
 	}
 }
