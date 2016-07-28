@@ -23,7 +23,6 @@ namespace 装置監視システム
 			if(area.Title == "")
 				area.Title = "タイトル";
 			textBox1.Text = area.Title;
-
 		}
 
 		private void Form4_Load(object sender, EventArgs e)

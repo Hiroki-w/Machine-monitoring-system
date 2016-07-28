@@ -671,7 +671,6 @@ namespace 装置監視システム
 						}
 					});
 				}
-					
 			}
 			catch (Exception exc)
 			{
@@ -2558,7 +2557,6 @@ namespace 装置監視システム
 				{
 					if (operationState[i] == true)
 						operationLog(i, true);
-
 				}
 			}
 		}
@@ -2650,7 +2648,6 @@ namespace 装置監視システム
 					connectTimer.Start();
 			}
 		}
-
 
 		#endregion タイマー記述 -------------------------------------------------------------------------------------------------
 
