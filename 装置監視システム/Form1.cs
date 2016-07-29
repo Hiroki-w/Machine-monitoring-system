@@ -2446,7 +2446,7 @@ namespace 装置監視システム
 								sw.WriteLine("アラーム情報,回数,時間");
 								for (int i = 0; i < count.Count; i++)
 								{
-									sw.WriteLine(err[i] + "," + count[i].ToString() + "," + (time[0] / 3600).ToString("00:") + ((time[0] % 3600) / 60).ToString("00:") + (time[0] % 60).ToString("00"));
+									sw.WriteLine(err[i] + "," + count[i].ToString() + "," + (time[i] / 3600).ToString("00:") + ((time[i] % 3600) / 60).ToString("00:") + (time[i] % 60).ToString("00"));
 								}
 							}
 						}

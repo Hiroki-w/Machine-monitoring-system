@@ -356,12 +356,12 @@
 			this.contextMenuStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.背景の設定ToolStripMenuItem});
 			this.contextMenuStrip3.Name = "contextMenuStrip3";
-			this.contextMenuStrip3.Size = new System.Drawing.Size(133, 26);
+			this.contextMenuStrip3.Size = new System.Drawing.Size(137, 26);
 			// 
 			// 背景の設定ToolStripMenuItem
 			// 
 			this.背景の設定ToolStripMenuItem.Name = "背景の設定ToolStripMenuItem";
-			this.背景の設定ToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+			this.背景の設定ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
 			this.背景の設定ToolStripMenuItem.Text = "背景の設定";
 			this.背景の設定ToolStripMenuItem.Click += new System.EventHandler(this.背景の設定ToolStripMenuItem_Click);
 			// 
@@ -1735,26 +1735,26 @@
             this.文字色の変更ToolStripMenuItem1,
             this.背景色の変更ToolStripMenuItem1});
 			this.contextMenuStrip2.Name = "contextMenuStrip2";
-			this.contextMenuStrip2.Size = new System.Drawing.Size(145, 70);
+			this.contextMenuStrip2.Size = new System.Drawing.Size(149, 70);
 			// 
 			// 文字の変更ToolStripMenuItem
 			// 
 			this.文字の変更ToolStripMenuItem.Name = "文字の変更ToolStripMenuItem";
-			this.文字の変更ToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+			this.文字の変更ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
 			this.文字の変更ToolStripMenuItem.Text = "文字の変更";
 			this.文字の変更ToolStripMenuItem.Click += new System.EventHandler(this.文字の変更ToolStripMenuItem_Click_1);
 			// 
 			// 文字色の変更ToolStripMenuItem1
 			// 
 			this.文字色の変更ToolStripMenuItem1.Name = "文字色の変更ToolStripMenuItem1";
-			this.文字色の変更ToolStripMenuItem1.Size = new System.Drawing.Size(144, 22);
+			this.文字色の変更ToolStripMenuItem1.Size = new System.Drawing.Size(148, 22);
 			this.文字色の変更ToolStripMenuItem1.Text = "文字色の変更";
 			this.文字色の変更ToolStripMenuItem1.Click += new System.EventHandler(this.文字色の変更ToolStripMenuItem1_Click);
 			// 
 			// 背景色の変更ToolStripMenuItem1
 			// 
 			this.背景色の変更ToolStripMenuItem1.Name = "背景色の変更ToolStripMenuItem1";
-			this.背景色の変更ToolStripMenuItem1.Size = new System.Drawing.Size(144, 22);
+			this.背景色の変更ToolStripMenuItem1.Size = new System.Drawing.Size(148, 22);
 			this.背景色の変更ToolStripMenuItem1.Text = "背景色の変更";
 			this.背景色の変更ToolStripMenuItem1.Click += new System.EventHandler(this.背景色の変更ToolStripMenuItem1_Click);
 			// 
@@ -2043,26 +2043,26 @@
             this.文字色の変更ToolStripMenuItem,
             this.背景色の変更ToolStripMenuItem});
 			this.contextMenuStrip1.Name = "contextMenuStrip1";
-			this.contextMenuStrip1.Size = new System.Drawing.Size(145, 70);
+			this.contextMenuStrip1.Size = new System.Drawing.Size(149, 70);
 			// 
 			// 説明文の変更ToolStripMenuItem
 			// 
 			this.説明文の変更ToolStripMenuItem.Name = "説明文の変更ToolStripMenuItem";
-			this.説明文の変更ToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+			this.説明文の変更ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
 			this.説明文の変更ToolStripMenuItem.Text = "文字の変更";
 			this.説明文の変更ToolStripMenuItem.Click += new System.EventHandler(this.文字の変更ToolStripMenuItem_Click);
 			// 
 			// 文字色の変更ToolStripMenuItem
 			// 
 			this.文字色の変更ToolStripMenuItem.Name = "文字色の変更ToolStripMenuItem";
-			this.文字色の変更ToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+			this.文字色の変更ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
 			this.文字色の変更ToolStripMenuItem.Text = "文字色の変更";
 			this.文字色の変更ToolStripMenuItem.Click += new System.EventHandler(this.文字色の変更ToolStripMenuItem_Click);
 			// 
 			// 背景色の変更ToolStripMenuItem
 			// 
 			this.背景色の変更ToolStripMenuItem.Name = "背景色の変更ToolStripMenuItem";
-			this.背景色の変更ToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+			this.背景色の変更ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
 			this.背景色の変更ToolStripMenuItem.Text = "背景色の変更";
 			this.背景色の変更ToolStripMenuItem.Click += new System.EventHandler(this.背景色の変更ToolStripMenuItem_Click);
 			// 
