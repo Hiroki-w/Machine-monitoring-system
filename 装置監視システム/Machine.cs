@@ -517,6 +517,8 @@ namespace 装置監視システム
 				else
 					MessageBox.Show("設定されたアラームファイルが存在しません。\r\n設定を確認してください。", "アラームファイル読み込み", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
+			else
+				AlarmFile = "";
 			if (setStr[11] != "")
 			{
 				if (frm.OperationFile.Any(a => a == setStr[11]))
@@ -524,6 +526,8 @@ namespace 装置監視システム
 				else
 					MessageBox.Show("設定された操作ファイルが存在しません。\r\n設定を確認してください。", "操作ファイル読み込み", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
+			else
+				OperationFile = "";
 			Memo = setStr[12];
 			Pos = new Point(int.Parse(setStr[13]), int.Parse(setStr[14]));
 			Sz = new Size(int.Parse(setStr[15]), int.Parse(setStr[16]));
