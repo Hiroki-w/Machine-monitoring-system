@@ -510,8 +510,20 @@ namespace 装置監視システム
 			YellowKeep = setStr[7] == "0" ? false : true;
 			RedKeep = setStr[8] == "0" ? false : true;
 			MaintenanceDate = setStr[9];
-			AlarmFile = setStr[10];
-			OperationFile = setStr[11];
+			if (setStr[10] != "")
+			{
+				if (frm.AlarmFile.Any(a => a == setStr[10]))
+					AlarmFile = setStr[10];
+				else
+					MessageBox.Show("設定されたアラームファイルが存在しません。\r\n設定を確認してください。", "アラームファイル読み込み", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			if (setStr[11] != "")
+			{
+				if (frm.OperationFile.Any(a => a == setStr[11]))
+					OperationFile = setStr[11];
+				else
+					MessageBox.Show("設定された操作ファイルが存在しません。\r\n設定を確認してください。", "操作ファイル読み込み", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 			Memo = setStr[12];
 			Pos = new Point(int.Parse(setStr[13]), int.Parse(setStr[14]));
 			Sz = new Size(int.Parse(setStr[15]), int.Parse(setStr[16]));
@@ -2145,35 +2157,42 @@ namespace 装置監視システム
 			{
 				// パスを生成
 				string path = AppDomain.CurrentDomain.BaseDirectory + Path.Combine(operationFile);
-				using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-				using (StreamReader sr = new StreamReader(fs, Encoding.GetEncoding("Shift-JIS")))
+				if (File.Exists(path))
 				{
-					// 文字列を改行で区切り配列に入れる(空の文字列を含む配列要素は除く)
-					operationList = new List<string>(sr.ReadToEnd().Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries));
-				}
-				// 新しい情報(比較用)の要素数をループで回せるだけ増やす
-				diffOperation = new List<string>(operationList);
-				while (diffOperation.Count < operationState.Length)
-				{
-					diffOperation.Add("");
-				}
-				// 古い情報の要素数をループで回せるだけ増やす
-				while (oldOperationList.Count < operationState.Length)
-				{
-					oldOperationList.Add("");
-				}
-				// 以前の操作情報と内容が違っていてONのままならOFFにする
-				for(int i = 0; i < operationState.Length; i++)
-				{
-					if (operationState[i] == true)
+					using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+					using (StreamReader sr = new StreamReader(fs, Encoding.GetEncoding("Shift-JIS")))
 					{
-						if (oldOperationList[i] != diffOperation[i])
+						// 文字列を改行で区切り配列に入れる(空の文字列を含む配列要素は除く)
+						operationList = new List<string>(sr.ReadToEnd().Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries));
+					}
+					// 新しい情報(比較用)の要素数をループで回せるだけ増やす
+					diffOperation = new List<string>(operationList);
+					while (diffOperation.Count < operationState.Length)
+					{
+						diffOperation.Add("");
+					}
+					// 古い情報の要素数をループで回せるだけ増やす
+					while (oldOperationList.Count < operationState.Length)
+					{
+						oldOperationList.Add("");
+					}
+					// 以前の操作情報と内容が違っていてONのままならOFFにする
+					for (int i = 0; i < operationState.Length; i++)
+					{
+						if (operationState[i] == true)
 						{
-							operationState[i] = false;
-							if(oldOperationList[i] != "")
-								operationLog(oldOperationList[i], false);
+							if (oldOperationList[i] != diffOperation[i])
+							{
+								operationState[i] = false;
+								if (oldOperationList[i] != "")
+									operationLog(oldOperationList[i], false);
+							}
 						}
 					}
+				}
+				else
+				{
+					MessageBox.Show("操作リストファイルがありません。\r\nファイルの有無、ファイル名を確認してください。", "操作リストファイル読み込み", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
 			else
@@ -2475,16 +2494,24 @@ namespace 装置監視システム
 								if (Frm.checkBox2.Checked == true && alarmFile != "")
 								{
 									string path = AppDomain.CurrentDomain.BaseDirectory + Path.Combine(alarmFile);
-									using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-									using (StreamReader sr = new StreamReader(fs, Encoding.GetEncoding("Shift-JIS")))
+									if (File.Exists(path))
 									{
-										// 文字列を改行で区切り配列に入れる(空の文字列を含む配列要素は除く)
-										strList = sr.ReadToEnd().Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+		
+										using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+										using (StreamReader sr = new StreamReader(fs, Encoding.GetEncoding("Shift-JIS")))
+										{
+											// 文字列を改行で区切り配列に入れる(空の文字列を含む配列要素は除く)
+											strList = sr.ReadToEnd().Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+										}
+										// アラーム文字列の先頭(ファイルの説明文)を除く文字列を送信データに加える
+										for (int i = 1; i < strList.Length; i++)
+										{
+											sendStr.Append(",").Append(strList[i]);
+										}
 									}
-									// アラーム文字列の先頭(ファイルの説明文)を除く文字列を送信データに加える
-									for (int i = 1; i < strList.Length; i++)
+									else
 									{
-										sendStr.Append(",").Append(strList[i]);
+										MessageBox.Show("アラームリストファイルがありません。\r\nファイルの有無、ファイル名を確認してください。", "アラームリストファイル読み込み", MessageBoxButtons.OK, MessageBoxIcon.Error);
 									}
 								}
 								/***** 操作リスト *****/

@@ -436,9 +436,9 @@
 			this.panel2.Controls.Add(this.dataGridView1);
 			this.panel2.Controls.Add(this.radioButton2);
 			this.panel2.Controls.Add(this.radioButton1);
-			this.panel2.Location = new System.Drawing.Point(8, 128);
+			this.panel2.Location = new System.Drawing.Point(208, 56);
 			this.panel2.Name = "panel2";
-			this.panel2.Size = new System.Drawing.Size(1736, 336);
+			this.panel2.Size = new System.Drawing.Size(1264, 472);
 			this.panel2.TabIndex = 5;
 			this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
 			// 
@@ -1271,9 +1271,9 @@
 			this.panel4.Controls.Add(this.groupBox6);
 			this.panel4.Controls.Add(this.button12);
 			this.panel4.Controls.Add(this.groupBox4);
-			this.panel4.Location = new System.Drawing.Point(1320, 8);
+			this.panel4.Location = new System.Drawing.Point(1312, 8);
 			this.panel4.Name = "panel4";
-			this.panel4.Size = new System.Drawing.Size(96, 40);
+			this.panel4.Size = new System.Drawing.Size(104, 48);
 			this.panel4.TabIndex = 7;
 			// 
 			// groupBox8

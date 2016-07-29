@@ -84,6 +84,13 @@ namespace 装置監視システム
 		private List<Area> areaRoom2 = new List<Area>();
 
 		/// <summary>
+		/// *.almで読み込んだファイルリスト
+		/// </summary>
+		internal List<string> AlarmFile;
+
+		internal List<string> OperationFile;
+
+		/// <summary>
 		/// 装置個別情報のエラー情報のバルーンの表示更新を抑制するフラグ
 		/// </summary>
 		private bool[] isViewToolChip = new bool[10] { false, false, false, false, false, false, false, false, false, false };
@@ -280,6 +287,24 @@ namespace 装置監視システム
 				checkBox2.Checked = Properties.Settings.Default.IsListData;
 				areaName();
 
+				/***** アラームリストを読み込みリストに追加する *****/
+				Column28.Items.Add("");
+				AlarmFile = new List<string>(new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).GetFiles("*.alm").Select(c => c.Name));
+				foreach (var file in AlarmFile)
+				{
+					comboBox1.Items.Add(file);
+					Column28.Items.Add(file);
+				}
+
+				/***** 操作リストを読み込みリストに追加する *****/
+				Column29.Items.Add("");
+				OperationFile = new List<string>(new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).GetFiles("*.ope").Select(c => c.Name));
+				foreach (var file in OperationFile)
+				{
+					comboBox2.Items.Add(file);
+					Column29.Items.Add(file);
+				}
+
 				/*****　機械の情報読み込み *****/
 				// とりあえず配列はクリアする
 				machineInformation.Clear();
@@ -380,24 +405,6 @@ namespace 装置監視システム
 				label156.Text = DateTime.Now.ToString("yyyy年MM月dd日 (ddd) H時mm分");
 				timer3.Interval = 60100 - DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 				timer3.Start();
-
-				/***** アラームリストを読み込みリストに追加する *****/
-				Column28.Items.Add("");
-				IEnumerable<string> fileList = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).GetFiles("*.alm").Select(c=> c.Name);
-				foreach (var file in fileList)
-				{
-					comboBox1.Items.Add(file);
-					Column28.Items.Add(file);
-				}
-
-				/***** 操作リストを読み込みリストに追加する *****/
-				Column29.Items.Add("");
-				fileList = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).GetFiles("*.ope").Select(c => c.Name);
-				foreach (var file in fileList)
-				{
-					comboBox2.Items.Add(file);
-					Column29.Items.Add(file);
-				}
 
 				/***** リスト送信の表示設定 *****/
 				groupBox1.Enabled = checkBox2.Checked;
