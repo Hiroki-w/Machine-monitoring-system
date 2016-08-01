@@ -153,6 +153,16 @@ namespace 装置監視システム
 		/// </summary>
 		System.Timers.Timer timer3;
 
+		/// <summary>
+		/// 日付が変わるタイミングを監視するタイマ
+		/// </summary>
+		System.Timers.Timer timer4;
+
+		/// <summary>
+		/// 日付管理
+		/// </summary>
+		private int oldDay; 
+
 		#endregion 変数の宣言 ----------------------------------------------------------------------------------------------------
 
 		/// <summary>
@@ -282,6 +292,14 @@ namespace 装置監視システム
 				timer3 = new System.Timers.Timer();
 				timer3.AutoReset = true;
 				timer3.Elapsed += new System.Timers.ElapsedEventHandler(timer3_tick);
+
+				// 日付が変わるタイミングを監視するタイマ
+				timer4 = new System.Timers.Timer();
+				timer4.AutoReset = true;
+				// 日にちが変わる時間を計算して次のタイマイベントのタイミングとする
+				timer4.Interval = 86400000 - (DateTime.Now.Hour * 3600000 + DateTime.Now.Minute * 60000 + DateTime.Now.Second * 1000 + DateTime.Now.Millisecond);
+				timer4.Elapsed += new System.Timers.ElapsedEventHandler(timer4_tick);
+				oldDay = DateTime.Now.Day;
 
 				// 装置のインスタンスが生成される前に処理する
 				checkBox2.Checked = Properties.Settings.Default.IsListData;
@@ -462,9 +480,11 @@ namespace 装置監視システム
 				timer1.Stop();
 				timer2.Stop();
 				timer3.Stop();
+				timer4.Stop();
 				timer1.Dispose();
 				timer2.Dispose();
 				timer3.Dispose();
+				timer4.Dispose();
 			}
 			catch (Exception exc)
 			{
@@ -4275,10 +4295,31 @@ namespace 装置監視システム
 			timer3.Start();
 		}
 
+		/// <summary>
+		/// 日付が変わるタイミングを監視するタイマ
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void timer4_tick(object sender, System.Timers.ElapsedEventArgs e)
+		{
+			// 次のターゲットとなる時間をセット(誤差で日付が変わってなければ微小な値がセットされる)
+			timer4.Interval = 86400000 - (e.SignalTime.Hour * 3600000 + e.SignalTime.Minute * 60000 + e.SignalTime.Second * 1000 + e.SignalTime.Millisecond);
+			// 日にちが変わっていたらDateTimePickerに新しい日をセットする
+			if (oldDay != e.SignalTime.Day)
+			{
+				oldDay = e.SignalTime.Day;
+				BeginInvoke((Action)(() =>
+				{
+					dateTimePicker1.Value = DateTime.Now;
+					dateTimePicker2.Value = DateTime.Now;
+				}));
+			}
+		}
+
 		#endregion タイマー記述 -------------------------------------------------------------------------------------------------
 
 
-		#region publicなメソッド ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		#region internalなメソッド ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		/// <summary>
 		///  システムエラーログ
 		/// </summary>
@@ -4310,6 +4351,6 @@ namespace 装置監視システム
 			}
 		}
 
-		#endregion publicなメソッド -------------------------------------------------------------------------------------------------
+		#endregion internalなメソッド -------------------------------------------------------------------------------------------------
 	}
 }
