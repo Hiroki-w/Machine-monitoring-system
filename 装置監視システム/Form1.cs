@@ -299,6 +299,7 @@ namespace 装置監視システム
 				// 日にちが変わる時間を計算して次のタイマイベントのタイミングとする
 				timer4.Interval = 86400000 - (DateTime.Now.Hour * 3600000 + DateTime.Now.Minute * 60000 + DateTime.Now.Second * 1000 + DateTime.Now.Millisecond);
 				timer4.Elapsed += new System.Timers.ElapsedEventHandler(timer4_tick);
+				timer4.Start();
 				oldDay = DateTime.Now.Day;
 
 				// 装置のインスタンスが生成される前に処理する
@@ -326,6 +327,8 @@ namespace 装置監視システム
 				/*****　機械の情報読み込み *****/
 				// とりあえず配列はクリアする
 				machineInformation.Clear();
+				List<Machine> room1 = new List<Machine>();
+				List<Machine> room2 = new List<Machine>();
 				string SettingPath = AppDomain.CurrentDomain.BaseDirectory + "MachineInformation.csv";
 				// ファイルが存在していればデータの読み出し
 				if (File.Exists(SettingPath))
@@ -340,8 +343,7 @@ namespace 装置監視システム
 							machineData.Add(sr.ReadLine());
 						}
 					}
-					List<Machine> room1 = new List<Machine>();
-					List<Machine> room2 = new List<Machine>();
+					
 					foreach (var str in machineData)
 					{
 						// 情報を入れる
@@ -349,9 +351,9 @@ namespace 装置監視システム
 						{
 							Machine mc = new Machine(this, str);
 							if (mc.RoomNumber == 0)
-								room1.Add(mc);
+							room1.Add(mc);
 							else
-								room2.Add(mc);
+							room2.Add(mc);
 						});
 					}
 					machineInformation.Add(room1);
@@ -373,6 +375,8 @@ namespace 装置監視システム
 				// ファイルが存在してなければメッセージ表示
 				else
 				{
+					machineInformation.Add(room1);
+					machineInformation.Add(room2);
 					MessageBox.Show("装置情報がありません。\r\n装置情報を設定してください。", "装置情報読み込み", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					SetPanel(1);
 				}
@@ -3173,14 +3177,16 @@ namespace 装置監視システム
 					P3Picture[i].Size = new Size(1442, 50);
 					P3Picture[i].MouseMove += new MouseEventHandler(picture_MouseMove);
 					panel3.Controls.Add(P3Picture[i]);
+					// チェックボックスの状態によって表示する日を変える
+					DateTime dt = checkBox3.Checked == false ? dateTimePicker1.Value : DateTime.Now;
 					// エラー情報用リストの生成
 					P3err.Add(new List<alarmInformation>());
 					List<alarmInformation> err = new List<alarmInformation>();
-					if (machineInformation[radioButton3.Checked == true ? 0 : 1][i].SetOperation(ref P3Picture[i], ref P3Bitmap[i], dateTimePicker1.Value, i, ref err) == true)
+					if (machineInformation[radioButton3.Checked == true ? 0 : 1][i].SetOperation(ref P3Picture[i], ref P3Bitmap[i], dt, i, ref err) == true)
 						P3err[i] = err;
 				}
-				// 表示されているのが今日ならタイマを動作して1分ごとに更新
-				if (dateTimePicker1.Value.Date == DateTime.Now.Date)
+				// リアルタイム表示がオンならタイマを動作して1分ごとに更新
+				if (checkBox3.Checked == true)
 				{
 					timer2.Interval = 60000 - DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 					timer2.Start();
@@ -3279,6 +3285,17 @@ namespace 装置監視システム
 					panel3.Refresh();
 				}
 			}
+		}
+
+		/// <summary>
+		/// リアルタイム表示か否かの設定
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void checkBox3_CheckedChanged(object sender, EventArgs e)
+		{
+			dateTimePicker1.Enabled = !checkBox3.Checked;
+			p3View();
 		}
 
 		/// <summary>
@@ -4262,7 +4279,7 @@ namespace 装置監視システム
 						P3err.Add(new List<alarmInformation>());
 						List<alarmInformation> err = new List<alarmInformation>();
 						// 稼動状況表示
-						if (machineInformation[radioButton3.Checked == true ? 0 : 1][i].SetOperation(ref P3Picture[i], ref P3Bitmap[i], dateTimePicker1.Value, i, ref err) == true)
+						if (machineInformation[radioButton3.Checked == true ? 0 : 1][i].SetOperation(ref P3Picture[i], ref P3Bitmap[i], DateTime.Now, i, ref err) == true)
 						{
 							if(err.Count != 0)
 								P3err[i] = err;
@@ -4274,8 +4291,11 @@ namespace 装置監視システム
 					SysrtmError(exc.StackTrace);
 				}
 			}));
-			timer2.Interval = 60000 - DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
-			timer2.Start();
+			if (checkBox3.Checked == true)
+			{
+				timer2.Interval = 60000 - DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
+				timer2.Start();
+			}
 		}
 
 		/// <summary>

@@ -237,6 +237,7 @@
 			this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
 			this.label8 = new System.Windows.Forms.Label();
 			this.button11 = new System.Windows.Forms.Button();
+			this.checkBox3 = new System.Windows.Forms.CheckBox();
 			this.panel1.SuspendLayout();
 			this.panel9.SuspendLayout();
 			this.contextMenuStrip3.SuspendLayout();
@@ -356,12 +357,12 @@
 			this.contextMenuStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.背景の設定ToolStripMenuItem});
 			this.contextMenuStrip3.Name = "contextMenuStrip3";
-			this.contextMenuStrip3.Size = new System.Drawing.Size(137, 26);
+			this.contextMenuStrip3.Size = new System.Drawing.Size(133, 26);
 			// 
 			// 背景の設定ToolStripMenuItem
 			// 
 			this.背景の設定ToolStripMenuItem.Name = "背景の設定ToolStripMenuItem";
-			this.背景の設定ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+			this.背景の設定ToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
 			this.背景の設定ToolStripMenuItem.Text = "背景の設定";
 			this.背景の設定ToolStripMenuItem.Click += new System.EventHandler(this.背景の設定ToolStripMenuItem_Click);
 			// 
@@ -1212,6 +1213,7 @@
 			this.panel3.AutoScroll = true;
 			this.panel3.BackColor = System.Drawing.SystemColors.Control;
 			this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.panel3.Controls.Add(this.checkBox3);
 			this.panel3.Controls.Add(this.label155);
 			this.panel3.Controls.Add(this.dateTimePicker1);
 			this.panel3.Controls.Add(this.radioButton3);
@@ -1225,7 +1227,7 @@
 			// label155
 			// 
 			this.label155.AutoSize = true;
-			this.label155.Location = new System.Drawing.Point(216, 10);
+			this.label155.Location = new System.Drawing.Point(120, 10);
 			this.label155.Name = "label155";
 			this.label155.Size = new System.Drawing.Size(65, 12);
 			this.label155.TabIndex = 39;
@@ -1233,7 +1235,7 @@
 			// 
 			// dateTimePicker1
 			// 
-			this.dateTimePicker1.Location = new System.Drawing.Point(288, 7);
+			this.dateTimePicker1.Location = new System.Drawing.Point(192, 7);
 			this.dateTimePicker1.Name = "dateTimePicker1";
 			this.dateTimePicker1.Size = new System.Drawing.Size(104, 19);
 			this.dateTimePicker1.TabIndex = 38;
@@ -1242,7 +1244,7 @@
 			// radioButton3
 			// 
 			this.radioButton3.AutoSize = true;
-			this.radioButton3.Location = new System.Drawing.Point(8, 8);
+			this.radioButton3.Location = new System.Drawing.Point(8, 32);
 			this.radioButton3.Name = "radioButton3";
 			this.radioButton3.Size = new System.Drawing.Size(54, 16);
 			this.radioButton3.TabIndex = 4;
@@ -1253,7 +1255,7 @@
 			// radioButton4
 			// 
 			this.radioButton4.AutoSize = true;
-			this.radioButton4.Location = new System.Drawing.Point(104, 8);
+			this.radioButton4.Location = new System.Drawing.Point(8, 52);
 			this.radioButton4.Name = "radioButton4";
 			this.radioButton4.Size = new System.Drawing.Size(54, 16);
 			this.radioButton4.TabIndex = 3;
@@ -1735,26 +1737,26 @@
             this.文字色の変更ToolStripMenuItem1,
             this.背景色の変更ToolStripMenuItem1});
 			this.contextMenuStrip2.Name = "contextMenuStrip2";
-			this.contextMenuStrip2.Size = new System.Drawing.Size(149, 70);
+			this.contextMenuStrip2.Size = new System.Drawing.Size(145, 70);
 			// 
 			// 文字の変更ToolStripMenuItem
 			// 
 			this.文字の変更ToolStripMenuItem.Name = "文字の変更ToolStripMenuItem";
-			this.文字の変更ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+			this.文字の変更ToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
 			this.文字の変更ToolStripMenuItem.Text = "文字の変更";
 			this.文字の変更ToolStripMenuItem.Click += new System.EventHandler(this.文字の変更ToolStripMenuItem_Click_1);
 			// 
 			// 文字色の変更ToolStripMenuItem1
 			// 
 			this.文字色の変更ToolStripMenuItem1.Name = "文字色の変更ToolStripMenuItem1";
-			this.文字色の変更ToolStripMenuItem1.Size = new System.Drawing.Size(148, 22);
+			this.文字色の変更ToolStripMenuItem1.Size = new System.Drawing.Size(144, 22);
 			this.文字色の変更ToolStripMenuItem1.Text = "文字色の変更";
 			this.文字色の変更ToolStripMenuItem1.Click += new System.EventHandler(this.文字色の変更ToolStripMenuItem1_Click);
 			// 
 			// 背景色の変更ToolStripMenuItem1
 			// 
 			this.背景色の変更ToolStripMenuItem1.Name = "背景色の変更ToolStripMenuItem1";
-			this.背景色の変更ToolStripMenuItem1.Size = new System.Drawing.Size(148, 22);
+			this.背景色の変更ToolStripMenuItem1.Size = new System.Drawing.Size(144, 22);
 			this.背景色の変更ToolStripMenuItem1.Text = "背景色の変更";
 			this.背景色の変更ToolStripMenuItem1.Click += new System.EventHandler(this.背景色の変更ToolStripMenuItem1_Click);
 			// 
@@ -2043,26 +2045,26 @@
             this.文字色の変更ToolStripMenuItem,
             this.背景色の変更ToolStripMenuItem});
 			this.contextMenuStrip1.Name = "contextMenuStrip1";
-			this.contextMenuStrip1.Size = new System.Drawing.Size(149, 70);
+			this.contextMenuStrip1.Size = new System.Drawing.Size(145, 70);
 			// 
 			// 説明文の変更ToolStripMenuItem
 			// 
 			this.説明文の変更ToolStripMenuItem.Name = "説明文の変更ToolStripMenuItem";
-			this.説明文の変更ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+			this.説明文の変更ToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
 			this.説明文の変更ToolStripMenuItem.Text = "文字の変更";
 			this.説明文の変更ToolStripMenuItem.Click += new System.EventHandler(this.文字の変更ToolStripMenuItem_Click);
 			// 
 			// 文字色の変更ToolStripMenuItem
 			// 
 			this.文字色の変更ToolStripMenuItem.Name = "文字色の変更ToolStripMenuItem";
-			this.文字色の変更ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+			this.文字色の変更ToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
 			this.文字色の変更ToolStripMenuItem.Text = "文字色の変更";
 			this.文字色の変更ToolStripMenuItem.Click += new System.EventHandler(this.文字色の変更ToolStripMenuItem_Click);
 			// 
 			// 背景色の変更ToolStripMenuItem
 			// 
 			this.背景色の変更ToolStripMenuItem.Name = "背景色の変更ToolStripMenuItem";
-			this.背景色の変更ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+			this.背景色の変更ToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
 			this.背景色の変更ToolStripMenuItem.Text = "背景色の変更";
 			this.背景色の変更ToolStripMenuItem.Click += new System.EventHandler(this.背景色の変更ToolStripMenuItem_Click);
 			// 
@@ -2394,6 +2396,17 @@
 			this.button11.UseVisualStyleBackColor = true;
 			this.button11.Click += new System.EventHandler(this.button11_Click);
 			// 
+			// checkBox3
+			// 
+			this.checkBox3.AutoSize = true;
+			this.checkBox3.Location = new System.Drawing.Point(8, 8);
+			this.checkBox3.Name = "checkBox3";
+			this.checkBox3.Size = new System.Drawing.Size(101, 16);
+			this.checkBox3.TabIndex = 40;
+			this.checkBox3.Text = "リアルタイム表示";
+			this.checkBox3.UseVisualStyleBackColor = true;
+			this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -2667,6 +2680,7 @@
 		private System.Windows.Forms.ToolStripMenuItem 説明文の変更ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 文字の変更ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 文字色の変更ToolStripMenuItem1;
+		private System.Windows.Forms.CheckBox checkBox3;
 	}
 }
 
