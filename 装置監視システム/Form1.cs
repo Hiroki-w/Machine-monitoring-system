@@ -343,7 +343,7 @@ namespace 装置監視システム
 							machineData.Add(sr.ReadLine());
 						}
 					}
-					
+
 					foreach (var str in machineData)
 					{
 						// 情報を入れる
@@ -351,9 +351,9 @@ namespace 装置監視システム
 						{
 							Machine mc = new Machine(this, str);
 							if (mc.RoomNumber == 0)
-							room1.Add(mc);
+								room1.Add(mc);
 							else
-							room2.Add(mc);
+								room2.Add(mc);
 						});
 					}
 					machineInformation.Add(room1);
@@ -512,6 +512,7 @@ namespace 装置監視システム
 					bt.Enabled = false;
 				}
 				button11.Enabled = false;
+				timer2.Stop();
 				// パネル切り替え動作 false=しない true=する
 				bool isCancel = false;
 				// 表示するパネル
@@ -520,7 +521,6 @@ namespace 装置監視システム
 				switch (targetNumber)
 				{
 					case 0:
-						timer2.Stop();
 						panel6.Visible = false;
 						label141.ForeColor = Properties.Settings.Default.Panel1GreenForeColor;
 						label141.BackColor = Properties.Settings.Default.Panel1GreenBackColor;
@@ -599,7 +599,6 @@ namespace 装置監視システム
 							}
 							panel7.Location = new Point(8, 296);
 						}
-						timer2.Stop();
 						panel5.Visible = false;
 						label148.ForeColor = Properties.Settings.Default.Panel2GreenForeColor;
 						label148.BackColor = Properties.Settings.Default.Panel2GreenBackColor;
@@ -649,7 +648,6 @@ namespace 装置監視システム
 						p3View();
 						break;
 					case 3:
-						timer2.Stop();
 						panel5.Visible = false;
 						panel6.Visible = false;
 						label1.ForeColor = Properties.Settings.Default.Panel1GreenForeColor;
@@ -4291,7 +4289,7 @@ namespace 装置監視システム
 					SysrtmError(exc.StackTrace);
 				}
 			}));
-			if (checkBox3.Checked == true)
+			if (viewPanel == 2 && checkBox3.Checked == true)
 			{
 				timer2.Interval = 60000 - DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 				timer2.Start();
@@ -4337,7 +4335,6 @@ namespace 装置監視システム
 		}
 
 		#endregion タイマー記述 -------------------------------------------------------------------------------------------------
-
 
 		#region internalなメソッド ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		/// <summary>

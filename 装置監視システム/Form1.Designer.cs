@@ -128,6 +128,7 @@
 			this.radioButton2 = new System.Windows.Forms.RadioButton();
 			this.radioButton1 = new System.Windows.Forms.RadioButton();
 			this.panel3 = new System.Windows.Forms.Panel();
+			this.checkBox3 = new System.Windows.Forms.CheckBox();
 			this.label155 = new System.Windows.Forms.Label();
 			this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
 			this.radioButton3 = new System.Windows.Forms.RadioButton();
@@ -237,7 +238,6 @@
 			this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
 			this.label8 = new System.Windows.Forms.Label();
 			this.button11 = new System.Windows.Forms.Button();
-			this.checkBox3 = new System.Windows.Forms.CheckBox();
 			this.panel1.SuspendLayout();
 			this.panel9.SuspendLayout();
 			this.contextMenuStrip3.SuspendLayout();
@@ -1223,6 +1223,17 @@
 			this.panel3.Size = new System.Drawing.Size(1008, 376);
 			this.panel3.TabIndex = 6;
 			this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
+			// 
+			// checkBox3
+			// 
+			this.checkBox3.AutoSize = true;
+			this.checkBox3.Location = new System.Drawing.Point(8, 8);
+			this.checkBox3.Name = "checkBox3";
+			this.checkBox3.Size = new System.Drawing.Size(101, 16);
+			this.checkBox3.TabIndex = 40;
+			this.checkBox3.Text = "リアルタイム表示";
+			this.checkBox3.UseVisualStyleBackColor = true;
+			this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
 			// 
 			// label155
 			// 
@@ -2395,17 +2406,6 @@
 			this.button11.Text = "統計";
 			this.button11.UseVisualStyleBackColor = true;
 			this.button11.Click += new System.EventHandler(this.button11_Click);
-			// 
-			// checkBox3
-			// 
-			this.checkBox3.AutoSize = true;
-			this.checkBox3.Location = new System.Drawing.Point(8, 8);
-			this.checkBox3.Name = "checkBox3";
-			this.checkBox3.Size = new System.Drawing.Size(101, 16);
-			this.checkBox3.TabIndex = 40;
-			this.checkBox3.Text = "リアルタイム表示";
-			this.checkBox3.UseVisualStyleBackColor = true;
-			this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
 			// 
 			// Form1
 			// 

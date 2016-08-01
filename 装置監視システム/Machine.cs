@@ -488,6 +488,7 @@ namespace 装置監視システム
 
 		#endregion コントロールのプロパティ ----------------------------------------------------------------------------------------------------
 
+
 		/// <summary>
 		/// コンストラクタ
 		/// </summary>
@@ -496,7 +497,6 @@ namespace 装置監視システム
 		public Machine(Form1 frm, string settingData)
 		{
 			InitializeComponent();
-
 			Frm = frm;
 			// 引数をカンマ区切りで分割しセットする
 			string[] setStr = settingData.Split(',');
@@ -652,7 +652,7 @@ namespace 装置監視システム
 				occupancyRateTimer = new System.Timers.Timer();
 				occupancyRateTimer.AutoReset = true;
 				occupancyRateTimer.Elapsed += new System.Timers.ElapsedEventHandler(OccupancyTime);
-				occupancyRateTimer.Interval = 60000 - DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
+				occupancyRateTimer.Interval = 60010 - DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 				occupancyRateTimer.Start();
 
 				// 稼動情報を収集するタイマ
@@ -2614,7 +2614,7 @@ namespace 装置監視システム
 					Occupancy = "-";
 				}
 				this.Refresh();
-				occupancyRateTimer.Interval = 60000 - DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
+				occupancyRateTimer.Interval = 60010 - DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 				occupancyRateTimer.Start();
 			}));
 		}
