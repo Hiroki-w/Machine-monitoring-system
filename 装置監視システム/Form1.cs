@@ -79,9 +79,9 @@ namespace 装置監視システム
 		private Rectangle rect;
 		private int eventPos1;
 		private int eventPos2;
-		private int selectArraIndex = -1;
-		private List<Area> areaRoom1 = new List<Area>();
-		private List<Area> areaRoom2 = new List<Area>();
+		internal int selectArraIndex = -1;
+		internal List<Area> areaRoom1 = new List<Area>();
+		internal List<Area> areaRoom2 = new List<Area>();
 
 		/// <summary>
 		/// *.almで読み込んだファイルリスト
@@ -869,7 +869,7 @@ namespace 装置監視システム
 				using (Graphics g = e.Graphics)
 				{
 					// 背景の塗りつぶし
-					foreach (var area in areaRoom1)
+					foreach (var area in areaRoom2)
 					{
 						using (SolidBrush fillbrush = new SolidBrush(area.FillColor))
 						using (Pen linePen = new Pen(area.LineColor, 2))
@@ -912,7 +912,7 @@ namespace 装置監視システム
 				using (Graphics g = e.Graphics)
 				{
 					// 背景の塗りつぶし
-					foreach (var area in areaRoom2)
+					foreach (var area in areaRoom1)
 					{
 						using (SolidBrush fillbrush = new SolidBrush(area.FillColor))
 						using (Pen linePen = new Pen(area.LineColor, 2))
@@ -1046,11 +1046,11 @@ namespace 装置監視システム
 									{
 										if (source.Name == "panel8")
 										{
-											this.areaRoom2.Add(f.area);
+											this.areaRoom1.Add(f.area);
 										}
 										else
 										{
-											this.areaRoom1.Add(f.area);
+											this.areaRoom2.Add(f.area);
 										}
 										this.saveArea();
 									}
@@ -3855,7 +3855,7 @@ namespace 装置監視システム
 			try
 			{
 				dataGridView4.Rows.Clear();
-				List<Area> areaRoom = new List<Area>(radioButton5.Checked == true ? areaRoom2 : areaRoom1);
+				List<Area> areaRoom = new List<Area>(radioButton5.Checked == true ? areaRoom1 : areaRoom2);
 				if (areaRoom.Count == 0)
 				{
 					button27.Enabled = false;
@@ -3942,7 +3942,8 @@ namespace 装置監視システム
 					f.Left = System.Windows.Forms.Cursor.Position.X - 300;
 					f.Top = System.Windows.Forms.Cursor.Position.Y - 80;
 					f.Size = new Size(443, 253);
-					// OKならリストに追加して再描画
+					SetPanel(0);
+					// OKならリストを編集して再描画
 					if (f.ShowDialog(this) == DialogResult.OK)
 					{
 						if (radioButton5.Checked == true)
@@ -3952,6 +3953,7 @@ namespace 装置監視システム
 						this.saveArea();
 						this.viewArea();
 					}
+					SetPanel(3);
 				}
 			}
 			catch (Exception exc)
@@ -3973,7 +3975,7 @@ namespace 装置監視システム
 				{
 					if (radioButton5.Checked == true)
 					{
-						areaRoom2.RemoveAt(selectArraIndex);
+						areaRoom1.RemoveAt(selectArraIndex);
 						if (areaRoom1.Count > 0)
 						{
 							if (selectArraIndex > 0)
@@ -3985,7 +3987,7 @@ namespace 装置監視システム
 					}
 					else
 					{
-						areaRoom1.RemoveAt(selectArraIndex);
+						areaRoom2.RemoveAt(selectArraIndex);
 						if (areaRoom2.Count > 0)
 						{
 							selectArraIndex--;
@@ -4113,7 +4115,6 @@ namespace 装置監視システム
 					{
 						if (m.OperationFile == comboBox2.Text)
 						{
-							m.getOperation();
 							m.UpdateSetting(true);
 						}
 					}

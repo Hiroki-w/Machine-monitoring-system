@@ -111,6 +111,8 @@ namespace 装置監視システム
 		// 設定値が変更された事を示すフラグ
 		private bool isSetting = false;
 
+		// アラームリストの文字列
+		private List<string> alarmList = new List<string>();
 		// 操作リストの文字列
 		private List<string> operationList = new List<string>();
 		// 操作リストの状態
@@ -354,6 +356,7 @@ namespace 装置監視システム
 			set
 			{
 				alarmFile = value;
+				getAlarm();
 				// 初期値としてセットなら比較用データに入れる
 				if (InitialFlag == true)
 					diffAlarmFile = value;
@@ -515,7 +518,7 @@ namespace 装置監視システム
 				if (frm.AlarmFile.Any(a => a == setStr[10]))
 					AlarmFile = setStr[10];
 				else
-					MessageBox.Show("設定されたアラームファイルが存在しません。\r\n設定を確認してください。", "アラームファイル読み込み", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(setStr[10] + "が存在しません。\r\n設定を確認してください。", "アラームファイル読み込み", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 			else
 				AlarmFile = "";
@@ -524,7 +527,7 @@ namespace 装置監視システム
 				if (frm.OperationFile.Any(a => a == setStr[11]))
 					OperationFile = setStr[11];
 				else
-					MessageBox.Show("設定された操作ファイルが存在しません。\r\n設定を確認してください。", "操作ファイル読み込み", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(setStr[11] + "が存在しません。\r\n設定を確認してください。", "操作ファイル読み込み", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 			else
 				OperationFile = "";
@@ -2151,6 +2154,31 @@ namespace 装置監視システム
 		}
 
 		/// <summary>
+		/// アラームリストの取得
+		/// </summary>
+		private void getAlarm()
+		{
+			if (alarmFile != "")
+			{
+				string path = AppDomain.CurrentDomain.BaseDirectory + Path.Combine(alarmFile);
+				if (File.Exists(path))
+				{
+					using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+					using (StreamReader sr = new StreamReader(fs, Encoding.GetEncoding("Shift-JIS")))
+					{
+						alarmList = new List<string>(sr.ReadToEnd().Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries));
+					}
+					// 先頭は解説なので削除
+					alarmList.RemoveAt(0);
+				}
+				else
+				{
+					MessageBox.Show(alarmFile + "がありません。\r\nファイルの有無、ファイル名を確認してください。", "アラームリストファイル読み込み", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+			}
+		}
+
+		/// <summary>
 		/// 操作情報の取得
 		/// </summary>
 		internal void getOperation()
@@ -2180,7 +2208,7 @@ namespace 装置監視システム
 					{
 						oldOperationList.Add("");
 					}
-					// 以前の操作情報と内容が違っていてONのままならOFFにする
+					/***** 以前の操作情報と内容が違っていてONのままならOFFにする *****/
 					for (int i = 0; i < operationState.Length; i++)
 					{
 						if (operationState[i] == true)
@@ -2493,30 +2521,17 @@ namespace 装置監視システム
 							if (isSendSetting == true)
 							{
 								/***** アラームリスト *****/
-								string[] strList;
 								sendStr.Append("\r\nAlarm");
-								if (Frm.checkBox2.Checked == true && alarmFile != "")
+								if (Frm.checkBox2.Checked == true && alarmList.Count != 0)
 								{
-									string path = AppDomain.CurrentDomain.BaseDirectory + Path.Combine(alarmFile);
-									if (File.Exists(path))
+									foreach (var str in alarmList)
 									{
-		
-										using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-										using (StreamReader sr = new StreamReader(fs, Encoding.GetEncoding("Shift-JIS")))
-										{
-											// 文字列を改行で区切り配列に入れる(空の文字列を含む配列要素は除く)
-											strList = sr.ReadToEnd().Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
-										}
-										// アラーム文字列の先頭(ファイルの説明文)を除く文字列を送信データに加える
-										for (int i = 1; i < strList.Length; i++)
-										{
-											sendStr.Append(",").Append(strList[i]);
-										}
+										sendStr.Append(",").Append(str);
 									}
-									else
-									{
-										MessageBox.Show("アラームリストファイルがありません。\r\nファイルの有無、ファイル名を確認してください。", "アラームリストファイル読み込み", MessageBoxButtons.OK, MessageBoxIcon.Error);
-									}
+								}
+								else
+								{
+									sendStr.Append(",List is not");
 								}
 								/***** 操作リスト *****/
 								sendStr.Append("\r\nOperation");
@@ -2527,6 +2542,10 @@ namespace 装置監視システム
 										sendStr.Append(",").Append(str);
 									}
 								}
+								else
+								{
+									sendStr.Append(",List is not");
+								}
 								/***** 信号保持設定 *****/
 								sendStr.Append("\r\nHold");
 								if (Frm.checkBox2.Checked == true)
@@ -2534,6 +2553,10 @@ namespace 装置監視システム
 									sendStr.Append(greenKeep == false ? ",0," : ",1,");
 									sendStr.Append(yellowKeep == false ? "0," : "1,");
 									sendStr.Append(redKeep == false ? "0" : "1");
+								}
+								else
+								{
+									sendStr.Append(",List is not");
 								}
 								// 設定値変更フラグは念のためクリア
 								isSetting = false;

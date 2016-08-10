@@ -185,7 +185,7 @@
 			// button3
 			// 
 			this.button3.Font = new System.Drawing.Font("ＭＳ ゴシック", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.button3.Location = new System.Drawing.Point(96, 174);
+			this.button3.Location = new System.Drawing.Point(24, 176);
 			this.button3.Margin = new System.Windows.Forms.Padding(2);
 			this.button3.Name = "button3";
 			this.button3.Size = new System.Drawing.Size(66, 26);
@@ -197,7 +197,7 @@
 			// button4
 			// 
 			this.button4.Font = new System.Drawing.Font("ＭＳ ゴシック", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.button4.Location = new System.Drawing.Point(216, 174);
+			this.button4.Location = new System.Drawing.Point(104, 176);
 			this.button4.Margin = new System.Windows.Forms.Padding(2);
 			this.button4.Name = "button4";
 			this.button4.Size = new System.Drawing.Size(66, 26);

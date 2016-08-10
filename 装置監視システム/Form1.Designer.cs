@@ -357,12 +357,12 @@
 			this.contextMenuStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.背景の設定ToolStripMenuItem});
 			this.contextMenuStrip3.Name = "contextMenuStrip3";
-			this.contextMenuStrip3.Size = new System.Drawing.Size(133, 26);
+			this.contextMenuStrip3.Size = new System.Drawing.Size(137, 26);
 			// 
 			// 背景の設定ToolStripMenuItem
 			// 
 			this.背景の設定ToolStripMenuItem.Name = "背景の設定ToolStripMenuItem";
-			this.背景の設定ToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+			this.背景の設定ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
 			this.背景の設定ToolStripMenuItem.Text = "背景の設定";
 			this.背景の設定ToolStripMenuItem.Click += new System.EventHandler(this.背景の設定ToolStripMenuItem_Click);
 			// 
@@ -439,7 +439,7 @@
 			this.panel2.Controls.Add(this.radioButton1);
 			this.panel2.Location = new System.Drawing.Point(216, 56);
 			this.panel2.Name = "panel2";
-			this.panel2.Size = new System.Drawing.Size(96, 40);
+			this.panel2.Size = new System.Drawing.Size(112, 32);
 			this.panel2.TabIndex = 5;
 			this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
 			// 
@@ -1218,9 +1218,9 @@
 			this.panel3.Controls.Add(this.dateTimePicker1);
 			this.panel3.Controls.Add(this.radioButton3);
 			this.panel3.Controls.Add(this.radioButton4);
-			this.panel3.Location = new System.Drawing.Point(32, 120);
+			this.panel3.Location = new System.Drawing.Point(1432, 8);
 			this.panel3.Name = "panel3";
-			this.panel3.Size = new System.Drawing.Size(1008, 376);
+			this.panel3.Size = new System.Drawing.Size(104, 48);
 			this.panel3.TabIndex = 6;
 			this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
 			// 
@@ -1284,9 +1284,9 @@
 			this.panel4.Controls.Add(this.groupBox6);
 			this.panel4.Controls.Add(this.button12);
 			this.panel4.Controls.Add(this.groupBox4);
-			this.panel4.Location = new System.Drawing.Point(1312, 8);
+			this.panel4.Location = new System.Drawing.Point(8, 120);
 			this.panel4.Name = "panel4";
-			this.panel4.Size = new System.Drawing.Size(104, 48);
+			this.panel4.Size = new System.Drawing.Size(968, 440);
 			this.panel4.TabIndex = 7;
 			// 
 			// groupBox8
@@ -1748,26 +1748,26 @@
             this.文字色の変更ToolStripMenuItem1,
             this.背景色の変更ToolStripMenuItem1});
 			this.contextMenuStrip2.Name = "contextMenuStrip2";
-			this.contextMenuStrip2.Size = new System.Drawing.Size(145, 70);
+			this.contextMenuStrip2.Size = new System.Drawing.Size(149, 70);
 			// 
 			// 文字の変更ToolStripMenuItem
 			// 
 			this.文字の変更ToolStripMenuItem.Name = "文字の変更ToolStripMenuItem";
-			this.文字の変更ToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+			this.文字の変更ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
 			this.文字の変更ToolStripMenuItem.Text = "文字の変更";
 			this.文字の変更ToolStripMenuItem.Click += new System.EventHandler(this.文字の変更ToolStripMenuItem_Click_1);
 			// 
 			// 文字色の変更ToolStripMenuItem1
 			// 
 			this.文字色の変更ToolStripMenuItem1.Name = "文字色の変更ToolStripMenuItem1";
-			this.文字色の変更ToolStripMenuItem1.Size = new System.Drawing.Size(144, 22);
+			this.文字色の変更ToolStripMenuItem1.Size = new System.Drawing.Size(148, 22);
 			this.文字色の変更ToolStripMenuItem1.Text = "文字色の変更";
 			this.文字色の変更ToolStripMenuItem1.Click += new System.EventHandler(this.文字色の変更ToolStripMenuItem1_Click);
 			// 
 			// 背景色の変更ToolStripMenuItem1
 			// 
 			this.背景色の変更ToolStripMenuItem1.Name = "背景色の変更ToolStripMenuItem1";
-			this.背景色の変更ToolStripMenuItem1.Size = new System.Drawing.Size(144, 22);
+			this.背景色の変更ToolStripMenuItem1.Size = new System.Drawing.Size(148, 22);
 			this.背景色の変更ToolStripMenuItem1.Text = "背景色の変更";
 			this.背景色の変更ToolStripMenuItem1.Click += new System.EventHandler(this.背景色の変更ToolStripMenuItem1_Click);
 			// 
@@ -2056,26 +2056,26 @@
             this.文字色の変更ToolStripMenuItem,
             this.背景色の変更ToolStripMenuItem});
 			this.contextMenuStrip1.Name = "contextMenuStrip1";
-			this.contextMenuStrip1.Size = new System.Drawing.Size(145, 70);
+			this.contextMenuStrip1.Size = new System.Drawing.Size(149, 70);
 			// 
 			// 説明文の変更ToolStripMenuItem
 			// 
 			this.説明文の変更ToolStripMenuItem.Name = "説明文の変更ToolStripMenuItem";
-			this.説明文の変更ToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+			this.説明文の変更ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
 			this.説明文の変更ToolStripMenuItem.Text = "文字の変更";
 			this.説明文の変更ToolStripMenuItem.Click += new System.EventHandler(this.文字の変更ToolStripMenuItem_Click);
 			// 
 			// 文字色の変更ToolStripMenuItem
 			// 
 			this.文字色の変更ToolStripMenuItem.Name = "文字色の変更ToolStripMenuItem";
-			this.文字色の変更ToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+			this.文字色の変更ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
 			this.文字色の変更ToolStripMenuItem.Text = "文字色の変更";
 			this.文字色の変更ToolStripMenuItem.Click += new System.EventHandler(this.文字色の変更ToolStripMenuItem_Click);
 			// 
 			// 背景色の変更ToolStripMenuItem
 			// 
 			this.背景色の変更ToolStripMenuItem.Name = "背景色の変更ToolStripMenuItem";
-			this.背景色の変更ToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+			this.背景色の変更ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
 			this.背景色の変更ToolStripMenuItem.Text = "背景色の変更";
 			this.背景色の変更ToolStripMenuItem.Click += new System.EventHandler(this.背景色の変更ToolStripMenuItem_Click);
 			// 
