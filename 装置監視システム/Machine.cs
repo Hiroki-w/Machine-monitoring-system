@@ -2176,6 +2176,10 @@ namespace 装置監視システム
 					MessageBox.Show(alarmFile + "がありません。\r\nファイルの有無、ファイル名を確認してください。", "アラームリストファイル読み込み", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
+			else
+			{
+				alarmList.Clear();
+			}
 		}
 
 		/// <summary>
@@ -2522,11 +2526,18 @@ namespace 装置監視システム
 							{
 								/***** アラームリスト *****/
 								sendStr.Append("\r\nAlarm");
-								if (Frm.checkBox2.Checked == true && alarmList.Count != 0)
+								if (Frm.checkBox2.Checked)
 								{
-									foreach (var str in alarmList)
+									if (alarmList.Count != 0)
 									{
-										sendStr.Append(",").Append(str);
+										foreach (var str in alarmList)
+										{
+											sendStr.Append(",").Append(str);
+										}
+									}
+									else
+									{
+										sendStr.Append(",Delete List");
 									}
 								}
 								else
@@ -2535,11 +2546,18 @@ namespace 装置監視システム
 								}
 								/***** 操作リスト *****/
 								sendStr.Append("\r\nOperation");
-								if (Frm.checkBox2.Checked == true && operationList.Count != 0)
+								if (Frm.checkBox2.Checked)
 								{
-									foreach (var str in operationList)
+									if (operationList.Count != 0)
 									{
-										sendStr.Append(",").Append(str);
+										foreach (var str in operationList)
+										{
+											sendStr.Append(",").Append(str);
+										}
+									}
+									else
+									{
+										sendStr.Append(",Delete List");
 									}
 								}
 								else
