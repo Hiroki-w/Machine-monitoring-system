@@ -518,7 +518,7 @@ namespace 装置監視システム
 				if (frm.AlarmFile.Any(a => a == setStr[10]))
 					AlarmFile = setStr[10];
 				else
-					MessageBox.Show(setStr[10] + "が存在しません。\r\n設定を確認してください。", "アラームファイル読み込み", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(setStr[10] + "が存在しません。\r\n設定を確認してください。", "機械番号：" + MachineNumber + " アラームファイル読み込み", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 			else
 				AlarmFile = "";
@@ -527,7 +527,7 @@ namespace 装置監視システム
 				if (frm.OperationFile.Any(a => a == setStr[11]))
 					OperationFile = setStr[11];
 				else
-					MessageBox.Show(setStr[11] + "が存在しません。\r\n設定を確認してください。", "操作ファイル読み込み", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(setStr[11] + "が存在しません。\r\n設定を確認してください。", "機械番号：" + MachineNumber + "操作ファイル読み込み", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 			else
 				OperationFile = "";
@@ -926,7 +926,7 @@ namespace 装置監視システム
 		/// /// <param name="operationCanvas">稼働状況をグラフィカル表示させるビットマップ</param>
 		/// <param name="datetime">表示する日</param>
 		/// <param name="index">表示するピクチャーボックスのインデックス</param>
-		/// <param name="operateInfo">稼働情報を入れる構造体のリスト</param>
+		/// <param name="errorInfo">稼働情報を入れる構造体のリスト</param>
 		/// <returns></returns>
 		internal bool SetOperation(ref PictureBox picture, ref Bitmap operationCanvas, DateTime datetime, int index, ref List<alarmInformation> errorInfo)
 		{
@@ -1140,7 +1140,7 @@ namespace 装置監視システム
 		/// 指定された日のエラー情報を得る
 		/// 稼働状況データとアラーム情報を照らし合わせ開始、終了時刻を得る
 		/// </summary>
-		/// <param name="date">取得する日</param>
+		/// <param name="dt">取得する日</param>
 		/// <returns>エラーリスト</returns>
 		internal List<alarmInformation> GetErrorDay(DateTime dt)
 		{
@@ -1777,7 +1777,7 @@ namespace 装置監視システム
 		{
 			if (this.connect() == false)
 			{
-				MessageBox.Show("ネットワークに接続できませんでした。", machineNumber + "ネットワーク接続", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show("ネットワークに接続できませんでした。", "機械番号：" + machineNumber + " ネットワーク接続", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				this.lightOperation(4);
 			}
 			else
@@ -1927,7 +1927,7 @@ namespace 装置監視システム
 						// 通信方式がネットワークの場合、ネットワークのセットアップを行う
 						if (this.connect() == false)
 						{
-							MessageBox.Show("ネットワークに接続できませんでした。", machineNumber + "ネットワーク接続", MessageBoxButtons.OK, MessageBoxIcon.Error);
+							MessageBox.Show("ネットワークに接続できませんでした。", "機械番号：" + machineNumber + " ネットワーク接続", MessageBoxButtons.OK, MessageBoxIcon.Error);
 							this.lightOperation(4);
 						}
 						else
@@ -2173,7 +2173,7 @@ namespace 装置監視システム
 				}
 				else
 				{
-					MessageBox.Show(alarmFile + "がありません。\r\nファイルの有無、ファイル名を確認してください。", "アラームリストファイル読み込み", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(alarmFile + "がありません。\r\nファイルの有無、ファイル名を確認してください。", "機械番号：" + machineNumber + " アラームリストファイル読み込み", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
 			else
@@ -2228,7 +2228,7 @@ namespace 装置監視システム
 				}
 				else
 				{
-					MessageBox.Show("操作リストファイルがありません。\r\nファイルの有無、ファイル名を確認してください。", "操作リストファイル読み込み", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show("操作リストファイルがありません。\r\nファイルの有無、ファイル名を確認してください。", "機械番号：" + machineNumber + " 操作リストファイル読み込み", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
 			else
@@ -2272,7 +2272,7 @@ namespace 装置監視システム
 				// IPアドレスがデフォルトの0.0.0.0のままなら警告して終了
 				if (ipaddress == IPAddress.Parse("0.0.0.0"))
 				{
-					MessageBox.Show("IPアドレスが正しく設定されてません。\r\n設定を確認してください。", "機器ネットワーク接続", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show("IPアドレスが正しく設定されてません。\r\n設定を確認してください。", "機械番号：" + machineNumber + " 機器ネットワーク接続", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return false;
 				}
 				else

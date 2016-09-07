@@ -64,7 +64,6 @@
 			this.dataGridView5 = new System.Windows.Forms.DataGridView();
 			this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.button26 = new System.Windows.Forms.Button();
 			this.button25 = new System.Windows.Forms.Button();
 			this.panel7 = new System.Windows.Forms.Panel();
 			this.chart2 = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -238,6 +237,8 @@
 			this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
 			this.label8 = new System.Windows.Forms.Label();
 			this.button11 = new System.Windows.Forms.Button();
+			this.button26 = new System.Windows.Forms.Button();
+			this.groupBox9 = new System.Windows.Forms.GroupBox();
 			this.panel1.SuspendLayout();
 			this.panel9.SuspendLayout();
 			this.contextMenuStrip3.SuspendLayout();
@@ -275,6 +276,7 @@
 			this.contextMenuStrip1.SuspendLayout();
 			this.panel5.SuspendLayout();
 			this.panel6.SuspendLayout();
+			this.groupBox9.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// button1
@@ -402,9 +404,8 @@
 			// 
 			this.panel2.BackColor = System.Drawing.SystemColors.Control;
 			this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.panel2.Controls.Add(this.groupBox9);
 			this.panel2.Controls.Add(this.dataGridView5);
-			this.panel2.Controls.Add(this.button26);
-			this.panel2.Controls.Add(this.button25);
 			this.panel2.Controls.Add(this.panel7);
 			this.panel2.Controls.Add(this.button24);
 			this.panel2.Controls.Add(this.button23);
@@ -437,9 +438,9 @@
 			this.panel2.Controls.Add(this.dataGridView1);
 			this.panel2.Controls.Add(this.radioButton2);
 			this.panel2.Controls.Add(this.radioButton1);
-			this.panel2.Location = new System.Drawing.Point(216, 56);
+			this.panel2.Location = new System.Drawing.Point(8, 168);
 			this.panel2.Name = "panel2";
-			this.panel2.Size = new System.Drawing.Size(112, 32);
+			this.panel2.Size = new System.Drawing.Size(120, 64);
 			this.panel2.TabIndex = 5;
 			this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
 			// 
@@ -496,21 +497,10 @@
 			this.dataGridViewTextBoxColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			this.dataGridViewTextBoxColumn2.Width = 75;
 			// 
-			// button26
-			// 
-			this.button26.Enabled = false;
-			this.button26.Location = new System.Drawing.Point(1400, 96);
-			this.button26.Name = "button26";
-			this.button26.Size = new System.Drawing.Size(80, 40);
-			this.button26.TabIndex = 67;
-			this.button26.Text = "表示日アラーム集計";
-			this.button26.UseVisualStyleBackColor = true;
-			this.button26.Click += new System.EventHandler(this.button26_Click);
-			// 
 			// button25
 			// 
 			this.button25.Enabled = false;
-			this.button25.Location = new System.Drawing.Point(1312, 96);
+			this.button25.Location = new System.Drawing.Point(8, 24);
 			this.button25.Name = "button25";
 			this.button25.Size = new System.Drawing.Size(80, 40);
 			this.button25.TabIndex = 66;
@@ -663,7 +653,7 @@
 			// 
 			this.groupBox5.Controls.Add(this.button14);
 			this.groupBox5.Controls.Add(this.button13);
-			this.groupBox5.Location = new System.Drawing.Point(1328, 168);
+			this.groupBox5.Location = new System.Drawing.Point(1320, 88);
 			this.groupBox5.Name = "groupBox5";
 			this.groupBox5.Size = new System.Drawing.Size(144, 112);
 			this.groupBox5.TabIndex = 54;
@@ -1284,9 +1274,9 @@
 			this.panel4.Controls.Add(this.groupBox6);
 			this.panel4.Controls.Add(this.button12);
 			this.panel4.Controls.Add(this.groupBox4);
-			this.panel4.Location = new System.Drawing.Point(8, 120);
+			this.panel4.Location = new System.Drawing.Point(464, 56);
 			this.panel4.Name = "panel4";
-			this.panel4.Size = new System.Drawing.Size(968, 440);
+			this.panel4.Size = new System.Drawing.Size(128, 64);
 			this.panel4.TabIndex = 7;
 			// 
 			// groupBox8
@@ -2407,13 +2397,35 @@
 			this.button11.UseVisualStyleBackColor = true;
 			this.button11.Click += new System.EventHandler(this.button11_Click);
 			// 
+			// button26
+			// 
+			this.button26.Enabled = false;
+			this.button26.Location = new System.Drawing.Point(96, 24);
+			this.button26.Name = "button26";
+			this.button26.Size = new System.Drawing.Size(80, 40);
+			this.button26.TabIndex = 67;
+			this.button26.Text = "表示日アラーム集計";
+			this.button26.UseVisualStyleBackColor = true;
+			this.button26.Click += new System.EventHandler(this.button26_Click);
+			// 
+			// groupBox9
+			// 
+			this.groupBox9.Controls.Add(this.button26);
+			this.groupBox9.Controls.Add(this.button25);
+			this.groupBox9.Location = new System.Drawing.Point(1296, 208);
+			this.groupBox9.Name = "groupBox9";
+			this.groupBox9.Size = new System.Drawing.Size(184, 72);
+			this.groupBox9.TabIndex = 69;
+			this.groupBox9.TabStop = false;
+			this.groupBox9.Text = "ファイル生成";
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1918, 1049);
-			this.Controls.Add(this.panel4);
 			this.Controls.Add(this.panel2);
+			this.Controls.Add(this.panel4);
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.button11);
 			this.Controls.Add(this.label8);
@@ -2484,6 +2496,7 @@
 			this.panel5.PerformLayout();
 			this.panel6.ResumeLayout(false);
 			this.panel6.PerformLayout();
+			this.groupBox9.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -2597,7 +2610,6 @@
 		private System.Windows.Forms.Button button11;
 		private System.Windows.Forms.DataVisualization.Charting.Chart chart2;
 		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Button button26;
 		private System.Windows.Forms.Button button25;
 		private System.Windows.Forms.ContextMenuStrip contextMenuStrip3;
 		private System.Windows.Forms.ToolStripMenuItem 背景の設定ToolStripMenuItem;
@@ -2681,6 +2693,8 @@
 		private System.Windows.Forms.ToolStripMenuItem 文字の変更ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 文字色の変更ToolStripMenuItem1;
 		private System.Windows.Forms.CheckBox checkBox3;
+		private System.Windows.Forms.GroupBox groupBox9;
+		private System.Windows.Forms.Button button26;
 	}
 }
 
