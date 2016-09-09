@@ -66,7 +66,7 @@
 			this.textBox1.Location = new System.Drawing.Point(128, 6);
 			this.textBox1.Margin = new System.Windows.Forms.Padding(2);
 			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(115, 23);
+			this.textBox1.Size = new System.Drawing.Size(288, 23);
 			this.textBox1.TabIndex = 1;
 			this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
 			// 
@@ -208,7 +208,7 @@
 			// 
 			// panel1
 			// 
-			this.panel1.Location = new System.Drawing.Point(248, 8);
+			this.panel1.Location = new System.Drawing.Point(248, 40);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(170, 160);
 			this.panel1.TabIndex = 15;
@@ -276,6 +276,7 @@
 			this.Controls.Add(this.textBox1);
 			this.Controls.Add(this.label1);
 			this.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
 			this.Name = "Form4";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "領域設定";

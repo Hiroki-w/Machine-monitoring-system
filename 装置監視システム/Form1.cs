@@ -2281,7 +2281,8 @@ namespace 装置監視システム
 					if(dataGridView3.Rows[room].Cells[10].Value != null)
 						addStr.Append(dataGridView3.Rows[room].Cells[10].Value.ToString());
 					addStr.Append(",");
-					addStr.Append(dataGridView3.Rows[room].Cells[11].Value.ToString());
+					if (dataGridView3.Rows[room].Cells[11].Value != null)
+						addStr.Append(dataGridView3.Rows[room].Cells[11].Value.ToString());
 					addStr.Append(",0,0,100,50,0");
 
 					Machine mc = new Machine(this, addStr.ToString());

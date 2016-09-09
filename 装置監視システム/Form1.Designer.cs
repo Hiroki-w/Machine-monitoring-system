@@ -61,10 +61,12 @@
 			this.panel8 = new System.Windows.Forms.Panel();
 			this.label9 = new System.Windows.Forms.Label();
 			this.panel2 = new System.Windows.Forms.Panel();
+			this.groupBox9 = new System.Windows.Forms.GroupBox();
+			this.button26 = new System.Windows.Forms.Button();
+			this.button25 = new System.Windows.Forms.Button();
 			this.dataGridView5 = new System.Windows.Forms.DataGridView();
 			this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.button25 = new System.Windows.Forms.Button();
 			this.panel7 = new System.Windows.Forms.Panel();
 			this.chart2 = new System.Windows.Forms.DataVisualization.Charting.Chart();
 			this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -237,13 +239,12 @@
 			this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
 			this.label8 = new System.Windows.Forms.Label();
 			this.button11 = new System.Windows.Forms.Button();
-			this.button26 = new System.Windows.Forms.Button();
-			this.groupBox9 = new System.Windows.Forms.GroupBox();
 			this.panel1.SuspendLayout();
 			this.panel9.SuspendLayout();
 			this.contextMenuStrip3.SuspendLayout();
 			this.panel8.SuspendLayout();
 			this.panel2.SuspendLayout();
+			this.groupBox9.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView5)).BeginInit();
 			this.panel7.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.chart2)).BeginInit();
@@ -276,7 +277,6 @@
 			this.contextMenuStrip1.SuspendLayout();
 			this.panel5.SuspendLayout();
 			this.panel6.SuspendLayout();
-			this.groupBox9.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// button1
@@ -438,11 +438,44 @@
 			this.panel2.Controls.Add(this.dataGridView1);
 			this.panel2.Controls.Add(this.radioButton2);
 			this.panel2.Controls.Add(this.radioButton1);
-			this.panel2.Location = new System.Drawing.Point(8, 168);
+			this.panel2.Location = new System.Drawing.Point(1336, 8);
 			this.panel2.Name = "panel2";
-			this.panel2.Size = new System.Drawing.Size(120, 64);
+			this.panel2.Size = new System.Drawing.Size(88, 48);
 			this.panel2.TabIndex = 5;
 			this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
+			// 
+			// groupBox9
+			// 
+			this.groupBox9.Controls.Add(this.button26);
+			this.groupBox9.Controls.Add(this.button25);
+			this.groupBox9.Location = new System.Drawing.Point(1312, 208);
+			this.groupBox9.Name = "groupBox9";
+			this.groupBox9.Size = new System.Drawing.Size(168, 72);
+			this.groupBox9.TabIndex = 69;
+			this.groupBox9.TabStop = false;
+			this.groupBox9.Text = "ファイル生成";
+			// 
+			// button26
+			// 
+			this.button26.Enabled = false;
+			this.button26.Location = new System.Drawing.Point(88, 24);
+			this.button26.Name = "button26";
+			this.button26.Size = new System.Drawing.Size(72, 40);
+			this.button26.TabIndex = 67;
+			this.button26.Text = "表示日アラーム集計";
+			this.button26.UseVisualStyleBackColor = true;
+			this.button26.Click += new System.EventHandler(this.button26_Click);
+			// 
+			// button25
+			// 
+			this.button25.Enabled = false;
+			this.button25.Location = new System.Drawing.Point(8, 24);
+			this.button25.Name = "button25";
+			this.button25.Size = new System.Drawing.Size(72, 40);
+			this.button25.TabIndex = 66;
+			this.button25.Text = "表示月アラーム集計";
+			this.button25.UseVisualStyleBackColor = true;
+			this.button25.Click += new System.EventHandler(this.button25_Click);
 			// 
 			// dataGridView5
 			// 
@@ -496,17 +529,6 @@
 			this.dataGridViewTextBoxColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.False;
 			this.dataGridViewTextBoxColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			this.dataGridViewTextBoxColumn2.Width = 75;
-			// 
-			// button25
-			// 
-			this.button25.Enabled = false;
-			this.button25.Location = new System.Drawing.Point(8, 24);
-			this.button25.Name = "button25";
-			this.button25.Size = new System.Drawing.Size(80, 40);
-			this.button25.TabIndex = 66;
-			this.button25.Text = "表示月アラーム集計";
-			this.button25.UseVisualStyleBackColor = true;
-			this.button25.Click += new System.EventHandler(this.button25_Click);
 			// 
 			// panel7
 			// 
@@ -653,9 +675,9 @@
 			// 
 			this.groupBox5.Controls.Add(this.button14);
 			this.groupBox5.Controls.Add(this.button13);
-			this.groupBox5.Location = new System.Drawing.Point(1320, 88);
+			this.groupBox5.Location = new System.Drawing.Point(1312, 88);
 			this.groupBox5.Name = "groupBox5";
-			this.groupBox5.Size = new System.Drawing.Size(144, 112);
+			this.groupBox5.Size = new System.Drawing.Size(168, 112);
 			this.groupBox5.TabIndex = 54;
 			this.groupBox5.TabStop = false;
 			this.groupBox5.Text = "稼働状況";
@@ -663,7 +685,7 @@
 			// button14
 			// 
 			this.button14.Enabled = false;
-			this.button14.Location = new System.Drawing.Point(80, 24);
+			this.button14.Location = new System.Drawing.Point(96, 24);
 			this.button14.Name = "button14";
 			this.button14.Size = new System.Drawing.Size(56, 72);
 			this.button14.TabIndex = 55;
@@ -674,7 +696,7 @@
 			// button13
 			// 
 			this.button13.Enabled = false;
-			this.button13.Location = new System.Drawing.Point(8, 24);
+			this.button13.Location = new System.Drawing.Point(16, 24);
 			this.button13.Name = "button13";
 			this.button13.Size = new System.Drawing.Size(56, 72);
 			this.button13.TabIndex = 54;
@@ -1274,9 +1296,9 @@
 			this.panel4.Controls.Add(this.groupBox6);
 			this.panel4.Controls.Add(this.button12);
 			this.panel4.Controls.Add(this.groupBox4);
-			this.panel4.Location = new System.Drawing.Point(464, 56);
+			this.panel4.Location = new System.Drawing.Point(8, 120);
 			this.panel4.Name = "panel4";
-			this.panel4.Size = new System.Drawing.Size(128, 64);
+			this.panel4.Size = new System.Drawing.Size(1384, 544);
 			this.panel4.TabIndex = 7;
 			// 
 			// groupBox8
@@ -1285,7 +1307,7 @@
 			this.groupBox8.Controls.Add(this.checkBox2);
 			this.groupBox8.Controls.Add(this.groupBox1);
 			this.groupBox8.Controls.Add(this.groupBox2);
-			this.groupBox8.Location = new System.Drawing.Point(736, 64);
+			this.groupBox8.Location = new System.Drawing.Point(744, 64);
 			this.groupBox8.Name = "groupBox8";
 			this.groupBox8.Size = new System.Drawing.Size(704, 328);
 			this.groupBox8.TabIndex = 13;
@@ -1853,7 +1875,7 @@
 			this.groupBox4.Controls.Add(this.label1);
 			this.groupBox4.Location = new System.Drawing.Point(16, 64);
 			this.groupBox4.Name = "groupBox4";
-			this.groupBox4.Size = new System.Drawing.Size(704, 240);
+			this.groupBox4.Size = new System.Drawing.Size(712, 240);
 			this.groupBox4.TabIndex = 0;
 			this.groupBox4.TabStop = false;
 			this.groupBox4.Text = "稼動マップ画面設定";
@@ -2397,28 +2419,6 @@
 			this.button11.UseVisualStyleBackColor = true;
 			this.button11.Click += new System.EventHandler(this.button11_Click);
 			// 
-			// button26
-			// 
-			this.button26.Enabled = false;
-			this.button26.Location = new System.Drawing.Point(96, 24);
-			this.button26.Name = "button26";
-			this.button26.Size = new System.Drawing.Size(80, 40);
-			this.button26.TabIndex = 67;
-			this.button26.Text = "表示日アラーム集計";
-			this.button26.UseVisualStyleBackColor = true;
-			this.button26.Click += new System.EventHandler(this.button26_Click);
-			// 
-			// groupBox9
-			// 
-			this.groupBox9.Controls.Add(this.button26);
-			this.groupBox9.Controls.Add(this.button25);
-			this.groupBox9.Location = new System.Drawing.Point(1296, 208);
-			this.groupBox9.Name = "groupBox9";
-			this.groupBox9.Size = new System.Drawing.Size(184, 72);
-			this.groupBox9.TabIndex = 69;
-			this.groupBox9.TabStop = false;
-			this.groupBox9.Text = "ファイル生成";
-			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -2456,6 +2456,7 @@
 			this.panel8.PerformLayout();
 			this.panel2.ResumeLayout(false);
 			this.panel2.PerformLayout();
+			this.groupBox9.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView5)).EndInit();
 			this.panel7.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.chart2)).EndInit();
@@ -2496,7 +2497,6 @@
 			this.panel5.PerformLayout();
 			this.panel6.ResumeLayout(false);
 			this.panel6.PerformLayout();
-			this.groupBox9.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
