@@ -693,6 +693,11 @@ namespace 装置監視システム
 						textBox9.Text = ((double)Properties.Settings.Default.RegularlyTime / 1000).ToString();
 
 						checkBox1.Checked = Properties.Settings.Default.IsGridSnap;
+						checkBox4.Checked = Properties.Settings.Default.IsViewErrir;
+						checkBox5.Checked = Properties.Settings.Default.IsViewOccupancy;
+						checkBox6.Checked = Properties.Settings.Default.IsViewMaintenance;
+						checkBox7.Checked = Properties.Settings.Default.IsViewMemo;
+
 						if (comboBox1.Items.Count > 0 && comboBox1.SelectedIndex == -1)
 							comboBox1.SelectedIndex = 0;
 						if (comboBox2.Items.Count > 0 && comboBox2.SelectedIndex == -1)
@@ -3401,7 +3406,12 @@ namespace 装置監視システム
 			label139.BackColor = Properties.Settings.Default.Panel2DontBackColor;
 			label139.Text = Properties.Settings.Default.Panel2DontName;
 
+			checkBox1.Checked = Properties.Settings.Default.IsGridSnap;
 			checkBox2.Checked = Properties.Settings.Default.IsListData;
+			checkBox4.Checked = Properties.Settings.Default.IsViewErrir;
+			checkBox5.Checked = Properties.Settings.Default.IsViewOccupancy;
+			checkBox6.Checked = Properties.Settings.Default.IsViewMaintenance;
+			checkBox7.Checked = Properties.Settings.Default.IsViewMemo;
 
 			textBox10.Text = Properties.Settings.Default.Area1;
 			textBox11.Text = Properties.Settings.Default.Area2;
@@ -3469,6 +3479,50 @@ namespace 装置監視システム
 					}
 				});
 			}
+		}
+
+		/// <summary>
+		/// エラー回数表示の設定
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void checkBox4_CheckedChanged(object sender, EventArgs e)
+		{
+			Properties.Settings.Default.IsViewErrir = checkBox4.Checked;
+			Properties.Settings.Default.Save();
+		}
+
+		/// <summary>
+		/// 稼働率表示の設定
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void checkBox5_CheckedChanged(object sender, EventArgs e)
+		{
+			Properties.Settings.Default.IsViewOccupancy = checkBox5.Checked;
+			Properties.Settings.Default.Save();
+		}
+
+		/// <summary>
+		/// メンテナンス日表示の設定
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void checkBox6_CheckedChanged(object sender, EventArgs e)
+		{
+			Properties.Settings.Default.IsViewMaintenance = checkBox6.Checked;
+			Properties.Settings.Default.Save();
+		}
+
+		/// <summary>
+		/// メモ表示の設定
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void checkBox7_CheckedChanged(object sender, EventArgs e)
+		{
+			Properties.Settings.Default.IsViewMemo = checkBox7.Checked;
+			Properties.Settings.Default.Save();
 		}
 
 		/// <summary>
@@ -4371,5 +4425,6 @@ namespace 装置監視システム
 		}
 
 		#endregion internalなメソッド -------------------------------------------------------------------------------------------------
+
 	}
 }

@@ -42,13 +42,14 @@
 			this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem11 = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem12 = new System.Windows.Forms.ToolStripMenuItem();
+			this.ネットワークToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.接続ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.切断ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
 			this.データフォルダを開くToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.label1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
-			this.ネットワークToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.接続ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.切断ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.label3 = new System.Windows.Forms.Label();
 			this.contextMenuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -61,7 +62,7 @@
             this.toolStripMenuItem1,
             this.データフォルダを開くToolStripMenuItem});
 			this.contextMenuStrip1.Name = "contextMenuStrip1";
-			this.contextMenuStrip1.Size = new System.Drawing.Size(197, 120);
+			this.contextMenuStrip1.Size = new System.Drawing.Size(197, 98);
 			// 
 			// 表示サイズ変更ToolStripMenuItem
 			// 
@@ -165,6 +166,30 @@
 			this.toolStripMenuItem12.Text = "-70%";
 			this.toolStripMenuItem12.Click += new System.EventHandler(this.toolStripMenuItem12_Click);
 			// 
+			// ネットワークToolStripMenuItem
+			// 
+			this.ネットワークToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.接続ToolStripMenuItem,
+            this.切断ToolStripMenuItem});
+			this.ネットワークToolStripMenuItem.Name = "ネットワークToolStripMenuItem";
+			this.ネットワークToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+			this.ネットワークToolStripMenuItem.Text = "ネットワーク";
+			this.ネットワークToolStripMenuItem.DropDownOpened += new System.EventHandler(this.ネットワークToolStripMenuItem_DropDownOpened);
+			// 
+			// 接続ToolStripMenuItem
+			// 
+			this.接続ToolStripMenuItem.Name = "接続ToolStripMenuItem";
+			this.接続ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+			this.接続ToolStripMenuItem.Text = "接続";
+			this.接続ToolStripMenuItem.Click += new System.EventHandler(this.接続ToolStripMenuItem_Click);
+			// 
+			// 切断ToolStripMenuItem
+			// 
+			this.切断ToolStripMenuItem.Name = "切断ToolStripMenuItem";
+			this.切断ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+			this.切断ToolStripMenuItem.Text = "切断";
+			this.切断ToolStripMenuItem.Click += new System.EventHandler(this.切断ToolStripMenuItem_Click);
+			// 
 			// toolStripMenuItem1
 			// 
 			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
@@ -195,44 +220,35 @@
 			this.label2.TabIndex = 2;
 			this.label2.Visible = false;
 			// 
-			// ネットワークToolStripMenuItem
+			// label3
 			// 
-			this.ネットワークToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.接続ToolStripMenuItem,
-            this.切断ToolStripMenuItem});
-			this.ネットワークToolStripMenuItem.Name = "ネットワークToolStripMenuItem";
-			this.ネットワークToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-			this.ネットワークToolStripMenuItem.Text = "ネットワーク";
-			this.ネットワークToolStripMenuItem.DropDownOpened += new System.EventHandler(this.ネットワークToolStripMenuItem_DropDownOpened);
-			// 
-			// 接続ToolStripMenuItem
-			// 
-			this.接続ToolStripMenuItem.Name = "接続ToolStripMenuItem";
-			this.接続ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.接続ToolStripMenuItem.Text = "接続";
-			this.接続ToolStripMenuItem.Click += new System.EventHandler(this.接続ToolStripMenuItem_Click);
-			// 
-			// 切断ToolStripMenuItem
-			// 
-			this.切断ToolStripMenuItem.Name = "切断ToolStripMenuItem";
-			this.切断ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.切断ToolStripMenuItem.Text = "切断";
-			this.切断ToolStripMenuItem.Click += new System.EventHandler(this.切断ToolStripMenuItem_Click);
+			this.label3.AutoSize = true;
+			this.label3.BackColor = System.Drawing.Color.LightGray;
+			this.label3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.label3.Font = new System.Drawing.Font("ＭＳ ゴシック", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.label3.ForeColor = System.Drawing.Color.Black;
+			this.label3.Location = new System.Drawing.Point(80, 1);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(77, 21);
+			this.label3.TabIndex = 3;
+			this.label3.Text = "label3";
+			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// Machine
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 19F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.White;
-			this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.ContextMenuStrip = this.contextMenuStrip1;
+			this.Controls.Add(this.label3);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.label1);
 			this.DoubleBuffered = true;
 			this.Font = new System.Drawing.Font("ＭＳ ゴシック", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.Margin = new System.Windows.Forms.Padding(1);
 			this.Name = "Machine";
-			this.Size = new System.Drawing.Size(260, 95);
+			this.Size = new System.Drawing.Size(258, 93);
 			this.Load += new System.EventHandler(this.Machine_Load);
 			this.Paint += new System.Windows.Forms.PaintEventHandler(this.Machine_Paint);
 			this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Machine_MouseDown);
@@ -265,5 +281,6 @@
 		private System.Windows.Forms.ToolStripMenuItem ネットワークToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 接続ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 切断ToolStripMenuItem;
+		private System.Windows.Forms.Label label3;
 	}
 }

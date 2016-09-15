@@ -192,6 +192,11 @@
 			this.label134 = new System.Windows.Forms.Label();
 			this.button12 = new System.Windows.Forms.Button();
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
+			this.groupBox10 = new System.Windows.Forms.GroupBox();
+			this.checkBox7 = new System.Windows.Forms.CheckBox();
+			this.checkBox6 = new System.Windows.Forms.CheckBox();
+			this.checkBox5 = new System.Windows.Forms.CheckBox();
+			this.checkBox4 = new System.Windows.Forms.CheckBox();
 			this.button28 = new System.Windows.Forms.Button();
 			this.button27 = new System.Windows.Forms.Button();
 			this.radioButton6 = new System.Windows.Forms.RadioButton();
@@ -273,6 +278,7 @@
 			this.groupBox6.SuspendLayout();
 			this.contextMenuStrip2.SuspendLayout();
 			this.groupBox4.SuspendLayout();
+			this.groupBox10.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).BeginInit();
 			this.contextMenuStrip1.SuspendLayout();
 			this.panel5.SuspendLayout();
@@ -325,7 +331,7 @@
 			this.panel1.Controls.Add(this.splitter1);
 			this.panel1.Controls.Add(this.panel9);
 			this.panel1.Controls.Add(this.panel8);
-			this.panel1.Location = new System.Drawing.Point(16, 56);
+			this.panel1.Location = new System.Drawing.Point(1824, 16);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(80, 48);
 			this.panel1.TabIndex = 4;
@@ -1296,9 +1302,9 @@
 			this.panel4.Controls.Add(this.groupBox6);
 			this.panel4.Controls.Add(this.button12);
 			this.panel4.Controls.Add(this.groupBox4);
-			this.panel4.Location = new System.Drawing.Point(8, 120);
+			this.panel4.Location = new System.Drawing.Point(752, 528);
 			this.panel4.Name = "panel4";
-			this.panel4.Size = new System.Drawing.Size(1384, 544);
+			this.panel4.Size = new System.Drawing.Size(152, 48);
 			this.panel4.TabIndex = 7;
 			// 
 			// groupBox8
@@ -1640,7 +1646,7 @@
 			this.groupBox7.Controls.Add(this.label23);
 			this.groupBox7.Controls.Add(this.textBox9);
 			this.groupBox7.Controls.Add(this.label22);
-			this.groupBox7.Location = new System.Drawing.Point(16, 456);
+			this.groupBox7.Location = new System.Drawing.Point(16, 544);
 			this.groupBox7.Name = "groupBox7";
 			this.groupBox7.Size = new System.Drawing.Size(328, 112);
 			this.groupBox7.TabIndex = 12;
@@ -1733,7 +1739,7 @@
 			this.groupBox6.Controls.Add(this.label136);
 			this.groupBox6.Controls.Add(this.label135);
 			this.groupBox6.Controls.Add(this.label134);
-			this.groupBox6.Location = new System.Drawing.Point(16, 320);
+			this.groupBox6.Location = new System.Drawing.Point(16, 408);
 			this.groupBox6.Name = "groupBox6";
 			this.groupBox6.Size = new System.Drawing.Size(328, 120);
 			this.groupBox6.TabIndex = 8;
@@ -1860,6 +1866,7 @@
 			// 
 			// groupBox4
 			// 
+			this.groupBox4.Controls.Add(this.groupBox10);
 			this.groupBox4.Controls.Add(this.button28);
 			this.groupBox4.Controls.Add(this.button27);
 			this.groupBox4.Controls.Add(this.radioButton6);
@@ -1875,10 +1882,67 @@
 			this.groupBox4.Controls.Add(this.label1);
 			this.groupBox4.Location = new System.Drawing.Point(16, 64);
 			this.groupBox4.Name = "groupBox4";
-			this.groupBox4.Size = new System.Drawing.Size(712, 240);
+			this.groupBox4.Size = new System.Drawing.Size(712, 328);
 			this.groupBox4.TabIndex = 0;
 			this.groupBox4.TabStop = false;
 			this.groupBox4.Text = "稼動マップ画面設定";
+			// 
+			// groupBox10
+			// 
+			this.groupBox10.Controls.Add(this.checkBox7);
+			this.groupBox10.Controls.Add(this.checkBox6);
+			this.groupBox10.Controls.Add(this.checkBox5);
+			this.groupBox10.Controls.Add(this.checkBox4);
+			this.groupBox10.Location = new System.Drawing.Point(8, 232);
+			this.groupBox10.Name = "groupBox10";
+			this.groupBox10.Size = new System.Drawing.Size(200, 64);
+			this.groupBox10.TabIndex = 13;
+			this.groupBox10.TabStop = false;
+			this.groupBox10.Text = "表示データ";
+			// 
+			// checkBox7
+			// 
+			this.checkBox7.AutoSize = true;
+			this.checkBox7.Location = new System.Drawing.Point(96, 40);
+			this.checkBox7.Name = "checkBox7";
+			this.checkBox7.Size = new System.Drawing.Size(41, 16);
+			this.checkBox7.TabIndex = 3;
+			this.checkBox7.Text = "メモ";
+			this.checkBox7.UseVisualStyleBackColor = true;
+			this.checkBox7.CheckedChanged += new System.EventHandler(this.checkBox7_CheckedChanged);
+			// 
+			// checkBox6
+			// 
+			this.checkBox6.AutoSize = true;
+			this.checkBox6.Location = new System.Drawing.Point(96, 16);
+			this.checkBox6.Name = "checkBox6";
+			this.checkBox6.Size = new System.Drawing.Size(90, 16);
+			this.checkBox6.TabIndex = 2;
+			this.checkBox6.Text = "メンテナンス日";
+			this.checkBox6.UseVisualStyleBackColor = true;
+			this.checkBox6.CheckedChanged += new System.EventHandler(this.checkBox6_CheckedChanged);
+			// 
+			// checkBox5
+			// 
+			this.checkBox5.AutoSize = true;
+			this.checkBox5.Location = new System.Drawing.Point(8, 40);
+			this.checkBox5.Name = "checkBox5";
+			this.checkBox5.Size = new System.Drawing.Size(60, 16);
+			this.checkBox5.TabIndex = 1;
+			this.checkBox5.Text = "稼働率";
+			this.checkBox5.UseVisualStyleBackColor = true;
+			this.checkBox5.CheckedChanged += new System.EventHandler(this.checkBox5_CheckedChanged);
+			// 
+			// checkBox4
+			// 
+			this.checkBox4.AutoSize = true;
+			this.checkBox4.Location = new System.Drawing.Point(8, 16);
+			this.checkBox4.Name = "checkBox4";
+			this.checkBox4.Size = new System.Drawing.Size(75, 16);
+			this.checkBox4.TabIndex = 0;
+			this.checkBox4.Text = "エラー回数";
+			this.checkBox4.UseVisualStyleBackColor = true;
+			this.checkBox4.CheckedChanged += new System.EventHandler(this.checkBox4_CheckedChanged);
 			// 
 			// button28
 			// 
@@ -2423,9 +2487,9 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1918, 1049);
-			this.Controls.Add(this.panel2);
+			this.ClientSize = new System.Drawing.Size(1912, 1049);
 			this.Controls.Add(this.panel4);
+			this.Controls.Add(this.panel2);
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.button11);
 			this.Controls.Add(this.label8);
@@ -2491,6 +2555,8 @@
 			this.contextMenuStrip2.ResumeLayout(false);
 			this.groupBox4.ResumeLayout(false);
 			this.groupBox4.PerformLayout();
+			this.groupBox10.ResumeLayout(false);
+			this.groupBox10.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).EndInit();
 			this.contextMenuStrip1.ResumeLayout(false);
 			this.panel5.ResumeLayout(false);
@@ -2695,6 +2761,11 @@
 		private System.Windows.Forms.CheckBox checkBox3;
 		private System.Windows.Forms.GroupBox groupBox9;
 		private System.Windows.Forms.Button button26;
+		private System.Windows.Forms.GroupBox groupBox10;
+		private System.Windows.Forms.CheckBox checkBox6;
+		private System.Windows.Forms.CheckBox checkBox5;
+		private System.Windows.Forms.CheckBox checkBox4;
+		private System.Windows.Forms.CheckBox checkBox7;
 	}
 }
 

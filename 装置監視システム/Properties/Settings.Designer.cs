@@ -574,5 +574,53 @@ namespace 装置監視システム.Properties {
                 this["Panel2DontForeColor"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsViewErrir {
+            get {
+                return ((bool)(this["IsViewErrir"]));
+            }
+            set {
+                this["IsViewErrir"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsViewOccupancy {
+            get {
+                return ((bool)(this["IsViewOccupancy"]));
+            }
+            set {
+                this["IsViewOccupancy"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsViewMaintenance {
+            get {
+                return ((bool)(this["IsViewMaintenance"]));
+            }
+            set {
+                this["IsViewMaintenance"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsViewMemo {
+            get {
+                return ((bool)(this["IsViewMemo"]));
+            }
+            set {
+                this["IsViewMemo"] = value;
+            }
+        }
     }
 }

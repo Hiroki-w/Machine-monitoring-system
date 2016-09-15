@@ -54,10 +54,6 @@ namespace 装置監視システム
 		private string Occupancy = "-";
 		private string maintenanceDate;
 		private string memo;
-		// 表示する内容
-		private string[] title = new string[8];
-		// 表示する文字の座標データ配列
-		private Point[,] point = new Point[8, 10];
 		private string alarmFile = "";
 		private string operationFile = "";
 
@@ -110,6 +106,8 @@ namespace 装置監視システム
 		private List<string> alarmstring = new List<string>();
 		// 設定値が変更された事を示すフラグ
 		private bool isSetting = false;
+		// エラーカウント数
+		private int errorCount = 0;
 
 		// アラームリストの文字列
 		private List<string> alarmList = new List<string>();
@@ -122,6 +120,8 @@ namespace 装置監視システム
 		/// 新しいログファイルを生成する時に判断する日付
 		/// </summary>
 		private int oldDay;
+		// 月が変わった事を判断する数値
+		private int oldMonth;
 
 		// 親ウィンドウ
 		private Form1 Frm;
@@ -236,6 +236,7 @@ namespace 装置監視システム
 			set
 			{
 				machineNumber = value;
+				label3.Text = value;
 				// 初期値としてセットなら比較用データに入れる
 				if (InitialFlag == true)
 					diffMachineNumber = value;
@@ -537,99 +538,6 @@ namespace 装置監視システム
 			Zoom = int.Parse(setStr[17]);
 
 			basePath += Path.Combine("加工機情報", MachineNumber) + @"\";
-			// 表示文字列で決まっている文字列だけ追加
-			title[0] = "機械番号：";
-			title[2] = "　稼働率：";
-			title[4] = "ﾒﾝﾃﾅﾝｽ日：";
-			title[6] = "　　メモ：";
-			// 文字列表示の座標データを設定
-			point[0, 9] = new Point(0, 4);
-			point[0, 8] = new Point(0, 4);
-			point[0, 7] = new Point(0, 4);
-			point[0, 6] = new Point(0, 3);
-			point[0, 5] = new Point(0, 3);
-			point[0, 4] = new Point(0, 3);
-			point[0, 3] = new Point(0, 2);
-			point[0, 2] = new Point(0, 2);
-			point[0, 1] = new Point(0, 2);
-			point[0, 0] = new Point(0, 1);
-				   
-			point[1, 9] = new Point(105, 4);
-			point[1, 8] = new Point(100, 4);
-			point[1, 7] = new Point(95, 4);
-			point[1, 6] = new Point(85, 3);
-			point[1, 5] = new Point(80, 3);
-			point[1, 4] = new Point(75, 3);
-			point[1, 3] = new Point(70, 2);
-			point[1, 2] = new Point(65, 2);
-			point[1, 1] = new Point(60, 2);
-			point[1, 0] = new Point(55, 1);
-
-			point[2, 9] = new Point(0, 32);
-			point[2, 8] = new Point(0, 30);
-			point[2, 7] = new Point(0, 28);
-			point[2, 6] = new Point(0, 25);
-			point[2, 5] = new Point(0, 23);
-			point[2, 4] = new Point(0, 21);
-			point[2, 3] = new Point(0, 18);
-			point[2, 2] = new Point(0, 16);
-			point[2, 1] = new Point(0, 14);
-			point[2, 0] = new Point(0, 11);
-
-			point[3, 9] = new Point(105, 32);
-			point[3, 8] = new Point(100, 30);
-			point[3, 7] = new Point(95, 28);
-			point[3, 6] = new Point(85, 25);
-			point[3, 5] = new Point(80, 23);
-			point[3, 4] = new Point(75, 21);
-			point[3, 3] = new Point(70, 18);
-			point[3, 2] = new Point(65, 16);
-			point[3, 1] = new Point(60, 14);
-			point[3, 0] = new Point(50, 11);
-
-			point[4, 9] = new Point(0, 58);
-			point[4, 8] = new Point(0, 56);
-			point[4, 7] = new Point(0, 52);
-			point[4, 6] = new Point(0, 47);
-			point[4, 5] = new Point(0, 43);
-			point[4, 4] = new Point(0, 39);
-			point[4, 3] = new Point(0, 34);
-			point[4, 2] = new Point(0, 30);
-			point[4, 1] = new Point(0, 26);
-			point[4, 0] = new Point(0, 21);
-
-			point[5, 9] = new Point(105, 58);
-			point[5, 8] = new Point(100, 56);
-			point[5, 7] = new Point(95, 52);
-			point[5, 6] = new Point(85, 47);
-			point[5, 5] = new Point(80, 43);
-			point[5, 4] = new Point(75, 39);
-			point[5, 3] = new Point(70, 34);
-			point[5, 2] = new Point(65, 30);
-			point[5, 1] = new Point(60, 26);
-			point[5, 0] = new Point(50, 21);
-
-			point[6, 9] = new Point(0, 86);
-			point[6, 8] = new Point(0, 82);
-			point[6, 7] = new Point(0, 74);
-			point[6, 6] = new Point(0, 69);
-			point[6, 5] = new Point(0, 63);
-			point[6, 4] = new Point(0, 57);
-			point[6, 3] = new Point(0, 50);
-			point[6, 2] = new Point(0, 44);
-			point[6, 1] = new Point(0, 38);
-			point[6, 0] = new Point(0, 31);
-
-			point[7, 9] = new Point(105, 86);
-			point[7, 8] = new Point(100, 82);
-			point[7, 7] = new Point(95, 74);
-			point[7, 6] = new Point(85, 69);
-			point[7, 5] = new Point(80, 63);
-			point[7, 4] = new Point(75, 57);
-			point[7, 3] = new Point(70, 50);
-			point[7, 2] = new Point(65, 44);
-			point[7, 1] = new Point(60, 38);
-			point[7, 0] = new Point(50, 31);
 		}
 
 		/// <summary>
@@ -677,6 +585,9 @@ namespace 装置監視システム
 				// 初期化フラグ解除
 				InitialFlag = false;
 
+				// 機械番号のラベルを適切な位置へ移動
+				label3.Location = new Point(this.Width / 2 - label3.Width / 2, 1);
+
 				lightOperation(5);
 				// 「監視する」設定なら接続
 				if (MachineCheck == true)
@@ -689,6 +600,32 @@ namespace 装置監視システム
 								break;
 						}
 					});
+				}
+
+				// 今月のエラー回数を数える
+				oldMonth = DateTime.Now.Month;
+				int day = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month) + 1;
+				for (int i = 1; i < day; i++)
+				{
+					StringBuilder filepath = new StringBuilder(basePath);
+					filepath.Append(Path.Combine(DateTime.Now.ToString("yyyy年"), DateTime.Now.ToString("MM月"), i.ToString("00日") + @".csv"));
+					// ファイルが存在していたら開く
+					if (File.Exists(filepath.ToString()))
+					{
+						using (FileStream fs = new FileStream(filepath.ToString(), FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+						using (StreamReader sr = new StreamReader(fs, Encoding.GetEncoding("Shift-JIS")))
+						{
+							// ストリームの末尾まで繰り返す
+							while (!sr.EndOfStream)
+							{
+								// 1行読み込み、文字が存在していたらエラーとみなす
+								if (sr.ReadLine().Contains("赤") == true)
+								{
+									errorCount++;
+								}
+							}
+						}
+					}
 				}
 			}
 			catch (Exception exc)
@@ -704,14 +641,60 @@ namespace 装置監視システム
 		/// <param name="e"></param>
 		private void Machine_Paint(object sender, PaintEventArgs e)
 		{
-			title[1] = machineNumber;
-			title[3] = Occupancy;
-			title[5] = maintenanceDate;
-			title[7] = memo;
 			using (SolidBrush sb = new SolidBrush(this.ForeColor))
 			{
-				for (int i = 0; i < 8; i++)
-					e.Graphics.DrawString(title[i], this.Font, sb, point[i, zoom + 7]);
+				string viewMessage;
+				float posX = 5;
+				float posY = label3.Size.Height + 10;
+				StringFormat sf = new StringFormat();
+				bool beforeString = false;
+
+				// 今月エラー回数の表示
+				if (Properties.Settings.Default.IsViewErrir == true)
+				{
+					viewMessage = "今月エラー回数\r\n " + errorCount.ToString() + "回";
+					e.Graphics.DrawString(viewMessage, this.Font, sb, posX, posY, sf);
+					posY += e.Graphics.MeasureString(viewMessage, this.Font, this.Width, sf).Height - 10;
+					// 次の表示文字へ、直前に文字描画が発生した事を示す
+					beforeString = true;
+				}
+
+				// 稼働率の表示
+				if (Properties.Settings.Default.IsViewOccupancy == true)
+				{
+					// 直前に文字描画があれば改行を入れる
+					viewMessage = beforeString == true ? "\r\n" : "";
+					// 監視しない場合は「－」を表示する
+					if (machineCheck == true)
+						viewMessage += "稼働率\r\n " + Occupancy;
+					else
+						viewMessage += "稼働率\r\n －";
+					e.Graphics.DrawString(viewMessage, this.Font, sb, posX, posY, sf);
+					posY += e.Graphics.MeasureString(viewMessage, this.Font, this.Width, sf).Height - 10;
+					// 次の表示文字へ、直前に文字描画が発生した事を示す
+					beforeString = true;
+				}
+
+				// メンテナンス日の表示
+				if (Properties.Settings.Default.IsViewMaintenance == true)
+				{
+					// 直前に文字描画があれば改行を入れる
+					viewMessage = beforeString == true ? "\r\n" : "";
+					viewMessage += "メンテナンス日\r\n " + maintenanceDate;
+					e.Graphics.DrawString(viewMessage, this.Font, sb, posX, posY, sf);
+					posY += e.Graphics.MeasureString(viewMessage, this.Font, this.Width, sf).Height - 10;
+					// 次の表示文字へ、直前に文字描画が発生した事を示す
+					beforeString = true;
+				}
+
+				// メモの表示
+				if (Properties.Settings.Default.IsViewMemo == true)
+				{
+					// 直前に文字描画があれば改行を入れる
+					viewMessage = beforeString == true ? "\r\n" : "";
+					viewMessage += "メモ\r\n " + memo;
+					e.Graphics.DrawString(viewMessage, this.Font, sb, posX, posY, sf);
+				}
 			}			
 		}
 
@@ -1390,7 +1373,7 @@ namespace 装置監視システム
 							ForeColor = Properties.Settings.Default.Panel1DontForeColor;
 							break;
 					}
-			}
+				}
 				BeginInvoke((Action)(() => this.Refresh()));
 			}
 			catch (Exception exc)
@@ -1614,9 +1597,11 @@ namespace 装置監視システム
 					}
 				}
 			}
+			// コントロールのサイズ変更が行われている時
 			else if (isSize == true)
 			{
 				Sz = new Size(this.Size.Width + (e.X - mouseX), this.Size.Height + (e.Y - mouseY));
+				label3.Location = new Point(this.Width / 2 - label3.Width / 2, 1);
 				this.label1.Text = "高さ：" + Sz.Height.ToString();
 				this.label2.Text = "幅：" + Sz.Width.ToString();
 				mouseX = e.X;
@@ -1890,6 +1875,10 @@ namespace 装置監視システム
 				}
 				this.Location = nowPoint;
 				this.Size = nowSize;
+				label3.Font = this.Font;
+				label3.Font = new Font(label3.Font, FontStyle.Bold);
+				label3.Size = label3.PreferredSize;
+				label3.Location = new Point(this.Width / 2 - label3.Width / 2, 1);
 				this.Refresh();
 				this.machineDifference();
 				Frm.Difference();
@@ -1949,6 +1938,9 @@ namespace 装置監視システム
 			// 現在設定している値と違う時だけ処理を行う
 			if (lightState != value)
 			{
+				// 他の色から赤に変わった時だけエラーカウントを加算
+				if(value == 2)
+					errorCount++;
 				Task.Run(() =>
 				{
 					// 背景色を変える
@@ -2630,6 +2622,12 @@ namespace 装置監視システム
 					if (operationState[i] == true)
 						operationLog(i, true);
 				}
+			}
+			// 月が変わっていたらエラー回数をクリアする
+			if (oldMonth != e.SignalTime.Month)
+			{
+				oldMonth = e.SignalTime.Month;
+				errorCount = 0;
 			}
 		}
 
