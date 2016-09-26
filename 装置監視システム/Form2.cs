@@ -19,6 +19,7 @@ namespace 装置監視システム
 			setShortDate = DateTime.Now.ToShortDateString();
 			setLongDate = DateTime.Now.ToLongDateString();
 			dateTime = DateTime.Now;
+			this.AcceptButton = this.button1;
 		}
 
 		private void monthCalendar1_DateSelected(object sender, DateRangeEventArgs e)

@@ -51,7 +51,6 @@ namespace 装置監視システム
 		private string maker;
 		private string modelNumber;
 		private string machineNumber;
-		private string Occupancy = "-";
 		private string maintenanceDate;
 		private string memo;
 		private string alarmFile = "";
@@ -88,8 +87,13 @@ namespace 装置監視システム
 
 		// 監視するか否かを記憶しておく変数
 		private bool machineCheck = false;
-		// ライトの状態を記憶しておく変数
+		/// <summary>
+		/// ライトの状態を記憶しておく変数
+		/// 0=緑 1=黄 2=赤 3=消 4=通信エラー 5=監視しない
+		/// </summary>
 		private int lightState = -1;
+		// タッチパネルへ保持している点灯を消灯に変える要求フラグ
+		private bool isErase = false;
 		// 緑を保持するか記憶しておく変数
 		private bool greenKeep = false;
 		// 黄を保持するか記憶しておく変数
@@ -106,8 +110,12 @@ namespace 装置監視システム
 		private List<string> alarmstring = new List<string>();
 		// 設定値が変更された事を示すフラグ
 		private bool isSetting = false;
-		// エラーカウント数
+		// 今日エラーカウント数
+		private int errorToday = 0;
+		// 今月のエラーカウント数
 		private int errorCount = 0;
+		// 稼働率のリスト
+		private List<int> Occupancy = new List<int>(31);
 
 		// アラームリストの文字列
 		private List<string> alarmList = new List<string>();
@@ -604,8 +612,7 @@ namespace 装置監視システム
 
 				// 今月のエラー回数を数える
 				oldMonth = DateTime.Now.Month;
-				int day = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month) + 1;
-				for (int i = 1; i < day; i++)
+				for (int i = 1; i < DateTime.Now.Day + 1; i++)
 				{
 					StringBuilder filepath = new StringBuilder(basePath);
 					filepath.Append(Path.Combine(DateTime.Now.ToString("yyyy年"), DateTime.Now.ToString("MM月"), i.ToString("00日") + @".csv"));
@@ -622,9 +629,21 @@ namespace 装置監視システム
 								if (sr.ReadLine().Contains("赤") == true)
 								{
 									errorCount++;
+									// 今日のファイルなら今日のエラーにも加算
+									if (i == DateTime.Now.Day)
+										errorToday++;
 								}
 							}
 						}
+						// 指定日のデータ集計
+						int[] getTime = this.GetTotalTime(new DateTime(DateTime.Now.Year, DateTime.Now.Month, i));
+						// 稼働率を計算して配列にセット
+						Occupancy.Add(getTime.Sum() == 0 ? 0 : (int)((double)getTime[0] / getTime.Sum() * 100));
+					}
+					// ファイルが存在してなければ
+					else
+					{
+						Occupancy.Add(-1);
 					}
 				}
 			}
@@ -643,16 +662,19 @@ namespace 装置監視システム
 		{
 			using (SolidBrush sb = new SolidBrush(this.ForeColor))
 			{
-				string viewMessage;
 				float posX = 5;
 				float posY = label3.Size.Height + 10;
-				StringFormat sf = new StringFormat();
 				bool beforeString = false;
 
 				// 今月エラー回数の表示
 				if (Properties.Settings.Default.IsViewErrir == true)
 				{
-					viewMessage = "今月エラー回数\r\n " + errorCount.ToString() + "回";
+					string viewMessage = "今月のエラー回数\r\n " + errorCount.ToString() + "回";
+					StringFormat sf = new StringFormat();
+					e.Graphics.DrawString(viewMessage, this.Font, sb, posX, posY, sf);
+					posY += e.Graphics.MeasureString(viewMessage, this.Font, this.Width, sf).Height - 10;
+
+					viewMessage = "\r\n今日のエラー回数\r\n " + errorToday.ToString() + "回";
 					e.Graphics.DrawString(viewMessage, this.Font, sb, posX, posY, sf);
 					posY += e.Graphics.MeasureString(viewMessage, this.Font, this.Width, sf).Height - 10;
 					// 次の表示文字へ、直前に文字描画が発生した事を示す
@@ -663,12 +685,21 @@ namespace 装置監視システム
 				if (Properties.Settings.Default.IsViewOccupancy == true)
 				{
 					// 直前に文字描画があれば改行を入れる
-					viewMessage = beforeString == true ? "\r\n" : "";
+					string viewMessage = beforeString == true ? "\r\n" : "";
+					// 稼働率の計算と文字列化
+					if (Occupancy.Count(o => o != -1) != 0)
+						viewMessage += "今月の稼働率\r\n " + Occupancy.Where(o => o != -1).Average().ToString("0.0") + "%";
+					else
+						viewMessage += "今月の稼働率\r\n 0%";
+					StringFormat sf = new StringFormat();
+					e.Graphics.DrawString(viewMessage, this.Font, sb, posX, posY, sf);
+					posY += e.Graphics.MeasureString(viewMessage, this.Font, this.Width, sf).Height - 10;
+
 					// 監視しない場合は「－」を表示する
 					if (machineCheck == true)
-						viewMessage += "稼働率\r\n " + Occupancy;
+						viewMessage = "\r\n今日の稼働率\r\n " + Occupancy[DateTime.Now.Day - 1].ToString() + "%";
 					else
-						viewMessage += "稼働率\r\n －";
+						viewMessage = "\r\n今日の稼働率\r\n －";
 					e.Graphics.DrawString(viewMessage, this.Font, sb, posX, posY, sf);
 					posY += e.Graphics.MeasureString(viewMessage, this.Font, this.Width, sf).Height - 10;
 					// 次の表示文字へ、直前に文字描画が発生した事を示す
@@ -679,8 +710,9 @@ namespace 装置監視システム
 				if (Properties.Settings.Default.IsViewMaintenance == true)
 				{
 					// 直前に文字描画があれば改行を入れる
-					viewMessage = beforeString == true ? "\r\n" : "";
+					string viewMessage = beforeString == true ? "\r\n" : "";
 					viewMessage += "メンテナンス日\r\n " + maintenanceDate;
+					StringFormat sf = new StringFormat();
 					e.Graphics.DrawString(viewMessage, this.Font, sb, posX, posY, sf);
 					posY += e.Graphics.MeasureString(viewMessage, this.Font, this.Width, sf).Height - 10;
 					// 次の表示文字へ、直前に文字描画が発生した事を示す
@@ -691,9 +723,9 @@ namespace 装置監視システム
 				if (Properties.Settings.Default.IsViewMemo == true)
 				{
 					// 直前に文字描画があれば改行を入れる
-					viewMessage = beforeString == true ? "\r\n" : "";
+					string viewMessage = beforeString == true ? "\r\n" : "";
 					viewMessage += "メモ\r\n " + memo;
-					e.Graphics.DrawString(viewMessage, this.Font, sb, posX, posY, sf);
+					e.Graphics.DrawString(viewMessage, this.Font, sb, posX, posY);
 				}
 			}			
 		}
@@ -1705,7 +1737,7 @@ namespace 装置監視システム
 		}
 
 		/// <summary>
-		/// コンテキストメニューの-50%
+		/// コンテキストメニューの-60%
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1715,7 +1747,7 @@ namespace 装置監視システム
 		}
 
 		/// <summary>
-		/// コンテキストメニューの-50%
+		/// コンテキストメニューの-70%
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1801,6 +1833,32 @@ namespace 装置監視システム
 				接続ToolStripMenuItem.Enabled = isConnect == false ? true : false;
 				切断ToolStripMenuItem.Enabled = isConnect == false ? false : true;
 			}
+		}
+
+		/// <summary>
+		/// 保持点灯の消灯
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void 保持点灯を消灯ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			using (Form6 f6 = new Form6())
+			{
+				if (f6.ShowDialog(this) == DialogResult.OK)
+				{
+					isErase = true;
+					setData();
+				}
+			}
+		}
+
+		private void contextMenuStrip1_Opened(object sender, EventArgs e)
+		{
+			// 保持設定がされていて、シグナルタワーが点灯していれば「保持点灯の消灯」を有効にする
+			if ((lightState == 0 && greenKeep == true) || (lightState == 1 && yellowKeep == true) || (lightState == 2 && redKeep == true))
+				保持点灯を消灯ToolStripMenuItem.Enabled = true;
+			else
+				保持点灯を消灯ToolStripMenuItem.Enabled = false;
 		}
 
 		#endregion コンテキストメニュー記述 ----------------------------------------------------------------------------------------------------
@@ -1939,8 +1997,11 @@ namespace 装置監視システム
 			if (lightState != value)
 			{
 				// 他の色から赤に変わった時だけエラーカウントを加算
-				if(value == 2)
+				if (value == 2)
+				{
 					errorCount++;
+					errorToday++;
+				}
 				Task.Run(() =>
 				{
 					// 背景色を変える
@@ -2512,7 +2573,18 @@ namespace 装置監視システム
 						// 接続されていれば送信を行う
 						if (isConnect == true)
 						{
-							StringBuilder sendStr = new StringBuilder("ST");
+							StringBuilder sendStr = new StringBuilder();
+							// 最初にセットする文字を決める
+							// 保持点灯の消灯でも状態が返ってくるので「ST」と「Erase」を使い分ける
+							if (isErase == true)
+							{
+								isErase = false;
+								sendStr.Append("Erase");
+							}
+							else
+							{
+								sendStr.Append("ST");
+							}
 							// 設定が更新されていたらステータスと一緒に設定情報を送る
 							if (isSendSetting == true)
 							{
@@ -2622,12 +2694,17 @@ namespace 装置監視システム
 					if (operationState[i] == true)
 						operationLog(i, true);
 				}
+				// 今日のエラー回数をクリアする
+				errorToday = 0;
 			}
 			// 月が変わっていたらエラー回数をクリアする
 			if (oldMonth != e.SignalTime.Month)
 			{
 				oldMonth = e.SignalTime.Month;
 				errorCount = 0;
+				Occupancy.Clear();
+				// すぐ参照されるかもしれないので1つだけ要素を入れておく
+				Occupancy.Add(0);
 			}
 		}
 
@@ -2641,16 +2718,19 @@ namespace 装置監視システム
 			BeginInvoke((Action)(() =>
 			{
 				occupancyRateTimer.Stop();
+				// 稼働率を入れるListの要素数が今日の日にちより少なかったら要素数を増やす
+				if (Occupancy.Count < DateTime.Now.Day)
+					Occupancy.Add(0);
 				int[] getTime = this.GetTotalTime(DateTime.Now);
 				// データがあれば計算する
 				if (getTime != null)
 				{
-					Occupancy = getTime.Sum() == 0 ? "0%" : ((double)getTime[0] / getTime.Sum()).ToString("P1");
+					Occupancy[DateTime.Now.Day - 1] = getTime.Sum() == 0 ? 0 : (int)((double)getTime[0] / getTime.Sum() * 100);
 				}
-				// データがない(ファイルが存在しない)場合は「-」を入れる
+				// データがない(ファイルが存在しない)場合は「-1」を入れる
 				else
 				{
-					Occupancy = "-";
+					Occupancy[DateTime.Now.Day - 1] = -1;
 				}
 				this.Refresh();
 				occupancyRateTimer.Interval = 60010 - DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
@@ -2731,6 +2811,5 @@ namespace 装置監視システム
 			// Receive buffer.
 			public byte[] buffer = new byte[2048];
 		}
-
 	}
 }

@@ -296,8 +296,8 @@ namespace 装置監視システム
 				// 日付が変わるタイミングを監視するタイマ
 				timer4 = new System.Timers.Timer();
 				timer4.AutoReset = true;
-				// 日にちが変わる時間を計算して次のタイマイベントのタイミングとする
-				timer4.Interval = 86400000 - (DateTime.Now.Hour * 3600000 + DateTime.Now.Minute * 60000 + DateTime.Now.Second * 1000 + DateTime.Now.Millisecond);
+				// 日にちが変わる時間(プラス1秒)を計算して次のタイマイベントのタイミングとする
+				timer4.Interval = 86400000 - (DateTime.Now.Hour * 3600000 + DateTime.Now.Minute * 60000 + DateTime.Now.Second * 1000 + DateTime.Now.Millisecond + 1000);
 				timer4.Elapsed += new System.Timers.ElapsedEventHandler(timer4_tick);
 				timer4.Start();
 				oldDay = DateTime.Now.Day;
@@ -819,8 +819,7 @@ namespace 装置監視システム
 			{
 				button7.Visible = false;
 				timer1.Stop();
-				string SettingPath = AppDomain.CurrentDomain.BaseDirectory + "MachineInformation.csv";
-				using (FileStream fs = new FileStream(SettingPath, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
+				using (FileStream fs = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "MachineInformation.csv", FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
 				using (StreamWriter sw = new StreamWriter(fs, Encoding.GetEncoding("Shift-JIS")))
 				{
 					foreach (var mc in machineInformation)
@@ -1230,8 +1229,7 @@ namespace 装置監視システム
 		/// </summary>
 		private void saveArea()
 		{
-			string SettingPath = AppDomain.CurrentDomain.BaseDirectory + "MachineArea.csv";
-			using (FileStream fs = new FileStream(SettingPath, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
+			using (FileStream fs = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "MachineArea.csv", FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
 			using (StreamWriter sw = new StreamWriter(fs, Encoding.GetEncoding("Shift-JIS")))
 			{
 				foreach (var area in areaRoom1)
@@ -1537,10 +1535,9 @@ namespace 装置監視システム
 						dataGridView1.Rows.Add();
 						dataGridView1.Rows[i - 1].Cells[0].Value = i.ToString("00");
 						// 月のパスを生成
-						string monthPath = path.ToString() + i.ToString("00") + @"月\";
 						int[] totalTime = null;
 						// フォルダの存在チェック
-						if (Directory.Exists(monthPath))
+						if (Directory.Exists(path.ToString() + i.ToString("00") + @"月\"))
 						{
 							// 一ヶ月のデータ取得
 							totalTime = this.monthTime(i);
@@ -2303,8 +2300,7 @@ namespace 装置監視システム
 					}
 
 					// 追加された装置情報をファイルに保存
-					string SettingPath = AppDomain.CurrentDomain.BaseDirectory + "MachineInformation.csv";
-					using (FileStream fs = new FileStream(SettingPath, FileMode.Append, FileAccess.Write, FileShare.ReadWrite))
+					using (FileStream fs = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "MachineInformation.csv", FileMode.Append, FileAccess.Write, FileShare.ReadWrite))
 					using (StreamWriter sw = new StreamWriter(fs, Encoding.GetEncoding("Shift-JIS")))
 					{
 						sw.WriteLine(addStr.ToString());
@@ -4370,18 +4366,22 @@ namespace 装置監視システム
 		}
 
 		/// <summary>
-		/// 日付が変わるタイミングを監視するタイマ
+		/// 日付が変わるタイミング(+1秒)を監視するタイマ
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void timer4_tick(object sender, System.Timers.ElapsedEventArgs e)
 		{
 			// 次のターゲットとなる時間をセット(誤差で日付が変わってなければ微小な値がセットされる)
-			timer4.Interval = 86400000 - (e.SignalTime.Hour * 3600000 + e.SignalTime.Minute * 60000 + e.SignalTime.Second * 1000 + e.SignalTime.Millisecond);
-			// 日にちが変わっていたらDateTimePickerに新しい日をセットする
+			timer4.Interval = 86400000 - (e.SignalTime.Hour * 3600000 + e.SignalTime.Minute * 60000 + e.SignalTime.Second * 1000 + e.SignalTime.Millisecond + 1000);
+			// 日にちが変わっていたら
 			if (oldDay != e.SignalTime.Day)
 			{
+				// 1日の初めにメモリを強制的に解放する
+				GC.Collect();
+				// 次に比較する日をセット
 				oldDay = e.SignalTime.Day;
+				// DateTimePickerに新しい日をセットする
 				BeginInvoke((Action)(() =>
 				{
 					dateTimePicker1.Value = DateTime.Now;
@@ -4406,10 +4406,8 @@ namespace 装置監視システム
 				BeginInvoke((Action)(() =>
 				{
 					StringBuilder writeStr = new StringBuilder(DateTime.Now.ToString("yyyy/M/d H:m:s,")).Append(message.Replace("\r\n", " ")).Append(addstring);
-					// ファイル名を生成
-					string SettingPath = AppDomain.CurrentDomain.BaseDirectory + "SysrtemError.csv";
 					// システムエラーログ書き込み
-					using (FileStream fs = new FileStream(SettingPath, FileMode.Append, FileAccess.Write, FileShare.ReadWrite))
+					using (FileStream fs = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "SysrtemError.csv", FileMode.Append, FileAccess.Write, FileShare.ReadWrite))
 					using (StreamWriter sw = new StreamWriter(fs, Encoding.GetEncoding("Shift-JIS")))
 					{
 						sw.WriteLine(writeStr.ToString());

@@ -10,6 +10,7 @@ namespace 装置監視システム
 		public Form5(string title)
 		{
 			InitializeComponent();
+			this.AcceptButton = this.button1;
 			textBox1.Text = newName = title;
 		}
 

@@ -14,6 +14,7 @@ namespace 装置監視システム
 		public Form4(Area ar)
 		{
 			InitializeComponent();
+			this.AcceptButton = this.button3;
 			area = ar;
 			if (ar.IsSetColor == false)
 			{

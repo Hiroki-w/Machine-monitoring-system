@@ -1302,9 +1302,9 @@
 			this.panel4.Controls.Add(this.groupBox6);
 			this.panel4.Controls.Add(this.button12);
 			this.panel4.Controls.Add(this.groupBox4);
-			this.panel4.Location = new System.Drawing.Point(752, 528);
+			this.panel4.Location = new System.Drawing.Point(1056, 64);
 			this.panel4.Name = "panel4";
-			this.panel4.Size = new System.Drawing.Size(152, 48);
+			this.panel4.Size = new System.Drawing.Size(128, 56);
 			this.panel4.TabIndex = 7;
 			// 
 			// groupBox8

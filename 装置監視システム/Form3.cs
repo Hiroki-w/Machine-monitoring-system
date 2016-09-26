@@ -14,6 +14,7 @@ namespace 装置監視システム
 			ReturnSize = sz;
 			textBox1.Text = sz.Height.ToString();
 			textBox2.Text = sz.Width.ToString();
+			this.AcceptButton = this.button1;
 		}
 
 		/// <summary>

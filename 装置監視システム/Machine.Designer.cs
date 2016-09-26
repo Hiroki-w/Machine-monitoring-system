@@ -45,6 +45,7 @@
 			this.ネットワークToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.接続ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.切断ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.保持点灯を消灯ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
 			this.データフォルダを開くToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.label1 = new System.Windows.Forms.Label();
@@ -59,10 +60,12 @@
             this.表示サイズ変更ToolStripMenuItem,
             this.縮小ToolStripMenuItem,
             this.ネットワークToolStripMenuItem,
+            this.保持点灯を消灯ToolStripMenuItem,
             this.toolStripMenuItem1,
             this.データフォルダを開くToolStripMenuItem});
 			this.contextMenuStrip1.Name = "contextMenuStrip1";
-			this.contextMenuStrip1.Size = new System.Drawing.Size(197, 98);
+			this.contextMenuStrip1.Size = new System.Drawing.Size(197, 142);
+			this.contextMenuStrip1.Opened += new System.EventHandler(this.contextMenuStrip1_Opened);
 			// 
 			// 表示サイズ変更ToolStripMenuItem
 			// 
@@ -190,6 +193,13 @@
 			this.切断ToolStripMenuItem.Text = "切断";
 			this.切断ToolStripMenuItem.Click += new System.EventHandler(this.切断ToolStripMenuItem_Click);
 			// 
+			// 保持点灯を消灯ToolStripMenuItem
+			// 
+			this.保持点灯を消灯ToolStripMenuItem.Name = "保持点灯を消灯ToolStripMenuItem";
+			this.保持点灯を消灯ToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+			this.保持点灯を消灯ToolStripMenuItem.Text = "保持点灯を消灯";
+			this.保持点灯を消灯ToolStripMenuItem.Click += new System.EventHandler(this.保持点灯を消灯ToolStripMenuItem_Click);
+			// 
 			// toolStripMenuItem1
 			// 
 			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
@@ -282,5 +292,6 @@
 		private System.Windows.Forms.ToolStripMenuItem 接続ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 切断ToolStripMenuItem;
 		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.ToolStripMenuItem 保持点灯を消灯ToolStripMenuItem;
 	}
 }
