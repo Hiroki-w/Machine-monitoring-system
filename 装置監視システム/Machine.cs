@@ -662,72 +662,52 @@ namespace 装置監視システム
 		{
 			using (SolidBrush sb = new SolidBrush(this.ForeColor))
 			{
-				float posX = 5;
 				float posY = label3.Size.Height + 10;
-				bool beforeString = false;
+
+				// 文字高さを取得しておく(後でオフセット)
+				float addPos = e.Graphics.MeasureString(" \r\n ", this.Font, this.Width).Height + 5;
 
 				// 今月エラー回数の表示
 				if (Properties.Settings.Default.IsViewErrir == true)
 				{
-					string viewMessage = "今月のエラー回数\r\n " + errorCount.ToString() + "回";
-					StringFormat sf = new StringFormat();
-					e.Graphics.DrawString(viewMessage, this.Font, sb, posX, posY, sf);
-					posY += e.Graphics.MeasureString(viewMessage, this.Font, this.Width, sf).Height - 10;
+					e.Graphics.DrawString("今月のエラー回数\r\n " + errorCount.ToString() + "回", this.Font, sb, 5, posY);
+					posY += addPos;
 
-					viewMessage = "\r\n今日のエラー回数\r\n " + errorToday.ToString() + "回";
-					e.Graphics.DrawString(viewMessage, this.Font, sb, posX, posY, sf);
-					posY += e.Graphics.MeasureString(viewMessage, this.Font, this.Width, sf).Height - 10;
-					// 次の表示文字へ、直前に文字描画が発生した事を示す
-					beforeString = true;
+					e.Graphics.DrawString("今日のエラー回数\r\n " + errorToday.ToString() + "回", this.Font, sb, 5, posY);
+					posY += addPos;
 				}
 
 				// 稼働率の表示
 				if (Properties.Settings.Default.IsViewOccupancy == true)
 				{
-					// 直前に文字描画があれば改行を入れる
-					string viewMessage = beforeString == true ? "\r\n" : "";
 					// 稼働率の計算と文字列化
 					if (Occupancy.Count(o => o != -1) != 0)
-						viewMessage += "今月の稼働率\r\n " + Occupancy.Where(o => o != -1).Average().ToString("0.0") + "%";
+						e.Graphics.DrawString("今月の稼働率\r\n " + Occupancy.Where(o => o != -1).Average().ToString("0.0") + "%", this.Font, sb, 5, posY);
 					else
-						viewMessage += "今月の稼働率\r\n 0%";
-					StringFormat sf = new StringFormat();
-					e.Graphics.DrawString(viewMessage, this.Font, sb, posX, posY, sf);
-					posY += e.Graphics.MeasureString(viewMessage, this.Font, this.Width, sf).Height - 10;
+						e.Graphics.DrawString("今月の稼働率\r\n 0%", this.Font, sb, 5, posY);
+					posY += addPos;
 
 					// 監視しない場合は「－」を表示する
 					if (machineCheck == true)
-						viewMessage = "\r\n今日の稼働率\r\n " + Occupancy[DateTime.Now.Day - 1].ToString() + "%";
+						e.Graphics.DrawString("今日の稼働率\r\n " + Occupancy[DateTime.Now.Day - 1].ToString() + "%", this.Font, sb, 5, posY);
 					else
-						viewMessage = "\r\n今日の稼働率\r\n －";
-					e.Graphics.DrawString(viewMessage, this.Font, sb, posX, posY, sf);
-					posY += e.Graphics.MeasureString(viewMessage, this.Font, this.Width, sf).Height - 10;
-					// 次の表示文字へ、直前に文字描画が発生した事を示す
-					beforeString = true;
+						e.Graphics.DrawString("今日の稼働率\r\n －", this.Font, sb, 5, posY);
+					posY += addPos;
 				}
 
 				// メンテナンス日の表示
 				if (Properties.Settings.Default.IsViewMaintenance == true)
 				{
-					// 直前に文字描画があれば改行を入れる
-					string viewMessage = beforeString == true ? "\r\n" : "";
-					viewMessage += "メンテナンス日\r\n " + maintenanceDate;
-					StringFormat sf = new StringFormat();
-					e.Graphics.DrawString(viewMessage, this.Font, sb, posX, posY, sf);
-					posY += e.Graphics.MeasureString(viewMessage, this.Font, this.Width, sf).Height - 10;
-					// 次の表示文字へ、直前に文字描画が発生した事を示す
-					beforeString = true;
+					e.Graphics.DrawString("メンテナンス日\r\n " + maintenanceDate, this.Font, sb, 5, posY);
+					posY += addPos;
 				}
 
 				// メモの表示
 				if (Properties.Settings.Default.IsViewMemo == true)
 				{
-					// 直前に文字描画があれば改行を入れる
-					string viewMessage = beforeString == true ? "\r\n" : "";
-					viewMessage += "メモ\r\n " + memo;
-					e.Graphics.DrawString(viewMessage, this.Font, sb, posX, posY);
+					e.Graphics.DrawString("メモ\r\n " + memo, this.Font, sb, 5, posY);
 				}
-			}			
+			}
 		}
 
 		/// <summary>
@@ -2767,13 +2747,13 @@ namespace 装置監視システム
 				}
 				else
 				{
-					// ネットワーク接続エラー
+					// シグナルタワーが要因なら赤
 					if (lightState == 2)
 					{
 						BackColor = Properties.Settings.Default.Panel1RedBackColor;
 						ForeColor = Properties.Settings.Default.Panel1RedForeColor;
 					}
-					// シグナルタワーが要因なら赤
+					// ネットワーク接続エラー
 					else if (lightState == 4)
 					{
 						BackColor = Properties.Settings.Default.Panel1CutBackColor;

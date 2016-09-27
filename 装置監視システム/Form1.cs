@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Threading.Tasks;
 using System.Threading;
+using ClosedXML.Excel;
 
 namespace 装置監視システム
 {
@@ -57,11 +58,6 @@ namespace 装置監視システム
 		/// 稼動情報で選択されているインデックス 0～
 		/// </summary>
 		private int selectDay = -1;
-
-		/// <summary>
-		/// アラーム保存時に使用可能なファイル形式の文字列
-		/// </summary>
-		private string saveType;
 
 		// 装置個別情報表示のコントロールをループで回すための代替変数
 		private PictureBox[] P2Pictur = new PictureBox[10];
@@ -204,11 +200,6 @@ namespace 装置監視システム
 			{
 				P2err.Add(new List<alarmInformation>());
 			}
-			// 起動時にExcelのインストール状況をチェックしてアラーム保存時に指定できるファイル形式を決める
-			if (Type.GetTypeFromProgID("Excel.Application") != null)
-				saveType = "CSV(カンマ区切り)(*.csv)|*.csv|Excelブック(*.xlsx)|*.xlsx";
-			else
-				saveType = "CSV(カンマ区切り)(*.csv)|*.csv";
 		}
 
 		/// <summary>
@@ -2463,7 +2454,7 @@ namespace 装置監視システム
 					//はじめに表示されるフォルダを指定する
 					sfd.InitialDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory).ToString();
 					//[ファイルの種類]に表示される選択肢を指定する
-					sfd.Filter = saveType;
+					sfd.Filter = "CSV(カンマ区切り)(*.csv)|*.csv|Excelブック(*.xlsx)|*.xlsx";
 					//ダイアログを表示する
 					if (sfd.ShowDialog() == DialogResult.OK)
 					{
@@ -2495,32 +2486,29 @@ namespace 装置監視システム
 								value[i, 1] = count[j].ToString();
 								value[i, 2] = (time[j] / 3600).ToString("00:") + ((time[j] % 3600) / 60).ToString("00:") + (time[j] % 60).ToString("00");
 							}
-
-							/***** Excelのファイル形式 *****/
-							// GetTypeFromProgID関数を使用して、レジストリからExcel.Applicationオブジェクトの型を取得します。
-							Type t = Type.GetTypeFromProgID("Excel.Application");
-							// Excelオブジェクトのインスタンスを生成します。
-							dynamic excel = Activator.CreateInstance(t);
-							// Workbooksオブジェクトを取得して、Workbookオブジェクトを生成します。
-							dynamic workbooks = excel.Workbooks;
-							dynamic workbook = workbooks.Add();
-							// Worksheetsオブジェクトを取得して、1番目のワークシートのWorksheetオブジェクトを取得します。
-							dynamic worksheets = workbook.Sheets;
-							dynamic worksheet = worksheets[1];
-							// WorksheetオブジェクトからRangeオブジェクトを取得
-							dynamic range = worksheet.Range[worksheet.Cells[1, 1], worksheet.Cells[count.Count + 1, 3]];
-							// ファイルに編集中の内容を保存
-							range.Value = value;
-							workbook.SaveAs(sfd.FileName);
-							// 使用したExcelオブジェクトは全てMarshal.ReleaseComObjectを使用して解放する必要がある
-							System.Runtime.InteropServices.Marshal.ReleaseComObject(range);
-							System.Runtime.InteropServices.Marshal.ReleaseComObject(worksheet);
-							System.Runtime.InteropServices.Marshal.ReleaseComObject(worksheets);
-							System.Runtime.InteropServices.Marshal.ReleaseComObject(workbook);
-							System.Runtime.InteropServices.Marshal.ReleaseComObject(workbooks);
-							// Excel.ApplicationオブジェクトについてはQuit();も実行
-							excel.Quit();
-							System.Runtime.InteropServices.Marshal.ReleaseComObject(excel);
+							// 新しいファイルを開く
+							using (XLWorkbook workbook = new XLWorkbook())
+							// ワークシートの追加
+							using (IXLWorksheet worksheet = workbook.Worksheets.Add("Sheet1"))
+							{
+								// セルに値を入れる(セル番号は1～)
+								for (int i = 0; i < 3; i++)
+								{
+									for (int j = 0; j < count.Count + 1; j++)
+									{
+										IXLCell cell = worksheet.Cell(j + 1, i + 1);
+										cell.Style.Font.FontSize = 11;
+										cell.Style.Font.FontName = "ＭＳ ゴシック";
+										cell.Value = value[j, i];
+									}
+								}
+								// セルの幅を自動調整(2バイト文字があるとイマイチ)
+								worksheet.ColumnsUsed().AdjustToContents();
+								// 保存動作の間、画面が固まるので事前に再描画してダイアログを消す
+								this.Refresh();
+								// ファイルを保存
+								workbook.SaveAs(sfd.FileName);
+							}
 						}
 					}
 				}
