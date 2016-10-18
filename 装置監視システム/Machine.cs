@@ -66,6 +66,7 @@ namespace 装置監視システム
 		private bool userClose = false;
 		readonly private int port = 50622;
 		private object Lock = new object();
+		private object LockView = new object();
 		private ManualResetEvent connectEvent = new ManualResetEvent(false);
 
 		// 変更が発生したかを判断するために保存しておく初期値
@@ -104,6 +105,8 @@ namespace 装置監視システム
 		private bool initialFlag = true;
 		// コントロールの拡大、縮小状態
 		private int zoom;
+		// 描画する文字のオフセット
+		private float offset;
 		// ネットワーク接続エラー点滅判定
 		private bool isFlashing = false;
 		// 以前に書き込んだアラーム情報
@@ -116,13 +119,16 @@ namespace 装置監視システム
 		private int errorCount = 0;
 		// 稼働率のリスト
 		private List<int> Occupancy = new List<int>(31);
-
+		// 表示する今月の稼働率
+		private string occupancyMonth;
 		// アラームリストの文字列
 		private List<string> alarmList = new List<string>();
 		// 操作リストの文字列
 		private List<string> operationList = new List<string>();
 		// 操作リストの状態
 		private bool[] operationState = new bool[8] { false, false, false, false, false, false, false, false };
+		// 日付が変わった時の処理を分散するオフセット時間
+		private int offsetTime;
 
 		/// <summary>
 		/// 新しいログファイルを生成する時に判断する日付
@@ -402,24 +408,6 @@ namespace 装置監視システム
 		}
 
 		/// <summary>
-		/// コントロールの背景色
-		/// </summary>
-		public Color BColor
-		{
-			set { this.BackColor = value; }
-			get { return this.BackColor; }
-		}
-
-		/// <summary>
-		/// コントロールの文字色
-		/// </summary>
-		public Color FColor
-		{
-			set { this.ForeColor = value; }
-			get { return this.ForeColor; }
-		}
-
-		/// <summary>
 		/// コントロールの座標
 		/// </summary>
 		public Point Pos
@@ -506,10 +494,12 @@ namespace 装置監視システム
 		/// </summary>
 		/// <param name="frm">親ウィンドウ</param>
 		/// <param name="settingData">設定値の文字列</param>
-		public Machine(Form1 frm, string settingData)
+		/// /// <param name="offset">日付が変わった時の処理を分散オフセットする時間</param>
+		public Machine(Form1 frm, string settingData, int offset)
 		{
 			InitializeComponent();
 			Frm = frm;
+			offsetTime = offset;
 			// 引数をカンマ区切りで分割しセットする
 			string[] setStr = settingData.Split(',');
 			Maker = setStr[0];
@@ -561,7 +551,7 @@ namespace 装置監視システム
 				newDayTimer = new System.Timers.Timer();
 				newDayTimer.AutoReset = true;
 				// 日にちが変わる時間を計算して次のタイマイベントのタイミングとする
-				newDayTimer.Interval = 86400000 - (DateTime.Now.Hour * 3600000 + DateTime.Now.Minute * 60000 + DateTime.Now.Second * 1000 + DateTime.Now.Millisecond);
+				newDayTimer.Interval = 86400000 - (DateTime.Now.Hour * 3600000 + DateTime.Now.Minute * 60000 + DateTime.Now.Second * 1000 + DateTime.Now.Millisecond) + offsetTime;
 				newDayTimer.Elapsed += new System.Timers.ElapsedEventHandler(checkLogFile);
 				newDayTimer.Start();
 				// アプリ起動時はタイマによる書き込みを行わないので現在の日付をセットしておく
@@ -569,15 +559,16 @@ namespace 装置監視システム
 
 				// 1分周期で稼働時間や稼動率を算出するタイマ
 				occupancyRateTimer = new System.Timers.Timer();
-				occupancyRateTimer.AutoReset = true;
+				occupancyRateTimer.AutoReset = false;
 				occupancyRateTimer.Elapsed += new System.Timers.ElapsedEventHandler(OccupancyTime);
-				occupancyRateTimer.Interval = 60010 - DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
+				occupancyRateTimer.Interval = 60000 - (DateTime.Now.Second * 1000 + DateTime.Now.Millisecond);
 				occupancyRateTimer.Start();
 
 				// 稼動情報を収集するタイマ
 				operationTimer = new System.Timers.Timer(Properties.Settings.Default.RegularlyTime);
 				operationTimer.AutoReset = true;
 				operationTimer.Elapsed += new System.Timers.ElapsedEventHandler(OperationTime);
+				operationTimer.Interval = Properties.Settings.Default.RegularlyTime;
 				operationTimer.Start();
 
 				// コントロールを点滅させるタイマ
@@ -587,7 +578,7 @@ namespace 装置監視システム
 
 				// 切断時、定期的に接続を試みるタイマ
 				connectTimer = new System.Timers.Timer(1000);
-				connectTimer.AutoReset = true;
+				connectTimer.AutoReset = false;
 				connectTimer.Elapsed += new System.Timers.ElapsedEventHandler(ConnectTime);
 
 				// 初期化フラグ解除
@@ -660,46 +651,45 @@ namespace 装置監視システム
 		/// <param name="e"></param>
 		private void Machine_Paint(object sender, PaintEventArgs e)
 		{
+			float posY = label3.Size.Height + 10;
+
 			using (SolidBrush sb = new SolidBrush(this.ForeColor))
 			{
-				float posY = label3.Size.Height + 10;
-
-				// 文字高さを取得しておく(後でオフセット)
-				float addPos = e.Graphics.MeasureString(" \r\n ", this.Font, this.Width).Height + 5;
-
 				// 今月エラー回数の表示
 				if (Properties.Settings.Default.IsViewErrir == true)
 				{
 					e.Graphics.DrawString("今月のエラー回数\r\n " + errorCount.ToString() + "回", this.Font, sb, 5, posY);
-					posY += addPos;
+					posY += offset;
 
 					e.Graphics.DrawString("今日のエラー回数\r\n " + errorToday.ToString() + "回", this.Font, sb, 5, posY);
-					posY += addPos;
+					posY += offset;
 				}
 
 				// 稼働率の表示
 				if (Properties.Settings.Default.IsViewOccupancy == true)
 				{
 					// 稼働率の計算と文字列化
-					if (Occupancy.Count(o => o != -1) != 0)
-						e.Graphics.DrawString("今月の稼働率\r\n " + Occupancy.Where(o => o != -1).Average().ToString("0.0") + "%", this.Font, sb, 5, posY);
-					else
-						e.Graphics.DrawString("今月の稼働率\r\n 0%", this.Font, sb, 5, posY);
-					posY += addPos;
+					e.Graphics.DrawString("今月の稼働率\r\n " + occupancyMonth, this.Font, sb, 5, posY);
+					posY += offset;
 
 					// 監視しない場合は「－」を表示する
 					if (machineCheck == true)
-						e.Graphics.DrawString("今日の稼働率\r\n " + Occupancy[DateTime.Now.Day - 1].ToString() + "%", this.Font, sb, 5, posY);
+					{
+						if (DateTime.Now.Day == Occupancy.Count)
+							e.Graphics.DrawString("今日の稼働率\r\n " + Occupancy[DateTime.Now.Day - 1].ToString() + "%", this.Font, sb, 5, posY);
+						else
+							e.Graphics.DrawString("今日の稼働率\r\n －", this.Font, sb, 5, posY);
+					}
 					else
 						e.Graphics.DrawString("今日の稼働率\r\n －", this.Font, sb, 5, posY);
-					posY += addPos;
+					posY += offset;
 				}
 
 				// メンテナンス日の表示
 				if (Properties.Settings.Default.IsViewMaintenance == true)
 				{
 					e.Graphics.DrawString("メンテナンス日\r\n " + maintenanceDate, this.Font, sb, 5, posY);
-					posY += addPos;
+					posY += offset;
 				}
 
 				// メモの表示
@@ -1458,6 +1448,35 @@ namespace 装置監視システム
 				this.Location = new Point(this.Location.X, this.Parent.Size.Height - this.Size.Height);
 		}
 
+		/// <summary>
+		/// アラームリストの取得
+		/// </summary>
+		internal void getAlarm()
+		{
+			if (alarmFile != "")
+			{
+				string path = AppDomain.CurrentDomain.BaseDirectory + Path.Combine(alarmFile);
+				if (File.Exists(path))
+				{
+					using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+					using (StreamReader sr = new StreamReader(fs, Encoding.GetEncoding("Shift-JIS")))
+					{
+						alarmList = new List<string>(sr.ReadToEnd().Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries));
+					}
+					// 先頭は解説なので削除
+					alarmList.RemoveAt(0);
+				}
+				else
+				{
+					MessageBox.Show(alarmFile + "がありません。\r\nファイルの有無、ファイル名を確認してください。", "機械番号：" + machineNumber + " アラームリストファイル読み込み", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+			}
+			else
+			{
+				alarmList.Clear();
+			}
+		}
+
 		#endregion internalメソッド ----------------------------------------------------------------------------------------------------
 
 		#region マウスイベント記述 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1873,42 +1892,52 @@ namespace 装置監視システム
 					case -7:
 						toolStripMenuItem12.Checked = true;
 						this.Font = new Font("ＭＳ ゴシック", 7);
+						offset = 22F;
 						break;
 					case -6:
 						toolStripMenuItem11.Checked = true;
 						this.Font = new Font("ＭＳ ゴシック", 8);
+						offset = 27.6F;
 						break;
 					case -5:
 						toolStripMenuItem9.Checked = true;
 						this.Font = new Font("ＭＳ ゴシック", 9);
+						offset = 30.5F;
 						break;
 					case -4:
 						toolStripMenuItem8.Checked = true;
 						this.Font = new Font("ＭＳ ゴシック", 10);
+						offset = 33F;
 						break;
 					case -3:
 						toolStripMenuItem7.Checked = true;
 						this.Font = new Font("ＭＳ ゴシック", 11);
+						offset = 36.2F;
 						break;
 					case -2:
 						toolStripMenuItem6.Checked = true;
 						this.Font = new Font("ＭＳ ゴシック", 12);
+						offset = 38.9F;
 						break;
 					case -1:
 						toolStripMenuItem5.Checked = true;
 						this.Font = new Font("ＭＳ ゴシック", 13);
+						offset = 41.8F;
 						break;
 					case 0:
 						toolStripMenuItem4.Checked = true;
 						this.Font = new Font("ＭＳ ゴシック", 14);
+						offset = 44.6F;
 						break;
 					case 1:
 						toolStripMenuItem3.Checked = true;
 						this.Font = new Font("ＭＳ ゴシック", 15);
+						offset = 47.5F;
 						break;
 					case 2:
 						toolStripMenuItem2.Checked = true;
 						this.Font = new Font("ＭＳ ゴシック", 16);
+						offset = 50.3F;
 						break;
 				}
 				this.Location = nowPoint;
@@ -2184,35 +2213,6 @@ namespace 装置監視システム
 					return false;
 			}
 			return true;
-		}
-
-		/// <summary>
-		/// アラームリストの取得
-		/// </summary>
-		private void getAlarm()
-		{
-			if (alarmFile != "")
-			{
-				string path = AppDomain.CurrentDomain.BaseDirectory + Path.Combine(alarmFile);
-				if (File.Exists(path))
-				{
-					using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-					using (StreamReader sr = new StreamReader(fs, Encoding.GetEncoding("Shift-JIS")))
-					{
-						alarmList = new List<string>(sr.ReadToEnd().Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries));
-					}
-					// 先頭は解説なので削除
-					alarmList.RemoveAt(0);
-				}
-				else
-				{
-					MessageBox.Show(alarmFile + "がありません。\r\nファイルの有無、ファイル名を確認してください。", "機械番号：" + machineNumber + " アラームリストファイル読み込み", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				}
-			}
-			else
-			{
-				alarmList.Clear();
-			}
 		}
 
 		/// <summary>
@@ -2661,30 +2661,42 @@ namespace 装置監視システム
 		/// <param name="e"></param>
 		private void checkLogFile(object sender, System.Timers.ElapsedEventArgs e)
 		{
-			// 次のターゲットとなる時間をセット(誤差で日付が変わってなければ微小な値がセットされる)
-			newDayTimer.Interval = 86400000 - (e.SignalTime.Hour * 3600000 + e.SignalTime.Minute * 60000 + e.SignalTime.Second * 1000 + e.SignalTime.Millisecond);
-			// 日にちが変わっていたら新しいログファイルを作る(既にファイルが存在してる場合は何もしない)
-			if (oldDay != e.SignalTime.Day)
+			try
 			{
-				oldDay = e.SignalTime.Day;
-				LogWrite(lightState);
-				// 操作はONしている部分だけ書き込む
-				for(int i = 0; i < operationState.Length; i++)
+				// 日にちが変わっていたら新しいログファイルを作る(既にファイルが存在してる場合は何もしない)
+				if (oldDay != e.SignalTime.Day)
 				{
-					if (operationState[i] == true)
-						operationLog(i, true);
+					// 次のターゲットとなる時間をセット(誤差で日付が変わってなければ微小な値がセットされる)
+					newDayTimer.Interval = 86400000 - (e.SignalTime.Hour * 3600000 + e.SignalTime.Minute * 60000 + e.SignalTime.Second * 1000 + e.SignalTime.Millisecond) + offsetTime;
+					oldDay = e.SignalTime.Day;
+					LogWrite(lightState);
+					// 操作はONしている部分だけ書き込む
+					for (int i = 0; i < operationState.Length; i++)
+					{
+						if (operationState[i] == true)
+							operationLog(i, true);
+					}
+					// 今日のエラー回数をクリアする
+					errorToday = 0;
+					// 月が変わっていたらエラー回数をクリアする
+					if (oldMonth != e.SignalTime.Month)
+					{
+						oldMonth = e.SignalTime.Month;
+						errorCount = 0;
+						Occupancy.Clear();
+						// すぐ参照されるかもしれないので1つだけ要素を入れておく
+						Occupancy.Add(0);
+					}
 				}
-				// 今日のエラー回数をクリアする
-				errorToday = 0;
+				else
+				{
+					// 次のターゲットとなる時間をセット(誤差で日付が変わってなければ微小な値がセットされる)
+					newDayTimer.Interval = 86400000 - (e.SignalTime.Hour * 3600000 + e.SignalTime.Minute * 60000 + e.SignalTime.Second * 1000 + e.SignalTime.Millisecond);
+				}
 			}
-			// 月が変わっていたらエラー回数をクリアする
-			if (oldMonth != e.SignalTime.Month)
+			catch (Exception exc)
 			{
-				oldMonth = e.SignalTime.Month;
-				errorCount = 0;
-				Occupancy.Clear();
-				// すぐ参照されるかもしれないので1つだけ要素を入れておく
-				Occupancy.Add(0);
+				Frm.SysrtmError(exc.StackTrace);
 			}
 		}
 
@@ -2697,10 +2709,9 @@ namespace 装置監視システム
 		{
 			BeginInvoke((Action)(() =>
 			{
-				occupancyRateTimer.Stop();
 				// 稼働率を入れるListの要素数が今日の日にちより少なかったら要素数を増やす
 				if (Occupancy.Count < DateTime.Now.Day)
-					Occupancy.Add(0);
+						Occupancy.Add(0);
 				int[] getTime = this.GetTotalTime(DateTime.Now);
 				// データがあれば計算する
 				if (getTime != null)
@@ -2712,8 +2723,14 @@ namespace 装置監視システム
 				{
 					Occupancy[DateTime.Now.Day - 1] = -1;
 				}
+				// 表示する稼働率の文字列を生成
+				// 稼働率の計算と文字列化
+				if (Occupancy.Count(o => o != -1) != 0)
+					occupancyMonth = Occupancy.Where(o => o != -1).Average().ToString("0.0") + "%";
+				else
+					occupancyMonth = "0%";
 				this.Refresh();
-				occupancyRateTimer.Interval = 60010 - DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
+				occupancyRateTimer.Interval = 60000 - (DateTime.Now.Second * 1000 + DateTime.Now.Millisecond);
 				occupancyRateTimer.Start();
 			}));
 		}
@@ -2771,7 +2788,7 @@ namespace 装置監視システム
 		/// <param name="e"></param>
 		private void ConnectTime(object sender, System.Timers.ElapsedEventArgs e)
 		{
-			connectTimer.Stop();
+//			connectTimer.Stop();
 			if (isConnect == false)
 			{
 				if (this.connect() == false)

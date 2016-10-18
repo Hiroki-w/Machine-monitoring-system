@@ -59,6 +59,11 @@ namespace 装置監視システム
 		/// </summary>
 		private int selectDay = -1;
 
+		/// <summary>
+		///  アラームリストを更新している事を示す
+		/// </summary>
+		private bool setAlarm = true;
+
 		// 装置個別情報表示のコントロールをループで回すための代替変数
 		private PictureBox[] P2Pictur = new PictureBox[10];
 		private Bitmap[] operationCanvas = new Bitmap[10];
@@ -75,9 +80,12 @@ namespace 装置監視システム
 		private Rectangle rect;
 		private int eventPos1;
 		private int eventPos2;
+		private int offsetTime = 0;
 		internal int selectArraIndex = -1;
 		internal List<Area> areaRoom1 = new List<Area>();
 		internal List<Area> areaRoom2 = new List<Area>();
+
+		
 
 		/// <summary>
 		/// *.almで読み込んだファイルリスト
@@ -276,19 +284,19 @@ namespace 装置監視システム
 
 				// 稼働状況が当日表示の場合データを更新するタイマ
 				timer2 = new System.Timers.Timer();
-				timer2.AutoReset = true;
+				timer2.AutoReset = false;
 				timer2.Elapsed += new System.Timers.ElapsedEventHandler(timer2_tick);
 
 				// 時刻を表示するタイマ
 				timer3 = new System.Timers.Timer();
-				timer3.AutoReset = true;
+				timer3.AutoReset = false;
 				timer3.Elapsed += new System.Timers.ElapsedEventHandler(timer3_tick);
 
 				// 日付が変わるタイミングを監視するタイマ
 				timer4 = new System.Timers.Timer();
 				timer4.AutoReset = true;
 				// 日にちが変わる時間(プラス1秒)を計算して次のタイマイベントのタイミングとする
-				timer4.Interval = 86400000 - (DateTime.Now.Hour * 3600000 + DateTime.Now.Minute * 60000 + DateTime.Now.Second * 1000 + DateTime.Now.Millisecond + 1000);
+				timer4.Interval = 86400000 - (DateTime.Now.Hour * 3600000 + DateTime.Now.Minute * 60000 + DateTime.Now.Second * 1000 + DateTime.Now.Millisecond) + 1000;
 				timer4.Elapsed += new System.Timers.ElapsedEventHandler(timer4_tick);
 				timer4.Start();
 				oldDay = DateTime.Now.Day;
@@ -340,7 +348,8 @@ namespace 装置監視システム
 						// 情報を入れる
 						await Task.Run(() =>
 						{
-							Machine mc = new Machine(this, str);
+							Machine mc = new Machine(this, str, offsetTime);
+							offsetTime += 10;
 							if (mc.RoomNumber == 0)
 								room1.Add(mc);
 							else
@@ -422,6 +431,9 @@ namespace 装置監視システム
 				/***** リスト送信の表示設定 *****/
 				groupBox1.Enabled = checkBox2.Checked;
 				groupBox2.Enabled = checkBox2.Checked;
+
+				// アラームリスト更新可能とする
+				setAlarm = false;
 
 				// 初期化が終了した事を示すフラグをクリア
 				bootFlag = false;
@@ -1322,7 +1334,7 @@ namespace 装置監視システム
 					chart2.ChartAreas.Clear();
 				}
 				// 今のビットマップをクリアする
-				for (int i = 0; i < 10; i++)
+				for (int i = 0; i < P2err.Count; i++)
 				{
 					// エラー情報をクリア
 					P2err[i].Clear();
@@ -1379,20 +1391,50 @@ namespace 装置監視システム
 		{
 			try
 			{
-				// アラーム
+				setAlarm = true;
+				// アラーム情報はクリア
 				dataGridView2.Rows.Clear();
+				Column10.Items.Clear();
 				dataGridView2.Size = new Size(318, 529);
-
+				// アラーム情報を取得
 				List<alarmInformation> alarm = machineInformation[selectRoom][selectMachine].GetErrorDay(new DateTime(dateTimePicker2.Value.Year, dateTimePicker2.Value.Month, selectDay + 1));
-
-				for (int i = 0; i < alarm.Count; i++)
+				if (alarm.Count > 0)
 				{
-					dataGridView2.Rows.Add();
-					dataGridView2.Rows[i].Cells[0].Value = new TimeSpan(0, 0, alarm[i].startPos);
-					dataGridView2.Rows[i].Cells[1].Value = alarm[i].errMessage;
+					// アラームリストを取得しデータグリッドビューのコンボボックスに入れる
+					List<string> almstr;
+					string path = AppDomain.CurrentDomain.BaseDirectory + machineInformation[selectRoom][selectMachine].AlarmFile;
+					using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+					using (StreamReader sr = new StreamReader(fs, Encoding.GetEncoding("Shift-JIS")))
+					{
+						// 文字列を改行で区切り配列に入れる(空の文字列を含む配列要素は除く)
+						almstr = new List<string>(sr.ReadToEnd().Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries));
+					}
+					if (almstr.Count > 1)
+					{
+						for (int i = 1; i < almstr.Count; i++)
+						{
+							Column10.Items.Add(almstr[i]);
+						}
+					}
+
+					// データグリッドに表示
+					for (int i = 0; i < alarm.Count; i++)
+					{
+						dataGridView2.Rows.Add();
+						dataGridView2.Rows[i].Cells[0].Value = new TimeSpan(0, 0, alarm[i].startPos);
+						// 該当するアラーム文字列がリストにない場合は追加する
+						if (almstr.Contains(alarm[i].errMessage) == false)
+						{
+							// 次の比較用として、今回追加されるエラーメッセージをリストに追加する
+							almstr.Add(alarm[i].errMessage);
+							Column10.Items.Add(alarm[i].errMessage);
+						}
+						dataGridView2.Rows[i].Cells[1].Value = alarm[i].errMessage;
+					}
 				}
 				if (alarm.Count > 24)
 					dataGridView2.Size = new Size(336, 529);
+				setAlarm = false;
 
 				// 操作リスト
 				dataGridView5.Rows.Clear();
@@ -1415,6 +1457,7 @@ namespace 装置監視システム
 			}
 			catch (Exception exc)
 			{
+				setAlarm = false;
 				SysrtmError(exc.StackTrace);
 			}
 		}
@@ -1607,7 +1650,7 @@ namespace 装置監視システム
 					int[] getData = machineInformation[selectRoom][selectMachine].GetTotalTime(new DateTime(dateTimePicker2.Value.Year, month, i));
 					if (getData != null)
 					{
-						for (int j = 0; j < 6; j++)
+						for (int j = 0; j < totalTime.Length; j++)
 						{
 							totalTime[j] += getData[j];
 						}
@@ -2278,7 +2321,8 @@ namespace 装置監視システム
 						addStr.Append(dataGridView3.Rows[room].Cells[11].Value.ToString());
 					addStr.Append(",0,0,100,50,0");
 
-					Machine mc = new Machine(this, addStr.ToString());
+					Machine mc = new Machine(this, addStr.ToString(), offsetTime);
+					offsetTime += 10;
 					machineInformation[index].Add(mc);
 
 					if (index == 0)
@@ -3087,6 +3131,63 @@ namespace 装置監視システム
 		private void pictureBox10_MouseMove(object sender, MouseEventArgs e)
 		{
 			errorView(9, sender, e);
+		}
+
+		/// <summary>
+		/// アラーム情報の内容が修正された
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void dataGridView2_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+		{
+			try
+			{
+				// setAlarmがtrueの時はリストが更新されているのでファイル保存処理は行わない
+				if (setAlarm == false)
+				{
+					// 表示しているリストをすべて取得する
+					List<string> str = new List<string>();
+					for (int i = 0; i < dataGridView2.Rows.Count; i++)
+					{
+						if (dataGridView2.Rows[i].Cells[1].Value.ToString() != "アラーム情報なし")
+							str.Add(dataGridView2.Rows[i].Cells[0].Value.ToString() + "," + dataGridView2.Rows[i].Cells[1].Value.ToString());
+					}
+					// ファイルパスを生成
+					StringBuilder alarmFile = new StringBuilder(AppDomain.CurrentDomain.BaseDirectory);
+					alarmFile.Append(Path.Combine("加工機情報", machineInformation[selectRoom][selectMachine].MachineNumber)).Append(@"\");
+					alarmFile.Append(Path.Combine(dateTimePicker2.Value.Year.ToString("0000年"), dateTimePicker2.Value.Month.ToString("00月"), (selectDay + 1).ToString("00日"))).Append("アラーム.csv");
+					// ファイルを上書き保存
+					using (FileStream fs = new FileStream(alarmFile.ToString(), FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
+					using (StreamWriter sw = new StreamWriter(fs, Encoding.GetEncoding("Shift-JIS")))
+					{
+						foreach (var dat in str)
+						{
+							sw.WriteLine(dat);
+						}
+					}
+				}
+			}
+			catch (Exception exc)
+			{
+				SysrtmError(exc.StackTrace);
+			}
+		}
+
+		/// <summary>
+		/// 修正後にすぐCellValueChangedイベントが発生するようにコミットする
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void dataGridView2_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+		{
+			try
+			{
+				dataGridView2.CommitEdit(DataGridViewDataErrorContexts.Commit);
+			}
+			catch (Exception exc)
+			{
+				SysrtmError(exc.StackTrace);
+			}
 		}
 
 		/// <summary>
@@ -4069,6 +4170,7 @@ namespace 装置監視システム
 					{
 						if (m.AlarmFile == comboBox1.Text)
 						{
+							m.getAlarm();
 							m.UpdateSetting(true);
 						}
 					}
@@ -4303,7 +4405,6 @@ namespace 装置監視システム
 		/// <param name="e"></param>
 		private void timer2_tick(object sender, System.Timers.ElapsedEventArgs e)
 		{
-			timer2.Stop();
 			BeginInvoke((Action)(() =>
 			{
 				try
@@ -4343,7 +4444,6 @@ namespace 装置監視システム
 		/// <param name="e"></param>
 		private void timer3_tick(object sender, System.Timers.ElapsedEventArgs e)
 		{
-			timer3.Stop();
 			BeginInvoke((Action)(() =>
 			{
 				label156.Text = DateTime.Now.ToString("yyyy年MM月dd日 (ddd) H時mm分");
@@ -4360,13 +4460,13 @@ namespace 装置監視システム
 		/// <param name="e"></param>
 		private void timer4_tick(object sender, System.Timers.ElapsedEventArgs e)
 		{
-			// 次のターゲットとなる時間をセット(誤差で日付が変わってなければ微小な値がセットされる)
-			timer4.Interval = 86400000 - (e.SignalTime.Hour * 3600000 + e.SignalTime.Minute * 60000 + e.SignalTime.Second * 1000 + e.SignalTime.Millisecond + 1000);
 			// 日にちが変わっていたら
 			if (oldDay != e.SignalTime.Day)
 			{
+				// 次のターゲットとなる時間をセット(誤差で日付が変わってなければ微小な値がセットされる)
+				timer4.Interval = 86400000 - (e.SignalTime.Hour * 3600000 + e.SignalTime.Minute * 60000 + e.SignalTime.Second * 1000 + e.SignalTime.Millisecond) + 1000;
 				// 1日の初めにメモリを強制的に解放する
-				GC.Collect();
+				//GC.Collect();
 				// 次に比較する日をセット
 				oldDay = e.SignalTime.Day;
 				// DateTimePickerに新しい日をセットする
@@ -4375,6 +4475,11 @@ namespace 装置監視システム
 					dateTimePicker1.Value = DateTime.Now;
 					dateTimePicker2.Value = DateTime.Now;
 				}));
+			}
+			else
+			{
+				// 次のターゲットとなる時間をセット(誤差で日付が変わってなければ微小な値がセットされる)
+				timer4.Interval = 86400000 - (e.SignalTime.Hour * 3600000 + e.SignalTime.Minute * 60000 + e.SignalTime.Second * 1000 + e.SignalTime.Millisecond);
 			}
 		}
 
@@ -4410,7 +4515,9 @@ namespace 装置監視システム
 			}
 		}
 
+
 		#endregion internalなメソッド -------------------------------------------------------------------------------------------------
 
+		
 	}
 }

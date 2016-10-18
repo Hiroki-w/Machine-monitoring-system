@@ -61,6 +61,11 @@
 			this.panel8 = new System.Windows.Forms.Panel();
 			this.label9 = new System.Windows.Forms.Label();
 			this.panel2 = new System.Windows.Forms.Panel();
+			this.pictureBox6 = new System.Windows.Forms.PictureBox();
+			this.pictureBox5 = new System.Windows.Forms.PictureBox();
+			this.pictureBox4 = new System.Windows.Forms.PictureBox();
+			this.pictureBox3 = new System.Windows.Forms.PictureBox();
+			this.pictureBox2 = new System.Windows.Forms.PictureBox();
 			this.groupBox9 = new System.Windows.Forms.GroupBox();
 			this.button26 = new System.Windows.Forms.Button();
 			this.button25 = new System.Windows.Forms.Button();
@@ -103,7 +108,7 @@
 			this.Column22 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.dataGridView2 = new System.Windows.Forms.DataGridView();
 			this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Column10 = new System.Windows.Forms.DataGridViewComboBoxColumn();
 			this.label7 = new System.Windows.Forms.Label();
 			this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
 			this.button6 = new System.Windows.Forms.Button();
@@ -111,11 +116,6 @@
 			this.pictureBox9 = new System.Windows.Forms.PictureBox();
 			this.pictureBox8 = new System.Windows.Forms.PictureBox();
 			this.pictureBox7 = new System.Windows.Forms.PictureBox();
-			this.pictureBox6 = new System.Windows.Forms.PictureBox();
-			this.pictureBox5 = new System.Windows.Forms.PictureBox();
-			this.pictureBox4 = new System.Windows.Forms.PictureBox();
-			this.pictureBox3 = new System.Windows.Forms.PictureBox();
-			this.pictureBox2 = new System.Windows.Forms.PictureBox();
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
 			this.dataGridView1 = new System.Windows.Forms.DataGridView();
 			this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -249,6 +249,11 @@
 			this.contextMenuStrip3.SuspendLayout();
 			this.panel8.SuspendLayout();
 			this.panel2.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
 			this.groupBox9.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView5)).BeginInit();
 			this.panel7.SuspendLayout();
@@ -262,11 +267,6 @@
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
 			this.panel3.SuspendLayout();
@@ -331,7 +331,7 @@
 			this.panel1.Controls.Add(this.splitter1);
 			this.panel1.Controls.Add(this.panel9);
 			this.panel1.Controls.Add(this.panel8);
-			this.panel1.Location = new System.Drawing.Point(1824, 16);
+			this.panel1.Location = new System.Drawing.Point(1824, 32);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(80, 48);
 			this.panel1.TabIndex = 4;
@@ -365,12 +365,12 @@
 			this.contextMenuStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.背景の設定ToolStripMenuItem});
 			this.contextMenuStrip3.Name = "contextMenuStrip3";
-			this.contextMenuStrip3.Size = new System.Drawing.Size(137, 26);
+			this.contextMenuStrip3.Size = new System.Drawing.Size(133, 26);
 			// 
 			// 背景の設定ToolStripMenuItem
 			// 
 			this.背景の設定ToolStripMenuItem.Name = "背景の設定ToolStripMenuItem";
-			this.背景の設定ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+			this.背景の設定ToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
 			this.背景の設定ToolStripMenuItem.Text = "背景の設定";
 			this.背景の設定ToolStripMenuItem.Click += new System.EventHandler(this.背景の設定ToolStripMenuItem_Click);
 			// 
@@ -410,6 +410,11 @@
 			// 
 			this.panel2.BackColor = System.Drawing.SystemColors.Control;
 			this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.panel2.Controls.Add(this.pictureBox6);
+			this.panel2.Controls.Add(this.pictureBox5);
+			this.panel2.Controls.Add(this.pictureBox4);
+			this.panel2.Controls.Add(this.pictureBox3);
+			this.panel2.Controls.Add(this.pictureBox2);
 			this.panel2.Controls.Add(this.groupBox9);
 			this.panel2.Controls.Add(this.dataGridView5);
 			this.panel2.Controls.Add(this.panel7);
@@ -435,20 +440,65 @@
 			this.panel2.Controls.Add(this.pictureBox9);
 			this.panel2.Controls.Add(this.pictureBox8);
 			this.panel2.Controls.Add(this.pictureBox7);
-			this.panel2.Controls.Add(this.pictureBox6);
-			this.panel2.Controls.Add(this.pictureBox5);
-			this.panel2.Controls.Add(this.pictureBox4);
-			this.panel2.Controls.Add(this.pictureBox3);
-			this.panel2.Controls.Add(this.pictureBox2);
 			this.panel2.Controls.Add(this.pictureBox1);
 			this.panel2.Controls.Add(this.dataGridView1);
 			this.panel2.Controls.Add(this.radioButton2);
 			this.panel2.Controls.Add(this.radioButton1);
-			this.panel2.Location = new System.Drawing.Point(1336, 8);
+			this.panel2.Location = new System.Drawing.Point(8, 184);
 			this.panel2.Name = "panel2";
-			this.panel2.Size = new System.Drawing.Size(88, 48);
+			this.panel2.Size = new System.Drawing.Size(1872, 368);
 			this.panel2.TabIndex = 5;
 			this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
+			// 
+			// pictureBox6
+			// 
+			this.pictureBox6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pictureBox6.Location = new System.Drawing.Point(120, 656);
+			this.pictureBox6.Name = "pictureBox6";
+			this.pictureBox6.Size = new System.Drawing.Size(1442, 50);
+			this.pictureBox6.TabIndex = 29;
+			this.pictureBox6.TabStop = false;
+			this.pictureBox6.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox6_MouseMove);
+			// 
+			// pictureBox5
+			// 
+			this.pictureBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pictureBox5.Location = new System.Drawing.Point(120, 584);
+			this.pictureBox5.Name = "pictureBox5";
+			this.pictureBox5.Size = new System.Drawing.Size(1442, 50);
+			this.pictureBox5.TabIndex = 28;
+			this.pictureBox5.TabStop = false;
+			this.pictureBox5.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox5_MouseMove);
+			// 
+			// pictureBox4
+			// 
+			this.pictureBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pictureBox4.Location = new System.Drawing.Point(120, 512);
+			this.pictureBox4.Name = "pictureBox4";
+			this.pictureBox4.Size = new System.Drawing.Size(1442, 50);
+			this.pictureBox4.TabIndex = 27;
+			this.pictureBox4.TabStop = false;
+			this.pictureBox4.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox4_MouseMove);
+			// 
+			// pictureBox3
+			// 
+			this.pictureBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pictureBox3.Location = new System.Drawing.Point(120, 440);
+			this.pictureBox3.Name = "pictureBox3";
+			this.pictureBox3.Size = new System.Drawing.Size(1442, 50);
+			this.pictureBox3.TabIndex = 26;
+			this.pictureBox3.TabStop = false;
+			this.pictureBox3.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox3_MouseMove);
+			// 
+			// pictureBox2
+			// 
+			this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pictureBox2.Location = new System.Drawing.Point(120, 368);
+			this.pictureBox2.Name = "pictureBox2";
+			this.pictureBox2.Size = new System.Drawing.Size(1442, 50);
+			this.pictureBox2.TabIndex = 25;
+			this.pictureBox2.TabStop = false;
+			this.pictureBox2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox2_MouseMove);
 			// 
 			// groupBox9
 			// 
@@ -936,17 +986,18 @@
 			this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column9,
             this.Column10});
-			this.dataGridView2.ImeMode = System.Windows.Forms.ImeMode.Off;
+			this.dataGridView2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.dataGridView2.Location = new System.Drawing.Point(1572, 296);
 			this.dataGridView2.MultiSelect = false;
 			this.dataGridView2.Name = "dataGridView2";
-			this.dataGridView2.ReadOnly = true;
 			this.dataGridView2.RowHeadersVisible = false;
 			this.dataGridView2.RowTemplate.Height = 21;
 			this.dataGridView2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this.dataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridView2.Size = new System.Drawing.Size(318, 528);
 			this.dataGridView2.TabIndex = 48;
+			this.dataGridView2.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellValueChanged);
+			this.dataGridView2.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridView2_CurrentCellDirtyStateChanged);
 			// 
 			// Column9
 			// 
@@ -954,18 +1005,16 @@
 			this.Column9.DefaultCellStyle = dataGridViewCellStyle10;
 			this.Column9.HeaderText = "発生時間";
 			this.Column9.Name = "Column9";
-			this.Column9.ReadOnly = true;
 			this.Column9.Resizable = System.Windows.Forms.DataGridViewTriState.False;
 			this.Column9.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			this.Column9.Width = 60;
 			// 
 			// Column10
 			// 
+			this.Column10.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
 			this.Column10.HeaderText = "アラーム";
 			this.Column10.Name = "Column10";
-			this.Column10.ReadOnly = true;
 			this.Column10.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-			this.Column10.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			this.Column10.Width = 255;
 			// 
 			// label7
@@ -1033,56 +1082,6 @@
 			this.pictureBox7.TabIndex = 30;
 			this.pictureBox7.TabStop = false;
 			this.pictureBox7.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox7_MouseMove);
-			// 
-			// pictureBox6
-			// 
-			this.pictureBox6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pictureBox6.Location = new System.Drawing.Point(120, 656);
-			this.pictureBox6.Name = "pictureBox6";
-			this.pictureBox6.Size = new System.Drawing.Size(1442, 50);
-			this.pictureBox6.TabIndex = 29;
-			this.pictureBox6.TabStop = false;
-			this.pictureBox6.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox6_MouseMove);
-			// 
-			// pictureBox5
-			// 
-			this.pictureBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pictureBox5.Location = new System.Drawing.Point(120, 584);
-			this.pictureBox5.Name = "pictureBox5";
-			this.pictureBox5.Size = new System.Drawing.Size(1442, 50);
-			this.pictureBox5.TabIndex = 28;
-			this.pictureBox5.TabStop = false;
-			this.pictureBox5.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox5_MouseMove);
-			// 
-			// pictureBox4
-			// 
-			this.pictureBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pictureBox4.Location = new System.Drawing.Point(120, 512);
-			this.pictureBox4.Name = "pictureBox4";
-			this.pictureBox4.Size = new System.Drawing.Size(1442, 50);
-			this.pictureBox4.TabIndex = 27;
-			this.pictureBox4.TabStop = false;
-			this.pictureBox4.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox4_MouseMove);
-			// 
-			// pictureBox3
-			// 
-			this.pictureBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pictureBox3.Location = new System.Drawing.Point(120, 440);
-			this.pictureBox3.Name = "pictureBox3";
-			this.pictureBox3.Size = new System.Drawing.Size(1442, 50);
-			this.pictureBox3.TabIndex = 26;
-			this.pictureBox3.TabStop = false;
-			this.pictureBox3.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox3_MouseMove);
-			// 
-			// pictureBox2
-			// 
-			this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pictureBox2.Location = new System.Drawing.Point(120, 368);
-			this.pictureBox2.Name = "pictureBox2";
-			this.pictureBox2.Size = new System.Drawing.Size(1442, 50);
-			this.pictureBox2.TabIndex = 25;
-			this.pictureBox2.TabStop = false;
-			this.pictureBox2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox2_MouseMove);
 			// 
 			// pictureBox1
 			// 
@@ -1302,9 +1301,9 @@
 			this.panel4.Controls.Add(this.groupBox6);
 			this.panel4.Controls.Add(this.button12);
 			this.panel4.Controls.Add(this.groupBox4);
-			this.panel4.Location = new System.Drawing.Point(1056, 64);
+			this.panel4.Location = new System.Drawing.Point(1560, 40);
 			this.panel4.Name = "panel4";
-			this.panel4.Size = new System.Drawing.Size(128, 56);
+			this.panel4.Size = new System.Drawing.Size(96, 32);
 			this.panel4.TabIndex = 7;
 			// 
 			// groupBox8
@@ -1766,26 +1765,26 @@
             this.文字色の変更ToolStripMenuItem1,
             this.背景色の変更ToolStripMenuItem1});
 			this.contextMenuStrip2.Name = "contextMenuStrip2";
-			this.contextMenuStrip2.Size = new System.Drawing.Size(149, 70);
+			this.contextMenuStrip2.Size = new System.Drawing.Size(145, 70);
 			// 
 			// 文字の変更ToolStripMenuItem
 			// 
 			this.文字の変更ToolStripMenuItem.Name = "文字の変更ToolStripMenuItem";
-			this.文字の変更ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+			this.文字の変更ToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
 			this.文字の変更ToolStripMenuItem.Text = "文字の変更";
 			this.文字の変更ToolStripMenuItem.Click += new System.EventHandler(this.文字の変更ToolStripMenuItem_Click_1);
 			// 
 			// 文字色の変更ToolStripMenuItem1
 			// 
 			this.文字色の変更ToolStripMenuItem1.Name = "文字色の変更ToolStripMenuItem1";
-			this.文字色の変更ToolStripMenuItem1.Size = new System.Drawing.Size(148, 22);
+			this.文字色の変更ToolStripMenuItem1.Size = new System.Drawing.Size(144, 22);
 			this.文字色の変更ToolStripMenuItem1.Text = "文字色の変更";
 			this.文字色の変更ToolStripMenuItem1.Click += new System.EventHandler(this.文字色の変更ToolStripMenuItem1_Click);
 			// 
 			// 背景色の変更ToolStripMenuItem1
 			// 
 			this.背景色の変更ToolStripMenuItem1.Name = "背景色の変更ToolStripMenuItem1";
-			this.背景色の変更ToolStripMenuItem1.Size = new System.Drawing.Size(148, 22);
+			this.背景色の変更ToolStripMenuItem1.Size = new System.Drawing.Size(144, 22);
 			this.背景色の変更ToolStripMenuItem1.Text = "背景色の変更";
 			this.背景色の変更ToolStripMenuItem1.Click += new System.EventHandler(this.背景色の変更ToolStripMenuItem1_Click);
 			// 
@@ -2132,26 +2131,26 @@
             this.文字色の変更ToolStripMenuItem,
             this.背景色の変更ToolStripMenuItem});
 			this.contextMenuStrip1.Name = "contextMenuStrip1";
-			this.contextMenuStrip1.Size = new System.Drawing.Size(149, 70);
+			this.contextMenuStrip1.Size = new System.Drawing.Size(145, 70);
 			// 
 			// 説明文の変更ToolStripMenuItem
 			// 
 			this.説明文の変更ToolStripMenuItem.Name = "説明文の変更ToolStripMenuItem";
-			this.説明文の変更ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+			this.説明文の変更ToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
 			this.説明文の変更ToolStripMenuItem.Text = "文字の変更";
 			this.説明文の変更ToolStripMenuItem.Click += new System.EventHandler(this.文字の変更ToolStripMenuItem_Click);
 			// 
 			// 文字色の変更ToolStripMenuItem
 			// 
 			this.文字色の変更ToolStripMenuItem.Name = "文字色の変更ToolStripMenuItem";
-			this.文字色の変更ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+			this.文字色の変更ToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
 			this.文字色の変更ToolStripMenuItem.Text = "文字色の変更";
 			this.文字色の変更ToolStripMenuItem.Click += new System.EventHandler(this.文字色の変更ToolStripMenuItem_Click);
 			// 
 			// 背景色の変更ToolStripMenuItem
 			// 
 			this.背景色の変更ToolStripMenuItem.Name = "背景色の変更ToolStripMenuItem";
-			this.背景色の変更ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+			this.背景色の変更ToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
 			this.背景色の変更ToolStripMenuItem.Text = "背景色の変更";
 			this.背景色の変更ToolStripMenuItem.Click += new System.EventHandler(this.背景色の変更ToolStripMenuItem_Click);
 			// 
@@ -2520,6 +2519,11 @@
 			this.panel8.PerformLayout();
 			this.panel2.ResumeLayout(false);
 			this.panel2.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
 			this.groupBox9.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView5)).EndInit();
 			this.panel7.ResumeLayout(false);
@@ -2533,11 +2537,6 @@
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
 			this.panel3.ResumeLayout(false);
@@ -2670,8 +2669,6 @@
 		private System.Windows.Forms.Label label156;
 		private System.Windows.Forms.ToolTip toolTip2;
 		private System.Windows.Forms.Label label8;
-		private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
-		private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
 		private System.Windows.Forms.Panel panel7;
 		private System.Windows.Forms.Button button11;
 		private System.Windows.Forms.DataVisualization.Charting.Chart chart2;
@@ -2766,6 +2763,8 @@
 		private System.Windows.Forms.CheckBox checkBox5;
 		private System.Windows.Forms.CheckBox checkBox4;
 		private System.Windows.Forms.CheckBox checkBox7;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
+		private System.Windows.Forms.DataGridViewComboBoxColumn Column10;
 	}
 }
 
