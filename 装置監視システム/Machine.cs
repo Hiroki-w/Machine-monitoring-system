@@ -536,6 +536,46 @@ namespace 装置監視システム
 			Zoom = int.Parse(setStr[17]);
 
 			basePath += Path.Combine("加工機情報", MachineNumber) + @"\";
+
+			// 操作ファイルを開きONで終わっていたらフラグをセットする
+			// データファイルのパス
+			//StringBuilder dataFile = new StringBuilder(basePath);
+			//dataFile.Append(Path.Combine(DateTime.Now.Year.ToString("0000年"), DateTime.Now.Month.ToString("00月"), DateTime.Now.Day.ToString("00日"))).Append("操作.csv");
+			//// データファイルが存在していたら開く
+			//if (File.Exists(dataFile.ToString()))
+			//{
+			//	string[] str = null;
+			//	// データファイルを開く
+			//	using (FileStream fs = new FileStream(dataFile.ToString(), FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+			//	using (StreamReader sr = new StreamReader(fs, Encoding.GetEncoding("Shift-JIS")))
+			//	{
+			//		// ストリームの末尾まで繰り返す
+			//		while (!sr.EndOfStream)
+			//		{
+			//			// カンマごとに分けて読み込む
+			//			str = sr.ReadLine().Split(',');
+			//		}
+			//	}
+			//	// 最後がONなら該当するフラグをセットする
+			//	if (str[2] == "ON")
+			//	{
+			//		int index = operationList.IndexOf(str[1]);
+			//		// 該当する名称が見つからなかった場合、変更された可能性があるのでOFFにする。
+			//		if (index == -1)
+			//		{
+			//			string writeStr = DateTime.Now.ToString("HH:mm:ss,") + str[1] + ",OFF";
+			//			using (FileStream fs = new FileStream(dataFile.ToString(), FileMode.Append, FileAccess.Write, FileShare.ReadWrite))
+			//			using (StreamWriter sw = new StreamWriter(fs, Encoding.GetEncoding("Shift-JIS")))
+			//			{
+			//				sw.WriteLine(writeStr);
+			//			}
+			//		}
+			//		else
+			//		{
+			//			operationState[index] = true;
+			//		}
+			//	}
+			//}
 		}
 
 		/// <summary>
@@ -2517,6 +2557,15 @@ namespace 装置監視システム
 											operationLog(j, false);
 										}
 									}
+								}
+								break;
+							case "Old Operation":
+								// データの先頭を削除
+								getStr.RemoveAt(0);
+								for (int j = 0; j < operationState.Length; j++)
+								{
+									// この要素番号と同じ文字列が含まれていればスイッチONとする
+									operationState[j] = getStr.Contains(j.ToString());
 								}
 								break;
 						}

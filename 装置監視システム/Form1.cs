@@ -4256,6 +4256,7 @@ namespace 装置監視システム
 					{
 						if (m.OperationFile == comboBox2.Text)
 						{
+							m.getOperation();
 							m.UpdateSetting(true);
 						}
 					}
