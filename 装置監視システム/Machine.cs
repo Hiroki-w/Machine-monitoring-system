@@ -129,7 +129,8 @@ namespace 装置監視システム
 		private bool[] operationState = new bool[8] { false, false, false, false, false, false, false, false };
 		// 日付が変わった時の処理を分散するオフセット時間
 		private int offsetTime;
-
+		// 短変化未処理時間送信フラグ
+		internal bool debounce = true;
 		/// <summary>
 		/// 新しいログファイルを生成する時に判断する日付
 		/// </summary>
@@ -905,32 +906,48 @@ namespace 装置監視システム
 							getdata[5] = (int)beforeTS.TotalSeconds;
 						// csvData.Countは何度も参照するので変数に入れておく
 						int count = csvData.Count;
-						// 残りのデータ処理
-						for (int i = 1; i < count; i++)
+						// データが1つしかなければこれで計算
+						if (count == 1)
 						{
-							//　最後は当日でなければ23:59:59までを計算し、当日なら今の時間で計算
-							if (i == count - 1)
+							// 今日のデータ以外なら23:59:59までとする
+							if (dT.ToShortDateString() != DateTime.Now.ToShortDateString())
 							{
-								// まずは前回の計算
-								getdata[beforeState] += (int)TimeSpan.Parse(csvData[i][0]).TotalSeconds - (int)beforeTS.TotalSeconds;
-								//　0=無通信　1=緑 2=黄 3=赤 4=消灯　5=データなし
-								beforeState = colorNumber(csvData[i][1]);
-								// 最後のデータ取得
-								beforeTS = TimeSpan.Parse(csvData[i][0]);
-								// 今日なら今の時間から前回の時間を引き時間を算出
-								if (dT.Date == DateTime.Now.Date)
-									getdata[beforeState] += (int)DateTime.Now.TimeOfDay.TotalSeconds - (int)beforeTS.TotalSeconds;
-								// 今日以外なら86400(日付が変わるタイミングの秒数)から前回の時間を引き、最後の時間を計算
-								else
-									getdata[beforeState] += 86400 - (int)beforeTS.TotalSeconds;
+								getdata[beforeState] += 86400 - (int)TimeSpan.Parse(csvData[0][0]).TotalSeconds;
 							}
 							else
 							{
-								// 今の時間から前回の時間を引き時間を算出し、シグナルタワーの色に該当する要素番号の配列に入れる
-								getdata[beforeState] += (int)TimeSpan.Parse(csvData[i][0]).TotalSeconds - (int)beforeTS.TotalSeconds;
-								// 今回の色と時間を次回の計算用として変数に入れておく
-								beforeState = colorNumber(csvData[i][1]);
-								beforeTS = TimeSpan.Parse(csvData[i][0]);
+								getdata[beforeState] += (DateTime.Now.Hour * 3600 + DateTime.Now.Minute * 60 + DateTime.Now.Second) - (int)TimeSpan.Parse(csvData[0][0]).TotalSeconds;
+							}
+						}
+						else
+						{
+							// 残りのデータ処理
+							for (int i = 1; i < count; i++)
+							{
+								//　最後は当日でなければ23:59:59までを計算し、当日なら今の時間で計算
+								if (i == count - 1)
+								{
+									// まずは前回の計算
+									getdata[beforeState] += (int)TimeSpan.Parse(csvData[i][0]).TotalSeconds - (int)beforeTS.TotalSeconds;
+									//　0=無通信　1=緑 2=黄 3=赤 4=消灯　5=データなし
+									beforeState = colorNumber(csvData[i][1]);
+									// 最後のデータ取得
+									beforeTS = TimeSpan.Parse(csvData[i][0]);
+									// 今日なら今の時間から前回の時間を引き時間を算出
+									if (dT.Date == DateTime.Now.Date)
+										getdata[beforeState] += (int)DateTime.Now.TimeOfDay.TotalSeconds - (int)beforeTS.TotalSeconds;
+									// 今日以外なら86400(日付が変わるタイミングの秒数)から前回の時間を引き、最後の時間を計算
+									else
+										getdata[beforeState] += 86400 - (int)beforeTS.TotalSeconds;
+								}
+								else
+								{
+									// 今の時間から前回の時間を引き時間を算出し、シグナルタワーの色に該当する要素番号の配列に入れる
+									getdata[beforeState] += (int)TimeSpan.Parse(csvData[i][0]).TotalSeconds - (int)beforeTS.TotalSeconds;
+									// 今回の色と時間を次回の計算用として変数に入れておく
+									beforeState = colorNumber(csvData[i][1]);
+									beforeTS = TimeSpan.Parse(csvData[i][0]);
+								}
 							}
 						}
 					}
@@ -2639,7 +2656,7 @@ namespace 装置監視システム
 								}
 								/***** 操作リスト *****/
 								sendStr.Append("\r\nOperation");
-								if (Frm.checkBox2.Checked)
+								if (Frm.checkBox2.Checked == true)
 								{
 									if (operationList.Count != 0)
 									{
@@ -2651,6 +2668,13 @@ namespace 装置監視システム
 									else
 									{
 										sendStr.Append(",Delete List");
+									}
+
+									/***** 短変化未処理時間 *****/
+									if (debounce == true)
+									{
+										debounce = false;
+										sendStr.Append("\r\nDebounce,").Append(Properties.Settings.Default.Debounce);
 									}
 								}
 								else
@@ -2670,7 +2694,7 @@ namespace 装置監視システム
 									sendStr.Append(",List is not");
 								}
 								// 設定値変更フラグは念のためクリア
-								isSetting = false;
+									isSetting = false;
 							}
 							// ステータスコマンド送信(ソケット通信の例外はここでキャッチ)
 							try

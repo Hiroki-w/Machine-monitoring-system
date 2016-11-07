@@ -856,6 +856,8 @@ namespace 装置監視システム
 			radioButton4.Text = Properties.Settings.Default.Area2;
 			radioButton6.Text = Properties.Settings.Default.Area2;
 			textBox11.Text = Properties.Settings.Default.Area2;
+
+			textBox14.Text = Properties.Settings.Default.Debounce;
 		}
 
 		#endregion 全体を統括するメソッド ----------------------------------------------------------------------------------------------------
@@ -2087,11 +2089,11 @@ namespace 装置監視システム
 							//配列がNullでなければ秒を時、分、秒に変換して表示する
 							if (getDate != null)
 							{
-								for (int j = 0; j < 6; j++)
+								for (int j = 0; j < getDate.Length; j++)
 								{
-									dataGridView1.Rows[i - 1].Cells[j + 1].Value = new TimeSpan(0, 0, getDate[j]).ToString();
+									dataGridView1.Rows[i - 1].Cells[j + 1].Value = getDate[j] == 86400 ? "24:00:00" : new TimeSpan(0, 0, getDate[j]).ToString();
 								}
-								dataGridView1.Rows[i - 1].Cells[7].Value = ((double)getDate[0] / getDate.Sum()).ToString("P1");
+								dataGridView1.Rows[i - 1].Cells[7].Value = getDate.Sum() != 0 ? ((double)getDate[0] / getDate.Sum()).ToString("P1") : "0%";
 							}
 							else
 							{
@@ -2404,9 +2406,8 @@ namespace 装置監視システム
 				p2ClearOperation();
 				// 表示可能な最大日数を計算
 				int maxLoop = selectDay < 10 ? selectDay + 1 : 10;
-				int selectIndex = selectDay;
 
-				for (int i = 0; i < maxLoop; i++, selectIndex--)
+				for (int i = 0, selectIndex = selectDay; i < maxLoop; i++, selectIndex--)
 				{
 					// DateTimePickerに設定されている年と月、稼働時間に表示されている日からDateTime型を生成
 					DateTime dT = new DateTime(dateTimePicker2.Value.Year, dateTimePicker2.Value.Month, int.Parse(dataGridView1.Rows[selectIndex].Cells[0].Value.ToString()));
@@ -2438,8 +2439,7 @@ namespace 装置監視システム
 				p2ClearOperation();
 				// 表示可能な最大日数を計算
 				int maxLoop = (DateTime.DaysInMonth(dateTimePicker2.Value.Year, dateTimePicker2.Value.Month) - selectDay) < 10 ? DateTime.DaysInMonth(dateTimePicker2.Value.Year, dateTimePicker2.Value.Month) - selectDay : 10;
-				int selectIndex = selectDay;
-				for (int i = 0; i < maxLoop; i++, selectIndex++)
+				for (int i = 0, selectIndex = selectDay; i < maxLoop; i++, selectIndex++)
 				{
 					// DateTimePickerに設定されている年と月、稼働時間に表示されている日からDateTime型を生成
 					DateTime dT = new DateTime(dateTimePicker2.Value.Year, dateTimePicker2.Value.Month, int.Parse(dataGridView1.Rows[selectIndex].Cells[0].Value.ToString()));
@@ -3500,6 +3500,7 @@ namespace 装置監視システム
 
 			textBox10.Text = Properties.Settings.Default.Area1;
 			textBox11.Text = Properties.Settings.Default.Area2;
+			textBox14.Text = Properties.Settings.Default.Debounce;
 
 			textBox9.Text = ((double)Properties.Settings.Default.RegularlyTime / 1000).ToString();
 		}
@@ -3550,19 +3551,17 @@ namespace 装置監視システム
 			Properties.Settings.Default.Save();
 			groupBox1.Enabled = checkBox2.Checked;
 			groupBox2.Enabled = checkBox2.Checked;
+			groupBox11.Enabled = checkBox2.Checked;
 			// リスト送信が有効になったら一度全部送信する
 			if (checkBox2.Checked == true)
 			{
-				Task.Run(() =>
+				foreach (var mc in machineInformation)
 				{
-					foreach (var mc in machineInformation)
+					foreach (var m in mc)
 					{
-						foreach (var m in mc)
-						{
-							m.setData(true);
-						}
+						m.setData(true);
 					}
-				});
+				}
 			}
 		}
 
@@ -4381,6 +4380,53 @@ namespace 装置監視システム
 			}
 		}
 
+		/// <summary>
+		/// 定期送信間隔で数値以外を受け付けない
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void textBox9_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			//0～9と、バックスペース以外の時は、イベントをキャンセルする
+			if ((e.KeyChar < '0' || '9' < e.KeyChar) && e.KeyChar != '\b')
+			{
+				e.Handled = true;
+			}
+		}
+
+		/// <summary>
+		/// 短時間変化未処理の時間設定で数値以外を受け付けない
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void textBox14_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			//0～9と、バックスペース、カンマ以外の時は、イベントをキャンセルする
+			if ((e.KeyChar < '0' || '9' < e.KeyChar) && e.KeyChar != '\b' && e.KeyChar != '.')
+			{
+				e.Handled = true;
+			}
+		}
+
+		/// <summary>
+		/// 短時間変化未処理の保存
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void button35_Click(object sender, EventArgs e)
+		{
+			Properties.Settings.Default.Debounce = textBox14.Text;
+			Properties.Settings.Default.Save();
+			foreach (var mc in machineInformation)
+			{
+				foreach (var m in mc)
+				{
+					m.debounce = true;
+					m.setData(true);
+				}
+			}
+		}
+
 		#endregion 設定パネル -------------------------------------------------------------------------------------------------
 
 
@@ -4515,6 +4561,9 @@ namespace 装置監視システム
 				SysrtmError(exc.StackTrace);
 			}
 		}
+
+
+
 
 
 		#endregion internalなメソッド -------------------------------------------------------------------------------------------------

@@ -244,6 +244,10 @@
 			this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
 			this.label8 = new System.Windows.Forms.Label();
 			this.button11 = new System.Windows.Forms.Button();
+			this.textBox14 = new System.Windows.Forms.TextBox();
+			this.label30 = new System.Windows.Forms.Label();
+			this.groupBox11 = new System.Windows.Forms.GroupBox();
+			this.button35 = new System.Windows.Forms.Button();
 			this.panel1.SuspendLayout();
 			this.panel9.SuspendLayout();
 			this.contextMenuStrip3.SuspendLayout();
@@ -283,6 +287,7 @@
 			this.contextMenuStrip1.SuspendLayout();
 			this.panel5.SuspendLayout();
 			this.panel6.SuspendLayout();
+			this.groupBox11.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// button1
@@ -444,9 +449,9 @@
 			this.panel2.Controls.Add(this.dataGridView1);
 			this.panel2.Controls.Add(this.radioButton2);
 			this.panel2.Controls.Add(this.radioButton1);
-			this.panel2.Location = new System.Drawing.Point(168, 432);
+			this.panel2.Location = new System.Drawing.Point(8, 64);
 			this.panel2.Name = "panel2";
-			this.panel2.Size = new System.Drawing.Size(488, 312);
+			this.panel2.Size = new System.Drawing.Size(1504, 488);
 			this.panel2.TabIndex = 5;
 			this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
 			// 
@@ -1301,20 +1306,21 @@
 			this.panel4.Controls.Add(this.groupBox6);
 			this.panel4.Controls.Add(this.button12);
 			this.panel4.Controls.Add(this.groupBox4);
-			this.panel4.Location = new System.Drawing.Point(40, 96);
+			this.panel4.Location = new System.Drawing.Point(1304, 8);
 			this.panel4.Name = "panel4";
-			this.panel4.Size = new System.Drawing.Size(1432, 256);
+			this.panel4.Size = new System.Drawing.Size(88, 40);
 			this.panel4.TabIndex = 7;
 			// 
 			// groupBox8
 			// 
+			this.groupBox8.Controls.Add(this.groupBox11);
 			this.groupBox8.Controls.Add(this.label24);
 			this.groupBox8.Controls.Add(this.checkBox2);
 			this.groupBox8.Controls.Add(this.groupBox1);
 			this.groupBox8.Controls.Add(this.groupBox2);
 			this.groupBox8.Location = new System.Drawing.Point(744, 64);
 			this.groupBox8.Name = "groupBox8";
-			this.groupBox8.Size = new System.Drawing.Size(704, 328);
+			this.groupBox8.Size = new System.Drawing.Size(704, 392);
 			this.groupBox8.TabIndex = 13;
 			this.groupBox8.TabStop = false;
 			// 
@@ -1647,7 +1653,7 @@
 			this.groupBox7.Controls.Add(this.label22);
 			this.groupBox7.Location = new System.Drawing.Point(16, 544);
 			this.groupBox7.Name = "groupBox7";
-			this.groupBox7.Size = new System.Drawing.Size(328, 112);
+			this.groupBox7.Size = new System.Drawing.Size(328, 104);
 			this.groupBox7.TabIndex = 12;
 			this.groupBox7.TabStop = false;
 			this.groupBox7.Text = "その他";
@@ -1710,6 +1716,7 @@
 			this.textBox9.Size = new System.Drawing.Size(24, 19);
 			this.textBox9.TabIndex = 1;
 			this.textBox9.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.textBox9.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox9_KeyPress);
 			// 
 			// label22
 			// 
@@ -2482,6 +2489,46 @@
 			this.button11.UseVisualStyleBackColor = true;
 			this.button11.Click += new System.EventHandler(this.button11_Click);
 			// 
+			// textBox14
+			// 
+			this.textBox14.Location = new System.Drawing.Point(8, 24);
+			this.textBox14.Name = "textBox14";
+			this.textBox14.Size = new System.Drawing.Size(48, 19);
+			this.textBox14.TabIndex = 9;
+			this.textBox14.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.textBox14.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox14_KeyPress);
+			// 
+			// label30
+			// 
+			this.label30.AutoSize = true;
+			this.label30.Location = new System.Drawing.Point(56, 27);
+			this.label30.Name = "label30";
+			this.label30.Size = new System.Drawing.Size(17, 12);
+			this.label30.TabIndex = 10;
+			this.label30.Text = "秒";
+			// 
+			// groupBox11
+			// 
+			this.groupBox11.Controls.Add(this.button35);
+			this.groupBox11.Controls.Add(this.label30);
+			this.groupBox11.Controls.Add(this.textBox14);
+			this.groupBox11.Location = new System.Drawing.Point(16, 320);
+			this.groupBox11.Name = "groupBox11";
+			this.groupBox11.Size = new System.Drawing.Size(168, 56);
+			this.groupBox11.TabIndex = 15;
+			this.groupBox11.TabStop = false;
+			this.groupBox11.Text = "短変化未処理時間";
+			// 
+			// button35
+			// 
+			this.button35.Location = new System.Drawing.Point(88, 21);
+			this.button35.Name = "button35";
+			this.button35.Size = new System.Drawing.Size(64, 24);
+			this.button35.TabIndex = 11;
+			this.button35.Text = "保存";
+			this.button35.UseVisualStyleBackColor = true;
+			this.button35.Click += new System.EventHandler(this.button35_Click);
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -2562,6 +2609,8 @@
 			this.panel5.PerformLayout();
 			this.panel6.ResumeLayout(false);
 			this.panel6.PerformLayout();
+			this.groupBox11.ResumeLayout(false);
+			this.groupBox11.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -2765,6 +2814,10 @@
 		private System.Windows.Forms.CheckBox checkBox7;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
 		private System.Windows.Forms.DataGridViewComboBoxColumn Column10;
+		private System.Windows.Forms.Label label30;
+		private System.Windows.Forms.TextBox textBox14;
+		private System.Windows.Forms.GroupBox groupBox11;
+		private System.Windows.Forms.Button button35;
 	}
 }
 

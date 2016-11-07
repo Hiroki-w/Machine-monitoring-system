@@ -622,5 +622,17 @@ namespace 装置監視システム.Properties {
                 this["IsViewMemo"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.5")]
+        public string Debounce {
+            get {
+                return ((string)(this["Debounce"]));
+            }
+            set {
+                this["Debounce"] = value;
+            }
+        }
     }
 }
